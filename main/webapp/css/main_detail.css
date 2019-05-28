@@ -1,0 +1,133 @@
+.contents_wrap, .sub_contents_wrap {
+	padding-bottom: 58px;
+	overflow: auto;
+	padding-top: 62px;
+}
+
+@media all and (min-width: 768px) {
+	.contents_wrap, .sub_contents_wrap {
+		padding-bottom: 96px;
+		margin-top: 0px;
+		padding-top: 86px;
+	}	
+}
+
+@media all and (min-width: 1100px) {
+	.header {
+		height: 109px;
+	}
+	
+	.contents_wrap, .sub_contents_wrap {
+		padding-top: 109px;
+	}	
+	
+	.login_wrap {
+		background: white;
+	}
+}
+
+.footer_wrap {
+	position: absolute;
+    width: 100%;
+    bottom: 0px;
+    z-index: 3;
+    background: #eaeaea;
+}
+
+html {
+	height: 100%;
+}
+
+body {
+	height: 100%;
+}
+
+.sub_title {
+	margin-top: 0px;
+}
+
+/* ================= 세부페이지 테이블=================== */
+.sub_table{
+  /*
+  border-top : 2px solid #17a2b8d6;
+  border-bottom : 2px solid #17a2b8d6;
+  */
+  margin-top:10px;
+  border-top:2px solid #84abd1;
+  border-bottom:2px solid #ccc;
+  margin-bottom:10px;
+}
+
+.sub_input{
+  font-size: 19px;
+  color: #060606bf;
+  /*text-align:center;*/
+  /*box-shadow : 0px 0px 1px #757575;*/
+  border:0px;
+  vertical-align:middle;
+  /*background-color:white;*/
+}
+
+.sub_input input.txt    {   height:20px; background-color:#FFF; border:1px solid #BCC8D8; padding-top:2px; color:#5e5e5e; cursor:text;}
+.sub_input input, input.txtk    {   height:18px; background-color:#FFF; border:1px solid #BCC8D8; padding-top:2px; color:#5e5e5e; cursor:text; ime-mode:active;}
+.sub_input:focus, td textarea:focus{     outline: none; }
+
+.DiableInputbox{
+	/*border: 1px solid #ccc;*/
+    height: 30px;
+    font-size: 18px;
+    /*background-color: #eaeaea;*/
+    background-color: white;
+    text-align:center;
+    color: #757575;
+    border:none;
+}
+
+.DiableInputbox2{
+	border: 1px solid #ccc;
+    height: 30px;
+    font-size: 18px;
+    background-color: #eaeaea;
+    background-color: white;
+    text-align:center;
+    color: #757575;
+    border:none;
+}
+
+.table01{margin-top:10px; border-top:2px solid #84abd1;  border-bottom:2px solid #ccc; margin-bottom:10px; }
+.table01 th,
+.table01 tbody tr th, 
+.table01 tr th
+{ height:30px; border-bottom:1px solid #84abd1; background:#eaf0f6; text-align:center; vertical-align:middle;  padding:5px 0 0 0px;  border-right:1px solid #ccc; }
+.table01 th:first-child{border-left:1px solid #ccc;}
+.table01 th.listleft{ height:30px; border-bottom:1px solid #84abd1; text-align:left; background:#eaf0f6; vertical-align:middle;  padding:5px 0 0 0px; }
+.table01 .line_th{background:url(../../images/nisi/table_line.gif) bottom right #eaf0f6 no-repeat;}
+
+.table01 td,
+.table01 tbody tr td,
+.table01 thread tr td
+{height:30px; text-align:center; vertical-align:middle; /*padding:3px 0 0 0;*/ border-bottom:1px solid #ddd; border-right:1px solid #ddd; }
+
+.table01 td:first-child{
+border-left:1px solid #ddd;
+}
+
+.table01 td.listcenter{height:30px; text-align:center; vertical-align:middle; padding:3px 0 0 0; border-bottom:1px solid #ddd;  border-right:1px solid #ddd; }
+.table01 td.listright{height:30px; text-align:right; vertical-align:middle; padding:3px 0 0 0; border-bottom:1px solid #ddd;  border-right:1px solid #ddd; } 
+
+.table01 .center_td{text-align:center;}
+.table01 .right_td{text-align:right;}
+
+
+@media all and (min-width:1100px){
+	.header_table {
+		margin-top: 38px;
+	}
+	
+	.header_table > tbody > tr > td {
+		vertical-align: middle;
+	}
+}
+
+
+

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="dao_rqstChklist">
+	<typeAlias alias="requestChecklistVO" type="egovframework.main.service.VO.RequestChecklistVO"/>	
+	<typeAlias alias="listsearchVO" type="egovframework.main.service.VO.ListsearchVO"/>
+	<typeAlias alias="userVO" type="egovframework.main.service.VO.UserVO"/>
+
+	<insert id="requestChecklistDAO.insertRequestChecklist" parameterClass="requestChecklistVO">
+	INSERT INTO t_security_rqst_ctlg
+	( incdt_idtf_cd, rqst_date, rqstr_srvno, ctlg_cd, ctlg_itm_cd_1, state_cd, rqst_ctnt, rsn, new_yn, seq )
+	VALUES
+	( #incdt_idtf_cd#, SYSDATE, #rqstr_srvno#, #ctlg_cd#, #ctlg_itm_cd_1#, #state_cd#, #rqst_ctnt#, #rsn#, #new_yn#, (SELECT NVL(MAX(seq), 0) FROM t_security_rqst_ctlg)+1 )
+	</insert>	
+	
+	<select id="requestChecklistDAO.getRequestedListByLogined" parameterClass="userVO" resultClass="requestChecklistVO">
+	SELECT to_char(rqst_date, 'yyyy-mm-dd') AS rqst_date, rqstr_srvno, A.ctlg_cd, ctlg_nm, ctlg_itm_cd_1, state_cd, rqst_ctnt, rsn, new_yn, A.seq
+	FROM t_security_rqst_ctlg A, t_security_ctlg_cd B
+	WHERE A.rqstr_srvno = #srvno# AND B.ctlg_cd = A.ctlg_cd
+	</select>
+	
+	<select id="requestChecklistDAO.getLimitReqCheckist" parameterClass="String" resultClass="requestChecklistVO">
+	SELECT *, (SELECT cd_nm FROM t_security_code WHERE cd=A.ctlg_cd) AS ctlg_nm,
+		(SELECT ctlg_itm_ctnt FROM t_security_ctlg WHERE ctlg_itm_cd=A.ctlg_itm_cd_1) AS ctlg_itm_nm,
+	 	(SELECT stmt FROM t_security_user WHERE srvno=A.rqstr_srvno) AS rqstr_nm,
+	 	(SELECT cd_nm FROM t_security_code A, t_security_user B WHERE B.srvno=rqstr_srvno AND A.cd=B.rnkcd) AS rqstr_rnk
+	FROM t_security_rqst_ctlg A
+	WHERE incdt_idtf_cd = #incdt_idtf_cd#
+	ORDER BY rqst_date DESC
+	LIMIT 4
+	</select>
+	
+	<select id="requestChecklistDAO.getRqstChkBySeq" parameterClass="String" resultClass="requestChecklistVO">
+		SELECT *, 
+			(SELECT cd_nm
+			FROM t_security_code
+			WHERE cd = A.ctlg_cd) AS ctlg_nm,
+			(SELECT ctlg_itm_ctnt
+			FROM t_security_ctlg
+			WHERE ctlg_itm_cd = A.ctlg_itm_cd_1) AS ctlg_itm_nm
+		FROM t_security_rqst_ctlg A
+		WHERE seq = #seq#
+	</select>
+</sqlMap>

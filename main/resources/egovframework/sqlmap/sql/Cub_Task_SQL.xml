@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="Task">
+	<typeAlias alias="taskVO" type="egovframework.main.service.VO.TaskVO"/>
+	<typeAlias alias="MemberSearchVO" type="egovframework.main.service.VO.MemberSearchVO"/>
+	
+	<select id="CheckCodeDAO.getCheckList" parameterClass="membersearchVO" resultClass="taskVO">
+	SELECT * FROM T_SECURITY_CTLG_CD
+	WHERE 1=1
+	</select>
+	
+	<select id="checkCodeDAO.selectCheckList" parameterClass="membersearchVO" resultClass="taskVO">
+	SELECT * FROM T_SECURITY_CTLG_CD
+	WHERE 1=1
+	</select>
+	<select id="taskDAO.selectTaskLarge" parameterClass="membersearchVO" resultClass="taskVO">
+		SELECT * FROM T_SECURITY_CODE 
+		WHERE CD LIKE 'H%'
+	</select>
+	<select id="taskDAO.selectTaskMiddle" parameterClass="membersearchVO" resultClass="taskVO">
+		SELECT * FROM T_SECURITY_CODE 
+		WHERE CD LIKE 'I%'
+		<isNotEmpty prepend = "AND" property="searchConditionLarge">
+		cd IN (SELECT mdcls
+		FROM t_security_ctlg_cd
+		WHERE lrgcls = #searchConditionLarge#)
+		or cd = #searchConditionLarge#
+		</isNotEmpty>
+	</select>
+	
+	<select id="taskDAO.selectTaskOrder" parameterClass = "taskVO" resultClass="taskVO">
+		SELECT * FROM T_SECURITY_CTLG_CD
+		WHERE 1=1
+		<isNotEmpty prepend = "AND" property="lrgcls">
+		lrgcls like '%' || #lrgcls# || '%'
+		</isNotEmpty>
+		<isNotEmpty prepend = "AND" property="mdcls">
+		mdcls like 
+		(SELECT cd FROM t_security_code WHERE cd_nm = #mdcls#)
+		</isNotEmpty>
+		<isNotEmpty prepend = "AND" property="ctlg_nm" >
+		ctlg_nm like '%' || #ctlg_nm# || '%'
+		</isNotEmpty>
+		<isNotEmpty prepend = "AND" property="ctlg_cd">
+		ctlg_cd like '%' || #ctlg_cd# || '%'
+		</isNotEmpty>
+	</select>
+	<select id="taskDAO.getTaskSearchName" parameterClass="tasKVO" resultClass="taskVO">
+		SELECT ctlg_cd,
+		ctlg_nm,
+		lrgcls,
+		(SELECT cd_nm FROM t_security_code WHERE cd = a.lrgcls) AS lrgcls_nm,
+		mdcls,
+		(SELECT cd_nm FROM t_security_code WHERE cd = mdcls) AS mdcls_nm
+		FROM T_SECURITY_CTLG_CD a
+		WHERE 1=0
+		<isNotEmpty prepend = "OR" property="ctlg_nm" >
+		ctlg_nm like '%' || #ctlg_nm# || '%'
+		</isNotEmpty>
+		<isNotEmpty prepend = "OR" property="ctlg_cd" >
+		ctlg_cd like '%' || #ctlg_cd# || '%'
+		</isNotEmpty>
+
+	</select>
+	 
+	<select id="taskDAO.selectTaskList" parameterClass="membersearchVO" resultClass="taskVO">
+			SELECT (SELECT CD_NM FROM t_security_code WHERE CD = t_security_task.incdt_idtf_cd) AS INCDT_IDTF_CD,
+		 INCDT_ACTVT_TYPE_CD, 
+		 actvt_date, 
+		 TASK, 
+		 (SELECT stmt FROM t_security_user b WHERE srvno =t_security_task.task_psnchnrg_srvno) AS task_psnchnrg_srvno,
+		(SELECT cd_nm FROM t_security_code WHERE cd = (SELECT rnkcd FROM t_security_user b WHERE srvno =t_security_task.task_psnchnrg_srvno)) AS task_psnchnrg_rnk,
+		  state_cd
+		FROM t_security_task
+		WHERE 1=0
+		<isNotEmpty prepend ="OR"  property= "searchCondition1">
+		INCDT_ACTVT_TYPE_CD = (SELECT CD FROM t_security_code WHERE CD_NM = #searchCondition1# AND CD LIKE 'F%')
+		</isNotEmpty>
+		<isNotEmpty prepend ="AND"  property= "searchCondition2">
+		actvt_date = #searchCondition2#
+		</isNotEmpty>
+		<isNotEmpty prepend ="AND"  property= "searchCode">
+		incdt_idtf_cd = #searchCode#
+		</isNotEmpty>
+		order by INCDT_IDTF_CD
+	</select>
+	<select id="taskDAO.getTaskSelected" parameterClass="taskVO" resultClass="taskVO">
+		select *
+		from t_security_task
+		where 	incdt_idtf_cd = #incdt_idtf_cd#
+		and 	incdt_actvt_type_cd = (select cd from t_security_code where cd_nm = #incdt_actvt_type_cd# AND cd LIKE 'F%')
+		and		task_psnchnrg_srvno = #task_psnchnrg_srvno#
+		and		actvt_date = #actvt_date#
+	</select>
+	<insert id="taskDAO.InsertTask" parameterClass="taskVO">
+		INSERT INTO T_SECURITY_TASK
+		(
+			INCDT_IDTF_CD, INCDT_ACTVT_TYPE_CD, ACTVT_DATE, TASK, TASK_PSNCHNRG_SRVNO, STATE_CD, id
+		)
+		VALUES
+		(
+			#incdt_idtf_cd#,  
+			(SELECT CD FROM t_security_code WHERE CD_NM = #incdt_actvt_type_cd# AND CD LIKE 'F%')
+			, #actvt_date#, #task#, #task_psnchnrg_srvno#, 'E1', (SELECT t_security_incdt_actvt_ai_seq.current_value+1 FROM db_root)
+		);
+		
+		INSERT INTO T_SECURITY_INCDT_ACTVT
+		(INCDT_IDTF_CD, INCDT_ACTVT_TYPE_CD, STATE_CD, ACTVT_DATE,id)
+		VALUES
+		(
+		#incdt_idtf_cd#,
+		(SELECT CD FROM t_security_code WHERE CD_NM = #incdt_actvt_type_cd# AND CD LIKE 'F%'),
+		 'E1',
+		 #actvt_date#,
+ 		(SELECT t_security_incdt_actvt_ai_seq.current_value+1 FROM db_root)
+		);
+		
+		INSERT INTO T_SECURITY_TASK_DATA
+		(
+			state_cd,
+			ctlg_itm_cd_1,
+			ctlg_itm_cd_2,
+			ctlg_itm_cd_3,
+			ctlg_itm_cd_4,
+			ctlg_itm_cd_5,
+			ctlg_itm_cd_6,
+			ctlg_itm_cd_7,
+			ctlg_itm_cd_8,
+			ctlg_itm_cd_9,
+			ctlg_itm_cd_10,
+			id,
+			task,
+			task_psnchnrg_srvno,
+			task_cd,
+			incdt_idtf_cd,
+			ctlg_cd,
+			actvt_date
+		)
+		values
+		(
+		'E1',
+		(select ctlg_itm_cd_1 from t_security_sprtly_ctlg where seq = #seq#),
+		(select ctlg_itm_cd_2 from t_security_sprtly_ctlg where seq = #seq#),
+		(select ctlg_itm_cd_3 from t_security_sprtly_ctlg where seq = #seq#),
+		(select ctlg_itm_cd_4 from t_security_sprtly_ctlg where seq = #seq#),
+		(select ctlg_itm_cd_5 from t_security_sprtly_ctlg where seq = #seq#),
+		(select ctlg_itm_cd_6 from t_security_sprtly_ctlg where seq = #seq#),
+		(select ctlg_itm_cd_7 from t_security_sprtly_ctlg where seq = #seq#),
+		(select ctlg_itm_cd_8 from t_security_sprtly_ctlg where seq = #seq#),
+		(select ctlg_itm_cd_9 from t_security_sprtly_ctlg where seq = #seq#),
+		(select ctlg_itm_cd_10 from t_security_sprtly_ctlg where seq = #seq#),
+		(SELECT t_security_incdt_actvt_ai_seq.current_value FROM db_root),
+		#incdt_actvt_type_cd#,
+		#task_psnchnrg_srvno#,
+		(SELECT CD FROM t_security_code WHERE CD_NM = #incdt_actvt_type_cd# AND CD LIKE 'F%'),
+		#incdt_idtf_cd#,
+		(SELECT CD FROM t_security_code WHERE CD_NM = #incdt_actvt_type_cd# AND CD LIKE 'G%'),
+		#actvt_date#
+		)
+	</insert>
+	
+	<select id="taskDAO.selectTaskStateCode" parameterClass="integer" resultClass="String">
+		SELECT state_cd
+		FROM t_security_task
+		WHERE seq = #seq#
+	</select>
+</sqlMap>

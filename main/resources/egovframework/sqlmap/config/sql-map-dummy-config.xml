@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMapConfig PUBLIC "-//iBATIS.com//DTD SQL Map Config 2.0//EN" "http://www.ibatis.com/dtd/sql-map-config-2.dtd">
+<sqlMapConfig>
+<!-- dummy.xml 파일 경로를 지정해 줘야 합니다. -->
+  <sqlMap resource="egovframework/sqlmap/config/dummy.xml" />
+</sqlMapConfig>

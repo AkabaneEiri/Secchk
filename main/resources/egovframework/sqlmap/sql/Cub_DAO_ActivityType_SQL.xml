@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="dao_activityType">
+	<typeAlias alias="activityTypeVO" type="egovframework.main.service.VO.ActivityTypeVO"/>
+	
+	<select id="activityTypeDAO.selectActTypeByCtlg" parameterClass="String" resultClass="activityTypeVO">
+	SELECT *
+	FROM t_security_incdt_actvt_type
+	WHERE ctlg_cd = #ctlg_cd#
+	</select>
+</sqlMap>

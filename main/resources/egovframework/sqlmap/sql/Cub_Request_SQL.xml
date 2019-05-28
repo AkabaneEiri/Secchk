@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="ApprovalChecklist">
+	<typeAlias alias="RequestChecklistVO" type="egovframework.main.service.VO.RequestChecklistVO"/>
+	<typeAlias alias="MemberSearchVO" type="egovframework.main.service.VO.MemberSearchVO"/>
+	<typeAlias alias="ChecklistItemVO" type="egovframework.main.service.VO.ChecklistItemVO"/>
+	<typeAlias alias="RequestActivityVO" type="egovframework.main.service.VO.RequestActivityVO"/>
+	
+	<select id="requestChecklistDAO.getChecklistRequest" parameterClass="RequestChecklistVO" resultClass="RequestChecklistVO">
+	SELECT 
+		seq,
+		rqst_date,
+		(SELECT stmt FROM t_security_user B WHERE rqstr_srvno = B.srvno) AS rqstr_srvno,
+		(SELECT ctlg_nm FROM t_security_ctlg_cd B WHERE A.CTLG_CD = b.ctlg_cd) AS ctlg_cd,
+		(SELECT CTLG_ITM_CTNT FROM t_security_ctlg B WHERE A.CTLG_ITM_CD_1 = B.CTLG_ITM_CD) ctlg_itm_cd_1,
+		(ctlg_itm_cd_1) AS ctlg_itm_cd_2,
+		rqst_ctnt,
+		(SELECT cd_nm FROM t_security_code b WHERE a.state_cd = b.cd) as	state_cd,
+		rsn
+	FROM t_security_rqst_ctlg A
+	where 1=1
+	<isNotEmpty prepend = "AND" property="seq" >
+		seq like '%' || #seq# || '%'
+		</isNotEmpty>
+	</select>
+	<select id="requestChecklistDAO.getChecklist" parameterClass="ChecklistItemVO" resultClass="ChecklistItemVO">
+	SELECT * FROM t_security_ctlg a
+	WHERE  ctlg_itm_cd = #ctlg_itm_cd#
+	</select>
+	<update id="RequestChecklistDAO.RequestDeny" parameterClass="RequestChecklistVO">
+	UPDATE t_security_rqst_ctlg
+	set 	rsn = #rsn#,
+			state_cd= #state_cd#,
+			opn = #opn#
+	where seq = #seq# 
+	</update>
+	
+	<select id="requestChecklistDAO.getCheckCreate" parameterClass="ChecklistItemVO" resultClass="ChecklistItemVO">
+	SELECT * FROM t_security_ctlg a
+	WHERE ctlg_cd = (SELECT cd FROM t_security_code WHERE  cd LIKE '%G%' AND cd_nm = #ctlg_cd# )
+	<isNotEmpty prepend = "or" property="ctlg_itm_cd" >
+		ctlg_cd = (SELECT ctlg_cd FROM t_security_ctlg WHERE ctlg_itm_cd = 'G001_001')
+	</isNotEmpty>
+	</select>
+	<update id="RequestChecklistDAO.RequestAccept" parameterClass="RequestChecklistVO">
+	UPDATE T_SECURITY_CTLG
+	SET CTLG_ITM_CTNT = #ctlg_itm_cd_2#
+	where ctlg_itm_cd like '%'||#ctlg_itm_cd_1#||'%'
+	</update>
+	
+	<insert id="RequestChecklistDAO.RequestCreateNew" parameterClass="ChecklistItemVO">
+	INSERT INTO
+	t_security_ctlg (
+		ctlg_cd,
+		ctlg_itm_cd,
+		ctlg_itm_ctnt,
+		stdd_yn,
+		prtcuse_frqc
+		)
+	VALUES
+		(
+			(SELECT cd FROM t_security_code WHERE  cd LIKE '%G%' AND cd_nm = #ctlg_cd# ),
+			#ctlg_itm_cd#,
+			#ctlg_itm_ctnt#,
+			'N',
+			'0'
+		);
+	UPDATE t_security_rqst_ctlg
+	SET CTLG_ITM_CD_1 = #ctlg_itm_cd#
+	where rqst_ctnt = #ctlg_itm_ctnt#
+	
+	</insert>
+	<select id="requestActivityDAO.getRequestlist" parameterClass="RequestActivityVO" resultClass="RequestActivityVO">
+	SELECT
+	rqst_date,
+	(SELECT stmt FROM t_security_user b WHERE a.rqstr_srvno = b.srvno)	AS rqstr_srvno,
+	actvt_date,
+	rsn,
+	(SELECT cd_nm FROM t_security_code b WHERE a.state_cd = b.cd)as 	state_cd,
+	(SELECT cd_nm FROM t_security_code b WHERE incdt_actvt_type_cd = b.cd)as 	incdt_actvt_type_cd,
+	seq,
+	opn
+	FROM
+	t_security_rqst_incdt_actvt a
+	where 1=1
+			<isNotEmpty prepend = "AND" property="seq" >
+		seq = #seq#
+		</isNotEmpty>
+	</select>
+	<update id="requestActivityDAO.RequestActivityResult" parameterClass="RequestActivityVO">
+	UPDATE t_security_rqst_incdt_actvt
+	SET 
+	state_cd = (SELECT cd FROM t_security_code WHERE cd_nm = #state_cd#),
+	opn = #opn#
+	where seq = #seq#
+	
+	</update>
+	
+	</sqlMap>

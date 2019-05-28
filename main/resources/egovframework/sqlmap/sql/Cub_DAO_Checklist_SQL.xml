@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="dao_checklist">
+	<typeAlias alias="checklistVO" type="egovframework.main.service.VO.ChecklistVO"/>
+	<typeAlias alias="listsearchVO" type="egovframework.main.service.VO.ListsearchVO"/>
+	<typeAlias alias="userVO" type="egovframework.main.service.VO.UserVO"/>
+	<typeAlias alias="checklistItemVO" type="egovframework.main.service.VO.ChecklistItemVO"/>
+
+	<select id="checklistDAO.getChecklist" parameterClass="checklistVO" resultClass="checklistItemVO">
+	SELECT * FROM t_security_ctlg
+	WHERE ctlg_itm_cd in
+	(SELECT 
+		ctlg_itm_cd_1
+	FROM t_security_sprtly_ctlg
+	WHERE ctlg_cd = (select cd from t_security_code where cd_nm = #ctlg_cd# and cd like '%G%' or cd = #ctlg_cd#))
+	OR ctlg_itm_cd in
+	(SELECT 
+		ctlg_itm_cd_2
+	FROM t_security_sprtly_ctlg
+	WHERE ctlg_cd = (select cd from t_security_code where cd_nm = #ctlg_cd# and cd like '%G%' or cd = #ctlg_cd#))
+	OR ctlg_itm_cd in
+	(SELECT 
+		ctlg_itm_cd_3
+	FROM t_security_sprtly_ctlg
+	WHERE ctlg_cd = (select cd from t_security_code where cd_nm = #ctlg_cd# and cd like '%G%' or cd = #ctlg_cd#))
+	OR ctlg_itm_cd in
+	(SELECT 
+		ctlg_itm_cd_4
+	FROM t_security_sprtly_ctlg
+	WHERE ctlg_cd = (select cd from t_security_code where cd_nm = #ctlg_cd# and cd like '%G%' or cd = #ctlg_cd#))
+	OR ctlg_itm_cd in
+	(SELECT 
+		ctlg_itm_cd_5
+	FROM t_security_sprtly_ctlg
+	WHERE ctlg_cd = (select cd from t_security_code where cd_nm = #ctlg_cd# and cd like '%G%' or cd = #ctlg_cd#))
+	OR ctlg_itm_cd in
+	(SELECT 
+		ctlg_itm_cd_6
+	FROM t_security_sprtly_ctlg
+	WHERE ctlg_cd = (select cd from t_security_code where cd_nm = #ctlg_cd# and cd like '%G%' or cd = #ctlg_cd#))
+	OR ctlg_itm_cd in
+	(SELECT 
+		ctlg_itm_cd_7
+	FROM t_security_sprtly_ctlg
+	WHERE ctlg_cd = (select cd from t_security_code where cd_nm = #ctlg_cd# and cd like '%G%' or cd = #ctlg_cd#))
+	OR ctlg_itm_cd in
+	(SELECT 
+		ctlg_itm_cd_8
+	FROM t_security_sprtly_ctlg
+	WHERE ctlg_cd = (select cd from t_security_code where cd_nm = #ctlg_cd# and cd like '%G%' or cd = #ctlg_cd#))
+	OR ctlg_itm_cd in
+	(SELECT 
+		ctlg_itm_cd_9
+	FROM t_security_sprtly_ctlg
+	WHERE ctlg_cd = (select cd from t_security_code where cd_nm = #ctlg_cd# and cd like '%G%' or cd = #ctlg_cd#))
+	OR ctlg_itm_cd in
+	(SELECT 
+		ctlg_itm_cd_10
+	FROM t_security_sprtly_ctlg
+	WHERE ctlg_cd = (select cd from t_security_code where cd_nm = #ctlg_cd# and cd like '%G%' or cd = #ctlg_cd#))
+	order by prtcuse_frqc desc	
+	</select>
+	
+
+	
+	<update id="checklistDAO.ChecklistSelect_Result" parameterClass="checklistVO">
+	update t_security_sprtly_ctlg
+	set ctlg_itm_cd_1 = #ctlg_itm_cd_1#,
+	ctlg_itm_cd_2 = #ctlg_itm_cd_2#,
+	ctlg_itm_cd_3 = #ctlg_itm_cd_3#,
+	ctlg_itm_cd_4 = #ctlg_itm_cd_4#,
+	ctlg_itm_cd_5 = #ctlg_itm_cd_5#,
+	ctlg_itm_cd_6 = #ctlg_itm_cd_6#,
+	ctlg_itm_cd_7 = #ctlg_itm_cd_7#,
+	ctlg_itm_cd_8 = #ctlg_itm_cd_8#,
+	ctlg_itm_cd_9 = #ctlg_itm_cd_9#,
+	ctlg_itm_cd_10 = #ctlg_itm_cd_10#
+	WHERE ctlg_cd = (select cd from t_security_code where cd_nm = #ctlg_cd# and cd like '%G%' or cd = #ctlg_cd#)
+	</update>
+	
+	<select id="checklistDAO.selectChecklist" parameterClass="listsearchVO" resultClass="checklistVO">
+	SELECT
+	incdt_idtf_cd,
+	ctlg_cd,
+	ctlg_itm_cd_1,
+	ctlg_itm_cd_2,
+	ctlg_itm_cd_3,
+	ctlg_itm_cd_4,
+	ctlg_itm_cd_5,
+	ctlg_itm_cd_6,
+	ctlg_itm_cd_7,
+	ctlg_itm_cd_8,
+	ctlg_itm_cd_9,
+	ctlg_itm_cd_10,
+	(SELECT ctlg_itm_ctnt
+	FROM
+	t_security_ctlg A, t_security_sprtly_ctlg B
+	WHERE
+	A.ctlg_cd=#findCode# AND A.ctlg_itm_cd = B.ctlg_itm_cd_1) AS
+	ctlg_itm_cd_1_nm,
+	(SELECT ctlg_itm_ctnt
+	FROM
+	t_security_ctlg A, t_security_sprtly_ctlg B
+	WHERE
+	A.ctlg_cd=#findCode# AND A.ctlg_itm_cd = B.ctlg_itm_cd_2) AS
+	ctlg_itm_cd_2_nm,
+	(SELECT ctlg_itm_ctnt
+	FROM
+	t_security_ctlg A, t_security_sprtly_ctlg B
+	WHERE
+	A.ctlg_cd=#findCode# AND A.ctlg_itm_cd = B.ctlg_itm_cd_3) AS
+	ctlg_itm_cd_3_nm,
+	(SELECT ctlg_itm_ctnt
+	FROM
+	t_security_ctlg A, t_security_sprtly_ctlg B
+	WHERE
+	A.ctlg_cd=#findCode# AND A.ctlg_itm_cd = B.ctlg_itm_cd_4) AS
+	ctlg_itm_cd_4_nm,
+	(SELECT ctlg_itm_ctnt
+	FROM
+	t_security_ctlg A, t_security_sprtly_ctlg B
+	WHERE
+	A.ctlg_cd=#findCode# AND A.ctlg_itm_cd = B.ctlg_itm_cd_5) AS
+	ctlg_itm_cd_5_nm,
+	(SELECT ctlg_itm_ctnt
+	FROM
+	t_security_ctlg A, t_security_sprtly_ctlg B
+	WHERE
+	A.ctlg_cd=#findCode# AND A.ctlg_itm_cd = B.ctlg_itm_cd_6) AS
+	ctlg_itm_cd_6_nm,
+	(SELECT ctlg_itm_ctnt
+	FROM
+	t_security_ctlg A, t_security_sprtly_ctlg B
+	WHERE
+	A.ctlg_cd=#findCode# AND A.ctlg_itm_cd = B.ctlg_itm_cd_7) AS
+	ctlg_itm_cd_7_nm,
+	(SELECT ctlg_itm_ctnt
+	FROM
+	t_security_ctlg A, t_security_sprtly_ctlg B
+	WHERE
+	A.ctlg_cd=#findCode# AND A.ctlg_itm_cd = B.ctlg_itm_cd_8) AS
+	ctlg_itm_cd_8_nm,
+	(SELECT ctlg_itm_ctnt
+	FROM
+	t_security_ctlg A, t_security_sprtly_ctlg B
+	WHERE
+	A.ctlg_cd=#findCode# AND A.ctlg_itm_cd = B.ctlg_itm_cd_9) AS
+	ctlg_itm_cd_9_nm,
+	(SELECT ctlg_itm_ctnt
+	FROM
+	t_security_ctlg A, t_security_sprtly_ctlg B
+	WHERE
+	A.ctlg_cd=#findCode# AND A.ctlg_itm_cd = B.ctlg_itm_cd_10) AS
+	ctlg_itm_cd_10_nm
+	FROM t_security_sprtly_ctlg
+	WHERE incdt_idtf_cd=#incdt_idtf_cd# AND ctlg_cd=#findCode#
+	</select> 
+	
+	<select id="checklistDAO.selectAllChecklist" parameterClass="userVO" resultClass="checklistVO">
+	SELECT
+	incdt_idtf_cd,
+	ctlg_cd,
+	ctlg_itm_cd_1,
+	ctlg_itm_cd_2,
+	ctlg_itm_cd_3,
+	ctlg_itm_cd_4,
+	ctlg_itm_cd_5,
+	ctlg_itm_cd_6,
+	ctlg_itm_cd_7,
+	ctlg_itm_cd_8,
+	ctlg_itm_cd_9,
+	ctlg_itm_cd_10,
+	(SELECT ctlg_itm_ctnt
+	FROM
+	t_security_ctlg
+	WHERE 1=1 AND ctlg_itm_cd = ctlg_itm_cd_1) AS
+	ctlg_itm_cd_1_nm,
+	(SELECT ctlg_itm_ctnt
+	FROM
+	t_security_ctlg
+	WHERE 1=1 AND ctlg_itm_cd = ctlg_itm_cd_2) AS
+	ctlg_itm_cd_2_nm,
+	(SELECT ctlg_itm_ctnt
+	FROM
+	t_security_ctlg
+	WHERE 1=1 AND ctlg_itm_cd = ctlg_itm_cd_3) AS
+	ctlg_itm_cd_3_nm,
+	(SELECT ctlg_itm_ctnt
+	FROM
+	t_security_ctlg
+	WHERE 1=1 AND ctlg_itm_cd = ctlg_itm_cd_4) AS
+	ctlg_itm_cd_4_nm,
+	(SELECT ctlg_itm_ctnt
+	FROM
+	t_security_ctlg
+	WHERE 1=1 AND ctlg_itm_cd = ctlg_itm_cd_5) AS
+	ctlg_itm_cd_5_nm,
+	(SELECT ctlg_itm_ctnt
+	FROM
+	t_security_ctlg
+	WHERE 1=1 AND ctlg_itm_cd = ctlg_itm_cd_6) AS
+	ctlg_itm_cd_6_nm,
+	(SELECT ctlg_itm_ctnt
+	FROM
+	t_security_ctlg
+	WHERE 1=1 AND ctlg_itm_cd = ctlg_itm_cd_7) AS
+	ctlg_itm_cd_7_nm,
+	(SELECT ctlg_itm_ctnt
+	FROM
+	t_security_ctlg
+	WHERE 1=1 AND ctlg_itm_cd = ctlg_itm_cd_8) AS
+	ctlg_itm_cd_8_nm,
+	(SELECT ctlg_itm_ctnt
+	FROM
+	t_security_ctlg
+	WHERE 1=1 AND ctlg_itm_cd = ctlg_itm_cd_9) AS
+	ctlg_itm_cd_9_nm,
+	(SELECT ctlg_itm_ctnt
+	FROM
+	t_security_ctlg
+	WHERE 1=1 AND ctlg_itm_cd = ctlg_itm_cd_10) AS
+	ctlg_itm_cd_10_nm
+	FROM t_security_sprtly_ctlg
+	WHERE incdt_idtf_cd=#incdt_idtf_cd#
+	</select>
+</sqlMap>

@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="dao_task_data">
+	<typeAlias alias="taskVO" type="egovframework.main.service.VO.TaskVO"/>
+	<typeAlias alias="userVO" type="egovframework.main.service.VO.UserVO"/>
+	<typeAlias alias="taskDataVO" type="egovframework.main.service.VO.TaskDataVO"/>
+	
+	<!-- seungwon SQL start -->
+	
+	<!-- Read VO By Seq -->
+	<select id="taskDataDAO.selectTaskDataBySeq" parameterClass="String" resultClass="taskDataVO">
+	SELECT 
+	*,
+	(SELECT ctlg_nm
+	FROM t_security_ctlg_cd C
+	WHERE C.ctlg_cd = A.ctlg_cd) AS ctlg_nm,
+	(SELECT
+	ctlg_itm_ctnt
+	FROM
+	t_security_ctlg B
+	WHERE B.ctlg_itm_cd = A.ctlg_itm_cd_1) AS ctlg_itm_cd_1_nm,
+	(SELECT
+	ctlg_itm_ctnt
+	FROM
+	t_security_ctlg B
+	WHERE B.ctlg_itm_cd = A.ctlg_itm_cd_2) AS ctlg_itm_cd_2_nm,
+	(SELECT
+	ctlg_itm_ctnt
+	FROM
+	t_security_ctlg B
+	WHERE B.ctlg_itm_cd = A.ctlg_itm_cd_3) AS ctlg_itm_cd_3_nm,
+	(SELECT
+	ctlg_itm_ctnt
+	FROM
+	t_security_ctlg B
+	WHERE B.ctlg_itm_cd = A.ctlg_itm_cd_4) AS ctlg_itm_cd_4_nm,
+	(SELECT
+	ctlg_itm_ctnt
+	FROM
+	t_security_ctlg B
+	WHERE B.ctlg_itm_cd = A.ctlg_itm_cd_5) AS ctlg_itm_cd_5_nm,
+	(SELECT
+	ctlg_itm_ctnt
+	FROM
+	t_security_ctlg B
+	WHERE B.ctlg_itm_cd = A.ctlg_itm_cd_6) AS ctlg_itm_cd_6_nm,
+	(SELECT
+	ctlg_itm_ctnt
+	FROM
+	t_security_ctlg B
+	WHERE B.ctlg_itm_cd = A.ctlg_itm_cd_7) AS ctlg_itm_cd_7_nm,
+	(SELECT
+	ctlg_itm_ctnt
+	FROM
+	t_security_ctlg B
+	WHERE B.ctlg_itm_cd = A.ctlg_itm_cd_8) AS ctlg_itm_cd_8_nm,
+	(SELECT
+	ctlg_itm_ctnt
+	FROM
+	t_security_ctlg B
+	WHERE B.ctlg_itm_cd = A.ctlg_itm_cd_9) AS ctlg_itm_cd_9_nm,
+	(SELECT
+	ctlg_itm_ctnt
+	FROM
+	t_security_ctlg B
+	WHERE B.ctlg_itm_cd = A.ctlg_itm_cd_10) AS ctlg_itm_cd_10_nm
+	FROM t_security_task_data A
+	WHERE seq = #seq#
+	</select>
+	
+	<!-- Read VO By ActID -->
+	<select id="taskDataDAO.selectTaskDataVO" parameterClass="taskDataVO" resultClass="taskDataVO">
+	SELECT 
+	*,
+	(SELECT ctlg_nm
+	FROM t_security_ctlg_cd C
+	WHERE C.ctlg_cd = A.ctlg_cd) AS ctlg_nm,
+	(SELECT
+	ctlg_itm_ctnt
+	FROM
+	t_security_ctlg B
+	WHERE B.ctlg_itm_cd = A.ctlg_itm_cd_1) AS ctlg_itm_cd_1_nm,
+	(SELECT
+	ctlg_itm_ctnt
+	FROM
+	t_security_ctlg B
+	WHERE B.ctlg_itm_cd = A.ctlg_itm_cd_2) AS ctlg_itm_cd_2_nm,
+	(SELECT
+	ctlg_itm_ctnt
+	FROM
+	t_security_ctlg B
+	WHERE B.ctlg_itm_cd = A.ctlg_itm_cd_3) AS ctlg_itm_cd_3_nm,
+	(SELECT
+	ctlg_itm_ctnt
+	FROM
+	t_security_ctlg B
+	WHERE B.ctlg_itm_cd = A.ctlg_itm_cd_4) AS ctlg_itm_cd_4_nm,
+	(SELECT
+	ctlg_itm_ctnt
+	FROM
+	t_security_ctlg B
+	WHERE B.ctlg_itm_cd = A.ctlg_itm_cd_5) AS ctlg_itm_cd_5_nm,
+	(SELECT
+	ctlg_itm_ctnt
+	FROM
+	t_security_ctlg B
+	WHERE B.ctlg_itm_cd = A.ctlg_itm_cd_6) AS ctlg_itm_cd_6_nm,
+	(SELECT
+	ctlg_itm_ctnt
+	FROM
+	t_security_ctlg B
+	WHERE B.ctlg_itm_cd = A.ctlg_itm_cd_7) AS ctlg_itm_cd_7_nm,
+	(SELECT
+	ctlg_itm_ctnt
+	FROM
+	t_security_ctlg B
+	WHERE B.ctlg_itm_cd = A.ctlg_itm_cd_8) AS ctlg_itm_cd_8_nm,
+	(SELECT
+	ctlg_itm_ctnt
+	FROM
+	t_security_ctlg B
+	WHERE B.ctlg_itm_cd = A.ctlg_itm_cd_9) AS ctlg_itm_cd_9_nm,
+	(SELECT
+	ctlg_itm_ctnt
+	FROM
+	t_security_ctlg B
+	WHERE B.ctlg_itm_cd = A.ctlg_itm_cd_10) AS ctlg_itm_cd_10_nm
+	FROM t_security_task_data A
+	WHERE id = #id# AND task_psnchnrg_srvno = #task_psnchnrg_srvno#
+	</select>
+	
+	<!-- Read List By Srvno -->
+	<select id="taskDataDAO.selectTaskDataList" parameterClass="userVO" resultClass="taskDataVO">
+	SELECT *
+	FROM t_security_task_data
+	WHERE task_psnchnrg_srvno = #srvno#
+	</select>
+	
+	<!-- Update VO By Seq -->
+	<update id="taskDataDAO.updateYNState">
+	UPDATE t_security_task_data
+	SET 	guidnc_yn_1 = #guidnc_yn_1#,
+			guidnc_yn_2 = #guidnc_yn_2#,
+			guidnc_yn_3 = #guidnc_yn_3#,
+			ctlg_itm_yn_1 = #ctlg_itm_yn_1#,
+			ctlg_itm_yn_2 = #ctlg_itm_yn_2#,
+			ctlg_itm_yn_3 = #ctlg_itm_yn_3#,
+			ctlg_itm_yn_4 = #ctlg_itm_yn_4#,
+			ctlg_itm_yn_5 = #ctlg_itm_yn_5#,
+			ctlg_itm_yn_6 = #ctlg_itm_yn_6#,
+			ctlg_itm_yn_7 = #ctlg_itm_yn_7#,
+			ctlg_itm_yn_8 = #ctlg_itm_yn_8#,
+			ctlg_itm_yn_9 = #ctlg_itm_yn_9#,
+			ctlg_itm_yn_10 = #ctlg_itm_yn_10#		
+	WHERE seq = #seq#
+	</update>
+	
+	<select id="taskDataDAO.selectTaskDataListById" parameterClass="String" resultClass="taskDataVO">
+	SELECT *
+	FROM t_security_task_data
+	WHERE id = #id#
+	</select>
+	
+	<update id="taskDataDAO.updateCommanderGuideById" parameterClass="taskDataVO">
+	UPDATE t_security_task_data
+	SET guidnc_1 = #guidnc_1#,
+		guidnc_2 = #guidnc_2#,
+		guidnc_3 = #guidnc_3#
+	WHERE id = #id#
+	</update>
+	
+	<update id="taskDataDAO.updateCommanderGuide1_ById" parameterClass="taskDataVO">
+	UPDATE t_security_task_data
+	SET guidnc_1 = #guidnc_1#
+	WHERE id = #id#
+	</update>
+	<update id="taskDataDAO.updateCommanderGuide2_ById" parameterClass="taskDataVO">
+	UPDATE t_security_task_data
+	SET guidnc_2 = #guidnc_2#
+	WHERE id = #id#
+	</update>
+	<update id="taskDataDAO.updateCommanderGuide3_ById" parameterClass="taskDataVO">
+	UPDATE t_security_task_data
+	SET guidnc_3 = #guidnc_3#
+	WHERE id = #id#
+	</update>
+	
+	<!-- seungwon SQL end -->
+	
+	<!--  Junseong SQL Start -->
+	<select id="taskDataDAO.getTaskDataList" parameterClass="taskDataVO" resultClass="taskDataVO">
+		SELECT
+			state_cd,
+			start_date,
+			fnsh_date,
+			guidnc_1,
+			guidnc_2,
+			guidnc_3,
+			(SELECT ctlg_itm_ctnt FROM t_security_ctlg WHERE ctlg_itm_cd = ctlg_itm_cd_1	) AS ctlg_itm_nm_1,
+			(SELECT ctlg_itm_ctnt FROM t_security_ctlg WHERE ctlg_itm_cd = ctlg_itm_cd_2	) AS ctlg_itm_nm_2,
+			(SELECT ctlg_itm_ctnt FROM t_security_ctlg WHERE ctlg_itm_cd = ctlg_itm_cd_3	) AS ctlg_itm_nm_3,
+			(SELECT ctlg_itm_ctnt FROM t_security_ctlg WHERE ctlg_itm_cd = ctlg_itm_cd_4	) AS ctlg_itm_nm_4,
+			(SELECT ctlg_itm_ctnt FROM t_security_ctlg WHERE ctlg_itm_cd = ctlg_itm_cd_5	) AS ctlg_itm_nm_5,
+			(SELECT ctlg_itm_ctnt FROM t_security_ctlg WHERE ctlg_itm_cd = ctlg_itm_cd_6	) AS ctlg_itm_nm_6,
+			(SELECT ctlg_itm_ctnt FROM t_security_ctlg WHERE ctlg_itm_cd = ctlg_itm_cd_7	) AS ctlg_itm_nm_7,
+			(SELECT ctlg_itm_ctnt FROM t_security_ctlg WHERE ctlg_itm_cd = ctlg_itm_cd_8	) AS ctlg_itm_nm_8,
+			(SELECT ctlg_itm_ctnt FROM t_security_ctlg WHERE ctlg_itm_cd = ctlg_itm_cd_9	) AS ctlg_itm_nm_9,
+			(SELECT ctlg_itm_ctnt FROM t_security_ctlg WHERE ctlg_itm_cd = ctlg_itm_cd_10	) AS ctlg_itm_nm_10,
+			ctlg_itm_cd_1,
+			ctlg_itm_cd_2,
+			ctlg_itm_cd_3,
+			ctlg_itm_cd_4,
+			ctlg_itm_cd_5,
+			ctlg_itm_cd_6,
+			ctlg_itm_cd_7,
+			ctlg_itm_cd_8,
+			ctlg_itm_cd_9,
+			ctlg_itm_cd_10,
+			ctlg_itm_yn_1,
+			ctlg_itm_yn_2,
+			ctlg_itm_yn_3,
+			ctlg_itm_yn_4,
+			ctlg_itm_yn_5,
+			ctlg_itm_yn_6,
+			ctlg_itm_yn_7,
+			ctlg_itm_yn_8,
+			ctlg_itm_yn_9,
+			ctlg_itm_yn_10,
+			guidnc_yn_1,
+			guidnc_yn_2,
+			guidnc_yn_3,
+			seq,
+			(select cd_nm from t_security_code where cd = id) as id,
+			(SELECT ctlg_nm FROM t_security_ctlg_cd WHERE ctlg_cd = task_cd) AS task,
+			task_psnchnrg_srvno,
+			task_cd,
+			incdt_idtf_cd
+		FROM
+			t_security_task_data
+				WHERE 1=0
+				or incdt_idtf_cd = #incdt_idtf_cd#
+		<isNotEmpty prepend = "and" property="task">
+		ctlg_cd = (select cd from t_security_code where cd_nm = #task# AND cd LIKE 'G%' )
+		or task_cd = #task#
+		</isNotEmpty>
+		<isNotEmpty prepend = "and" property="seq">
+		seq = #seq#
+		
+		</isNotEmpty>
+	</select>
+	<select id="taskDataDAO.ChecklistPreset_Search" parameterClass="taskDataVO" resultClass="taskDataVO">
+		SELECT *
+		FROM T_SECURITY_TASK_DATA
+		WHERE seq = #seq#
+	</select>
+	<update id="taskDataDAO.ChecklistPreset_Update" parameterClass="taskDataVO">
+		UPDATE t_security_task_data
+		set 
+			ctlg_itm_cd_1 = #ctlg_itm_cd_1#,
+			ctlg_itm_cd_2 = #ctlg_itm_cd_2#,
+			ctlg_itm_cd_3 = #ctlg_itm_cd_3#,
+			ctlg_itm_cd_4 = #ctlg_itm_cd_4#,
+			ctlg_itm_cd_5 = #ctlg_itm_cd_5#,
+			ctlg_itm_cd_6 = #ctlg_itm_cd_6#,
+			ctlg_itm_cd_7 = #ctlg_itm_cd_7#,
+			ctlg_itm_cd_8 = #ctlg_itm_cd_8#,
+			ctlg_itm_cd_9 = #ctlg_itm_cd_9#,
+			ctlg_itm_cd_10 = #ctlg_itm_cd_10#
+		where seq = #seq#
+			
+	</update>
+	<!--  Junseong SQL End -->
+</sqlMap>

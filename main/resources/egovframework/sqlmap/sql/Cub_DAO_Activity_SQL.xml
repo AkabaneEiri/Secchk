@@ -1,0 +1,389 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="dao_activity">
+    <typeAlias alias="activityVO" type="egovframework.main.service.VO.ActivityVO"/>
+    <typeAlias alias="listsearchVO" type="egovframework.main.service.VO.ListsearchVO"/>
+    <typeAlias alias="userVO" type="egovframework.main.service.VO.UserVO"/>
+    <typeAlias alias="checklistItemVO" type="egovframework.main.service.VO.ChecklistItemVO"/>
+    <typeAlias alias="membersearchVO" type="egovframework.main.service.VO.MemberSearchVO"/>
+ 
+    <select id="activityDAO.selectActivity" parameterClass="listsearchVO" resultClass="activityVO">
+    SELECT
+    incdt_idtf_cd,
+    incdt_actvt_type_cd,
+    (SELECT cd_nm FROM t_security_code WHERE cd=#findCode#) AS incdt_actvt_type_cd_nm,
+    state_cd,
+    to_char(actvt_date, 'yyyy-mm-dd') AS actvt_date,
+    start_date,
+    fnsh_date,
+    guidnc_1,
+    guidnc_2,
+    guidnc_3,
+    guidnc_yn_1,
+    guidnc_yn_2,
+    guidnc_yn_3,
+    ctlg_itm_cd_1,
+    ctlg_itm_cd_2,
+    ctlg_itm_cd_3,
+    ctlg_itm_cd_4,
+    ctlg_itm_cd_5,
+    ctlg_itm_cd_6,
+    ctlg_itm_cd_7,
+    ctlg_itm_cd_8,
+    ctlg_itm_cd_9,
+    ctlg_itm_cd_10,
+    ctlg_itm_yn_1,
+    ctlg_itm_yn_2,
+    ctlg_itm_yn_3,
+    ctlg_itm_yn_4,
+    ctlg_itm_yn_5,
+    ctlg_itm_yn_6,
+    ctlg_itm_yn_7,
+    ctlg_itm_yn_8,
+    ctlg_itm_yn_9,
+    ctlg_itm_yn_10,
+    (SELECT
+    ctlg_itm_ctnt
+    FROM
+    t_security_ctlg B
+    WHERE B.ctlg_itm_cd = A.ctlg_itm_cd_1) AS ctlg_itm_cd_1_nm,
+    (SELECT
+    ctlg_itm_ctnt
+    FROM
+    t_security_ctlg B
+    WHERE B.ctlg_itm_cd = A.ctlg_itm_cd_2) AS ctlg_itm_cd_2_nm,
+    (SELECT
+    ctlg_itm_ctnt
+    FROM
+    t_security_ctlg B
+    WHERE B.ctlg_itm_cd = A.ctlg_itm_cd_3) AS ctlg_itm_cd_3_nm,
+    (SELECT
+    ctlg_itm_ctnt
+    FROM
+    t_security_ctlg B
+    WHERE B.ctlg_itm_cd = A.ctlg_itm_cd_4) AS ctlg_itm_cd_4_nm,
+    (SELECT
+    ctlg_itm_ctnt
+    FROM
+    t_security_ctlg B
+    WHERE B.ctlg_itm_cd = A.ctlg_itm_cd_5) AS ctlg_itm_cd_5_nm,
+    (SELECT
+    ctlg_itm_ctnt
+    FROM
+    t_security_ctlg B
+    WHERE B.ctlg_itm_cd = A.ctlg_itm_cd_6) AS ctlg_itm_cd_6_nm,
+    (SELECT
+    ctlg_itm_ctnt
+    FROM
+    t_security_ctlg B
+    WHERE B.ctlg_itm_cd = A.ctlg_itm_cd_7) AS ctlg_itm_cd_7_nm,
+    (SELECT
+    ctlg_itm_ctnt
+    FROM
+    t_security_ctlg B
+    WHERE B.ctlg_itm_cd = A.ctlg_itm_cd_8) AS ctlg_itm_cd_8_nm,
+    (SELECT
+    ctlg_itm_ctnt
+    FROM
+    t_security_ctlg B
+    WHERE B.ctlg_itm_cd = A.ctlg_itm_cd_9) AS ctlg_itm_cd_9_nm,
+    (SELECT
+    ctlg_itm_ctnt
+    FROM
+    t_security_ctlg B
+    WHERE B.ctlg_itm_cd = A.ctlg_itm_cd_10) AS ctlg_itm_cd_10_nm
+    FROM t_security_incdt_actvt A
+    WHERE
+    incdt_idtf_cd=#incdt_idtf_cd# AND incdt_actvt_type_cd=#findCode# AND actvt_date=to_date(#date#, 'yyyy-mm-dd')
+    </select>
+    
+    <select id="activityDAO.selectActivityListByDate" parameterClass="listsearchVO" resultClass="activityVO">
+    SELECT *
+        FROM (SELECT A.*, 
+                    B.cd_nm AS incdt_actvt_type_cd_nm
+                    
+            FROM t_security_incdt_actvt A, t_security_code B
+            WHERE 1=1 AND A.incdt_actvt_type_cd = B.cd)
+        WHERE incdt_idtf_cd = #incdt_idtf_cd# AND actvt_date = #date#
+    </select>
+    
+    <select id="activityDAO.selectActivityListByIncdt" parameterClass="String" resultClass="activityVO">
+        SELECT *
+        FROM t_security_incdt_actvt
+        WHERE 1=1 AND incdt_idtf_cd = #incdt_idtf_cd#
+    </select>
+    
+    <select id="activityDAO.selectCodeByItemCode" parameterClass="checklistItemVO" resultClass="String">
+        SELECT incdt_actvt_type_cd
+        FROM t_security_incdt_actvt_type
+        WHERE 1=1 AND ctlg_cd = #ctlg_cd#
+    </select>
+    
+        
+    <update id="activityDAO.updateItemState" parameterClass="activityVO">
+        UPDATE t_security_incdt_actvt 
+        SET state_cd = #state_cd#,
+            guidnc_yn_1 = #guidnc_yn_1#,
+            guidnc_yn_2 = #guidnc_yn_2#,
+            guidnc_yn_3 = #guidnc_yn_3#,
+            ctlg_itm_yn_1 =  #ctlg_itm_yn_1#,
+            ctlg_itm_yn_2 =  #ctlg_itm_yn_2#,
+            ctlg_itm_yn_3 =  #ctlg_itm_yn_3#,
+            ctlg_itm_yn_4 =  #ctlg_itm_yn_4#,
+            ctlg_itm_yn_5 =  #ctlg_itm_yn_5#,
+            ctlg_itm_yn_6 =  #ctlg_itm_yn_6#,
+            ctlg_itm_yn_7 =  #ctlg_itm_yn_7#,
+            ctlg_itm_yn_8 =  #ctlg_itm_yn_8#,
+            ctlg_itm_yn_9 =  #ctlg_itm_yn_9#,
+            ctlg_itm_yn_10=  #ctlg_itm_yn_10#
+            
+        WHERE incdt_idtf_cd = #incdt_idtf_cd# AND incdt_actvt_type_cd = #incdt_actvt_type_cd# AND actvt_date=#actvt_date#
+    </update>
+    
+    <select id="activityDAO.getActivitySelect" parameterClass="membersearchVO" resultClass="activityVO">
+        SELECT
+        *,
+            (SELECT cd_nm FROM t_security_code WHERE cd = a.incdt_idtf_cd) as     incdt_idtf_cd,
+            (SELECT cd_nm FROM t_security_code WHERE cd = a.incdt_actvt_type_cd) as    incdt_actvt_type_cd,
+            (SELECT cd_nm FROM t_security_code WHERE cd = a.state_cd) AS state_cd
+        FROM
+            t_security_incdt_actvt a
+        WHERE 1=0
+            <isNotEmpty prepend ="OR"  property= "searchCondition1">
+            incdt_actvt_type_cd = (SELECT cd FROM t_security_code WHERE cd_nm = #searchCondition1# AND cd LIKE 'F%')
+            </isNotEmpty>
+            <isNotEmpty prepend ="AND"  property= "searchCondition2">
+                actvt_date = #searchCondition2#
+            </isNotEmpty>
+    </select>
+    
+    <update id="activityDAO.updateStartTime" parameterClass="activityVO">
+        UPDATE t_security_incdt_actvt 
+        SET start_date = SYSDATETIME  
+        WHERE incdt_actvt_type_cd = #incdt_actvt_type_cd#    
+    </update>
+    
+    <update id="activityDAO.updateFinishTime" parameterClass="activityVO">
+        UPDATE t_security_incdt_actvt 
+        SET fnsh_date = SYSDATETIME 
+        WHERE incdt_actvt_type_cd = #incdt_actvt_type_cd#    
+    </update>
+    
+    <select id="activityDAO.selectActivityListByLogined" parameterClass="userVO" resultClass="activityVO">
+        SELECT *
+        FROM (SELECT A.*, B.cd_nm AS incdt_actvt_type_cd_nm
+            FROM t_security_incdt_actvt A, t_security_code B
+            WHERE 1=1 AND A.incdt_actvt_type_cd = B.cd)
+        WHERE incdt_idtf_cd = #incdt_idtf_cd# 
+            AND incdt_actvt_type_cd 
+                IN (SELECT incdt_actvt_type_cd
+                    FROM t_security_task
+                    WHERE task_psnchnrg_srvno=#srvno#)
+    </select>
+ 
+    <select id = "activityDAO.selectCommandList" parameterClass="activityVO" resultClass="activityVO">
+            SELECT
+            (SELECT cd_nm FROM t_security_code WHERE cd = t_security_incdt_actvt.incdt_idtf_cd) as    incdt_idtf_cd,
+            (SELECT cd_nm FROM t_security_code WHERE cd = t_security_incdt_actvt.incdt_actvt_type_cd)as    incdt_actvt_type_cd,
+            (SELECT cd_nm FROM t_security_code WHERE cd = t_security_incdt_actvt.state_cd)as state_cd,
+            actvt_date,
+            start_date,
+            fnsh_date,
+            guidnc_1,
+            guidnc_2,
+            guidnc_3,
+            guidnc_yn_1,
+            guidnc_yn_2,
+            guidnc_yn_3
+        FROM
+            t_security_incdt_actvt;
+    </select>
+    
+    <update id="activityDAO.guidncModify1" parameterClass="activityVO">
+    update t_security_incdt_actvt
+    set guidnc_1 = #guidnc_1#
+    where  incdt_actvt_type_cd = (SELECT cd FROM t_security_code WHERE cd_nm = #incdt_actvt_type_cd# AND cd LIKE 'F%')
+      AND     actvt_date = #actvt_date#
+    </update>
+    
+    <update id="activityDAO.guidncModify2" parameterClass="activityVO">
+    update t_security_incdt_actvt
+    set guidnc_2 = #guidnc_2#
+    where  incdt_actvt_type_cd = (SELECT cd FROM t_security_code WHERE cd_nm = #incdt_actvt_type_cd# AND cd LIKE 'F%')
+     AND     actvt_date = #actvt_date#
+    </update>
+    
+    <update id="activityDAO.guidncModify3" parameterClass="activityVO">
+    update t_security_incdt_actvt
+    set guidnc_3 = #guidnc_3#
+    where  incdt_actvt_type_cd = (SELECT cd FROM t_security_code WHERE cd_nm = #incdt_actvt_type_cd# AND cd LIKE 'F%')
+      AND     actvt_date = #actvt_date#
+    </update>
+    
+    <select id="activityDAO.selectListNameInActivity" parameterClass="activityVO" resultClass="activityVO">
+    SELECT
+    incdt_idtf_cd,
+    incdt_actvt_type_cd,
+    (SELECT    cd_nm                    
+    FROM t_security_code
+    WHERE 1=1 AND cd = #incdt_actvt_type_cd#) AS incdt_actvt_type_cd_nm,
+    state_cd,
+    to_char(actvt_date, 'yyyy-mm-dd') AS actvt_date,
+    start_date,
+    fnsh_date,
+    guidnc_1,
+    guidnc_2,
+    guidnc_3,
+    guidnc_yn_1,
+    guidnc_yn_2,
+    guidnc_yn_3,
+    ctlg_itm_cd_1,
+    ctlg_itm_cd_2,
+    ctlg_itm_cd_3,
+    ctlg_itm_cd_4,
+    ctlg_itm_cd_5,
+    ctlg_itm_cd_6,
+    ctlg_itm_cd_7,
+    ctlg_itm_cd_8,
+    ctlg_itm_cd_9,
+    ctlg_itm_cd_10,
+    ctlg_itm_yn_1,
+    ctlg_itm_yn_2,
+    ctlg_itm_yn_3,
+    ctlg_itm_yn_4,
+    ctlg_itm_yn_5,
+    ctlg_itm_yn_6,
+    ctlg_itm_yn_7,
+    ctlg_itm_yn_8,
+    ctlg_itm_yn_9,
+    ctlg_itm_yn_10,
+    (SELECT
+    ctlg_itm_ctnt
+    FROM
+    t_security_ctlg B
+    WHERE B.ctlg_itm_cd = A.ctlg_itm_cd_1) AS ctlg_itm_cd_1_nm,
+    (SELECT
+    ctlg_itm_ctnt
+    FROM
+    t_security_ctlg B
+    WHERE B.ctlg_itm_cd = A.ctlg_itm_cd_2) AS ctlg_itm_cd_2_nm,
+    (SELECT
+    ctlg_itm_ctnt
+    FROM
+    t_security_ctlg B
+    WHERE B.ctlg_itm_cd = A.ctlg_itm_cd_3) AS ctlg_itm_cd_3_nm,
+    (SELECT
+    ctlg_itm_ctnt
+    FROM
+    t_security_ctlg B
+    WHERE B.ctlg_itm_cd = A.ctlg_itm_cd_4) AS ctlg_itm_cd_4_nm,
+    (SELECT
+    ctlg_itm_ctnt
+    FROM
+    t_security_ctlg B
+    WHERE B.ctlg_itm_cd = A.ctlg_itm_cd_5) AS ctlg_itm_cd_5_nm,
+    (SELECT
+    ctlg_itm_ctnt
+    FROM
+    t_security_ctlg B
+    WHERE B.ctlg_itm_cd = A.ctlg_itm_cd_6) AS ctlg_itm_cd_6_nm,
+    (SELECT
+    ctlg_itm_ctnt
+    FROM
+    t_security_ctlg B
+    WHERE B.ctlg_itm_cd = A.ctlg_itm_cd_7) AS ctlg_itm_cd_7_nm,
+    (SELECT
+    ctlg_itm_ctnt
+    FROM
+    t_security_ctlg B
+    WHERE B.ctlg_itm_cd = A.ctlg_itm_cd_8) AS ctlg_itm_cd_8_nm,
+    (SELECT
+    ctlg_itm_ctnt
+    FROM
+    t_security_ctlg B
+    WHERE B.ctlg_itm_cd = A.ctlg_itm_cd_9) AS ctlg_itm_cd_9_nm,
+    (SELECT
+    ctlg_itm_ctnt
+    FROM
+    t_security_ctlg B
+    WHERE B.ctlg_itm_cd = A.ctlg_itm_cd_10) AS ctlg_itm_cd_10_nm
+    FROM t_security_incdt_actvt A
+    WHERE
+    incdt_idtf_cd=#incdt_idtf_cd# AND incdt_actvt_type_cd=#incdt_actvt_type_cd#
+    </select>
+    
+    <update id="activityDAO.updateActivityStart" parameterClass="activityVO">
+        UPDATE t_security_incdt_actvt 
+        SET state_cd = 'E2',
+            start_date = SYSDATETIME            
+        WHERE id = #id#
+    </update>
+    
+    <update id="activityDAO.updateActivityFinish" parameterClass="activityVO">
+        UPDATE t_security_incdt_actvt 
+        SET state_cd = 'E3',
+            fnsh_date = SYSDATETIME            
+        WHERE id = #id#
+    </update>
+    
+    <update id="activityDAO.updateActivityCompleteStatus" parameterClass="activityVO">
+    UPDATE t_security_incdt_actvt
+    SET guidnc_yn_1 = #guidnc_yn_1#,
+        guidnc_yn_2 = #guidnc_yn_2#,
+        guidnc_yn_3 = #guidnc_yn_3#,
+        ctlg_itm_yn_1 = #ctlg_itm_yn_1#,
+        ctlg_itm_yn_2 = #ctlg_itm_yn_2#,
+        ctlg_itm_yn_3 = #ctlg_itm_yn_3#,
+        ctlg_itm_yn_4 = #ctlg_itm_yn_4#,
+        ctlg_itm_yn_5 = #ctlg_itm_yn_5#,
+        ctlg_itm_yn_6 = #ctlg_itm_yn_6#,
+        ctlg_itm_yn_7 = #ctlg_itm_yn_7#,
+        ctlg_itm_yn_8 = #ctlg_itm_yn_8#,
+        ctlg_itm_yn_9 = #ctlg_itm_yn_9#,
+        ctlg_itm_yn_10 = #ctlg_itm_yn_10#
+    WHERE incdt_idtf_cd = #incdt_idtf_cd# AND incdt_actvt_type_cd = #incdt_actvt_type_cd#
+    </update>
+    
+    <update id="activityDAO.updateFinishActivity" parameterClass="activityVO">
+    UPDATE t_security_incdt_actvt
+    SET state_cd = #state_cd#,
+        fnsh_date = SYSDATETIME,
+        guidnc_yn_1 = #guidnc_yn_1#,
+        guidnc_yn_2 = #guidnc_yn_2#,
+        guidnc_yn_3 = #guidnc_yn_3#,
+        ctlg_itm_yn_1 = #ctlg_itm_yn_1#,
+        ctlg_itm_yn_2 = #ctlg_itm_yn_2#,
+        ctlg_itm_yn_3 = #ctlg_itm_yn_3#,
+        ctlg_itm_yn_4 = #ctlg_itm_yn_4#,
+        ctlg_itm_yn_5 = #ctlg_itm_yn_5#,
+        ctlg_itm_yn_6 = #ctlg_itm_yn_6#,
+        ctlg_itm_yn_7 = #ctlg_itm_yn_7#,
+        ctlg_itm_yn_8 = #ctlg_itm_yn_8#,
+        ctlg_itm_yn_9 = #ctlg_itm_yn_9#,
+        ctlg_itm_yn_10 = #ctlg_itm_yn_10#
+    WHERE incdt_idtf_cd = #incdt_idtf_cd# AND incdt_actvt_type_cd = #incdt_actvt_type_cd#
+    </update>
+    
+    
+    <select id="activityDAO.selectActivityById" parameterClass="String" resultClass="activityVO">
+    SELECT *,
+    (SELECT cd_nm FROM t_security_code WHERE cd=A.incdt_actvt_type_cd) AS incdt_actvt_type_cd_nm,
+    to_char(actvt_date, 'yyyy-mm-dd') AS actvt_date    
+    FROM t_security_incdt_actvt A
+    WHERE id = #id#
+    </select>
+    
+    <update id="activityDAO.updateActStartById" parameterClass="String">
+    UPDATE t_security_incdt_actvt
+    SET start_date = SYSDATETIME,
+        state_cd = 'E2'
+    WHERE id = #id#
+    </update>
+    
+    <update id="activityDAO.updateActFinishById" parameterClass="String">
+    UPDATE t_security_incdt_actvt
+    SET fnsh_date = SYSDATETIME,
+        state_cd = 'E3'
+    WHERE id = #id#
+    </update>
+</sqlMap>

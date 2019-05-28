@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="dao_ctlgCode">
+	<typeAlias alias="ctlgcodeVO" type="egovframework.main.service.VO.CtlgCodeVO"/>
+	<typeAlias alias="listsearchVO" type="egovframework.main.service.VO.ListsearchVO"/>
+	<typeAlias alias="sptlyCodeVO" type="egovframework.main.service.VO.SptlyCodeVO"/>
+
+	<select id="sptlyCodeDAO.ctlgReset" parameterClass="sptlyCodeVO" resultClass="sptlyCodeVO">
+	select * from 
+	(
+		select ctlg_cd, rownum rnum
+		from t_security_sprtly_ctlg
+	where 1=0
+	<isNotEmpty prepend = "OR" property="ctlg_cd">
+	ctlg_cd = (select cd from t_security_code where cd_nm = #ctlg_cd# and cd like 'G%')
+	and incdt_idtf_cd = #incdt_idtf_cd#
+	</isNotEmpty>
+	)
+	where rnum = '1'
+
+	</select>
+	<select id="ctlgCodeDAO.getCtlgCodeVO"  parameterClass="ctlgcodeVO" resultClass="ctlgcodeVO" >
+	SELECT * FROM t_security_ctlg_cd
+	</select>
+	<select id="sptlyCodeDAO.getCtlgDataList" parameterClass="sptlyCodeVO" resultClass="sptlyCodeVO">
+	select * from t_security_code
+	where 1=0
+	<isNotEmpty prepend = "OR" property="ctlg_cd">
+		grp_cd = 'L13'
+	</isNotEmpty>
+	</select>
+	<select id="sptlyCodeDAO.getActivityCtlgList" parameterClass="sptlyCodeVO" resultClass="sptlyCodeVO">
+	SELECT
+		incdt_idtf_cd,
+		(select cd_nm from t_security_code where cd = ctlg_cd) as ctlg_cd,
+		selctn_date,
+		ctlg_itm_cd_1,
+		ctlg_itm_cd_2,
+		ctlg_itm_cd_3,
+		ctlg_itm_cd_4,
+		ctlg_itm_cd_5,
+		ctlg_itm_cd_6,
+		ctlg_itm_cd_7,
+		ctlg_itm_cd_8,
+		ctlg_itm_cd_9,
+		ctlg_itm_cd_10,
+		task,
+		task_cd,
+		seq
+	FROM
+		t_security_sprtly_ctlg
+	where 
+		incdt_idtf_cd = #incdt_idtf_cd#
+		and task_cd = #task_cd#
+		and ctlg_cd = (select cd from t_security_code where cd_nm = #ctlg_cd# and cd like '%G%' or cd = #ctlg_cd#)
+	</select>
+	<select id="sptlyCodeDAO.getTaskDataList" parameterClass="sptlyCodeVO" resultClass="sptlyCodeVO">
+	SELECT
+		incdt_idtf_cd,
+		(select cd_nm from t_security_code where cd = ctlg_cd) as ctlg_cd,
+		selctn_date,
+		ctlg_itm_cd_1,
+		ctlg_itm_cd_2,
+		ctlg_itm_cd_3,
+		ctlg_itm_cd_4,
+		ctlg_itm_cd_5,
+		ctlg_itm_cd_6,
+		ctlg_itm_cd_7,
+		ctlg_itm_cd_8,
+		ctlg_itm_cd_9,
+		ctlg_itm_cd_10,
+		task,
+		task_cd,
+		seq
+	FROM
+		t_security_sprtly_ctlg
+	where 
+		incdt_idtf_cd = #incdt_idtf_cd#
+		and ctlg_cd = (select cd from t_security_code where cd_nm = #ctlg_cd# and cd like '%G%' or cd = #ctlg_cd#)
+	</select>
+	<update id="sptlyCodeDAO.ChecklistReset" parameterClass="sptlyCodeVO">
+	<isNotEmpty property="seq">
+	Delete from t_security_sprtly_ctlg
+	where seq = #seq#
+	</isNotEmpty>
+	INSERT INTO
+	t_security_sprtly_ctlg (
+		incdt_idtf_cd,
+		ctlg_cd,
+		selctn_date,
+		ctlg_itm_cd_1,
+		ctlg_itm_cd_2,
+		ctlg_itm_cd_3,
+		ctlg_itm_cd_4,
+		ctlg_itm_cd_5,
+		ctlg_itm_cd_6,
+		ctlg_itm_cd_7,
+		ctlg_itm_cd_8,
+		ctlg_itm_cd_9,
+		ctlg_itm_cd_10,
+		task,
+		task_cd
+		<isNotEmpty prepend = "," property="seq">
+		seq
+		</isNotEmpty>
+	)
+	VALUES
+	(
+		#incdt_idtf_cd#,
+		(select cd from t_security_code where cd_nm = #ctlg_cd# and cd like '%G%' or cd = #ctlg_cd#),
+		sysdate,
+		'',
+		'',
+		'',
+		'',
+		'',
+		'',
+		'',
+		'',
+		'',
+		'',
+		#task#,
+		#task_cd#
+		<isNotEmpty prepend = "," property="seq">
+		#seq#
+		</isNotEmpty>
+	);
+	</update>
+	<update id="sptlyCodeDAO.ChecklistPreset_Update" parameterClass="sptlyCodeVO">
+	update t_security_sprtly_ctlg
+	set ctlg_itm_cd_1 = #ctlg_itm_cd_1#,
+	ctlg_itm_cd_2 = #ctlg_itm_cd_2#,
+	ctlg_itm_cd_3 = #ctlg_itm_cd_3#,
+	ctlg_itm_cd_4 = #ctlg_itm_cd_4#,
+	ctlg_itm_cd_5 = #ctlg_itm_cd_5#,
+	ctlg_itm_cd_6 = #ctlg_itm_cd_6#,
+	ctlg_itm_cd_7 = #ctlg_itm_cd_7#,
+	ctlg_itm_cd_8 = #ctlg_itm_cd_8#,
+	ctlg_itm_cd_9 = #ctlg_itm_cd_9#,
+	ctlg_itm_cd_10 = #ctlg_itm_cd_10#
+	WHERE seq = #seq#
+	</update>
+</sqlMap>

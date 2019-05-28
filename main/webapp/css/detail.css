@@ -1,0 +1,480 @@
+/* seungwon 19.02.17 - detail.css */
+/* new btn */
+
+/* 종료버튼 */
+.btn1 {
+	width: 65px;
+	display: inline-block;
+	font-weight: normal;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: middle;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	border: 1px solid transparent;
+	padding: 0.5rem 0.75rem;
+	font-size: 12px;
+	line-height: 1.25;
+	border-radius: 0.25rem;
+	transition: all 0.15s ease-in-out;
+	color: #fff;
+	background-color: #c0c0c0;
+	border-color: #c0c0c0;
+}
+
+/* 시작버튼 */
+.btn2 {
+	width: 65px;
+	display: inline-block;
+	font-weight: normal;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: middle;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	border: 1px solid transparent;
+	padding: 0.5rem 0.75rem;
+	font-size: 12px;
+	line-height: 1.25;
+	border-radius: 0.25rem;
+	transition: all 0.15s ease-in-out;
+	color: #fff;
+	background-color: #007bff;
+	border-color: #007bff;
+}
+
+.btn2-default {
+	color: #fff;
+	background-color: #007bff;
+	border-color: #007bff;
+}
+
+/* 진행중 버튼 */
+.btn3 {
+	width: 65px;
+	display: inline-block;
+	font-weight: normal;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: middle;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	border: 1px solid transparent;
+	padding: 0.5rem 0.75rem;
+	font-size: 12px;
+	line-height: 1.25;
+	border-radius: 0.25rem;
+	transition: all 0.15s ease-in-out;
+	color: #fff;
+	background-color: #00ff5a;
+	border-color: #00ff5a;
+}
+
+.btn3-default {
+	color: #fff;
+	background-color: #00ff5a;
+	border-color: #00ff5a;
+}
+
+/* 승인대기 버튼 */
+.btn4 {
+	width: auto;
+	display: inline-block;
+	font-weight: normal;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: middle;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	border: 1px solid transparent;
+	padding: 0.5rem 0.75rem;
+	font-size: 12px;
+	line-height: 1.25;
+	border-radius: 0.25rem;
+	transition: all 0.15s ease-in-out;
+	color: #fff;
+	background-color: #ff0000;
+	border-color: #ff0000;
+}
+
+.btn4-default {
+	color: #fff;
+	background-color: #ff0000;
+	border-color: #ff0000;
+}
+
+#visible {
+	overflow: visible;
+	height: auto;
+}
+
+#hidden {
+	overflow: hidden;
+}
+
+#scroll {
+	overflow: scroll;
+}
+
+#auto {
+	overflow: auto;
+}
+/* 로그인 버튼 모바일용 css */
+.login {
+	position: absolute;
+	right: 12%;
+	top: 20px;
+}
+.login img {
+	width: 60px;
+}
+.login .userInfo {
+		line-height: 38px;
+		margin-right: 5px;
+}
+
+@media all and (max-width:375px) {
+	.table_margin {
+		margin-top: 1%;
+		margin-bottom: 1%;
+		margin-left: 1%;
+		margin-right: 1%;
+	}
+}
+
+@media all and (min-width:375px) {
+	.login {
+		position: absolute;
+		right: 12%;
+		top: 20px;
+	}
+	.login img {
+		width: 60px;
+	}
+	.login .userInfo {
+		font-size: 11px;
+		line-height: 24px;
+		margin-right: 4px;
+	}
+}
+
+@media all and (max-width:520px) {
+	.idtf_in_header {
+		display: none;
+	}
+	.login .userInfo {
+    	display: none;
+	}
+}
+
+@media all and (min-width:510px) {
+	.login {
+		position: absolute;
+		right: 12%;
+		top: 16px;
+	}
+	.login img {
+		width: 78px;
+	}
+	.login .userInfo {
+    	font-size: 13px;
+    	line-height: 32px;
+    	margin-right: 5px;
+	}
+}
+
+@media all and (min-width:768px) {
+	/* seungwon .19.02.12 */
+	.login {
+		position: absolute;
+		right: 12%;
+		top: 24px;
+	}
+	.login img {
+		width: 96px;
+	}
+	/* seungwon .19.02.12 */
+	.login .userInfo {
+		font-size: 18px;
+    	line-height: 38px;
+    	margin-right: 5px;
+	}
+}
+
+@media all and (min-width:1024px) {
+	/* seungwon .19.02.12 */
+	.login {
+		position: absolute;
+		right: 12%;
+		top: 24px;
+	}
+	.login img {
+		width: 96px;
+	}
+	/* seungwon .19.02.12 */
+	.login .userInfo {
+		font-size: 18px;
+    	line-height: 38px;
+    	margin-right: 5px;
+	}
+}
+
+@media all and (min-width:1100px) {
+	/* seungwon .19.02.12 */
+	.login {
+ 		position: absolute;
+		right: 4%;
+		top: 24px; 
+	}
+	.login img {
+		width: 96px;
+		margin-right: 10px;
+	}
+	/* seungwon .19.02.12 */
+	.login .userInfo {
+		font-size: 18px;
+    	line-height: 38px;
+    	margin-right: 5px;
+	}
+	.table_margin {
+		margin-top: 1%;
+		margin-bottom: 1%;
+		margin-left: 10%;
+		margin-right: 10%;
+	}
+}
+
+/* 체크박스 */
+.checkbox_fixed {
+	vertical-align: text-top;
+	width: auto;
+}
+
+.forChecklist {
+	margin-top: 7px !important;
+	text-align: center;
+	/* Double-sized Checkboxes */
+	-ms-transform: scale(2.2); /* IE */
+	-moz-transform: scale(2.2); /* FF */
+	-webkit-transform: scale(2.2); /* Safari and Chrome */
+	-o-transform: scale(2.2); /* Opera */
+}
+
+/* textarea */
+.custom_textarea {
+	font-size: 16px;
+}
+
+.pagination_fixed {
+	text-align: center;
+}
+
+#bottom_btn {
+	text-align: right;
+	margin-right: 10px;
+}
+
+#sub_text {
+	margin-left: 10px;
+}
+
+#sub_text .left-line {
+	padding: 2px;
+}
+
+#img_in_div {
+	width: inherit;
+}
+
+#img_list_icon {
+	vertical-align: middle;
+	width: 14px;
+	margin-right: 4px;
+}
+
+.table_text_center {
+	text-align: center;
+}
+
+.div_icon {
+	display: inline-block !important;
+	width: 4%;
+	vertical-align: top;
+	margin-top: 4px;
+}
+
+.div_text {
+	display: inline-block !important;
+	width: 100%;
+}
+
+.indexboard {
+	margin-bottom: 0px;
+	text-align: center;
+}
+
+.thead_text {
+	color: black;
+}
+
+.thead_title {
+	color: black;
+	padding: 15px;
+	font-size: 21px;
+	text-align: center;
+}
+
+.div_title {
+	text-align: center;
+	padding: 15px;
+	font-size: 17px;
+	color: black;
+}
+
+.input-text-disabled {
+	text-align: center;
+	/*background-color: #8e8e8e;*/
+	box-shadow : 0px 0px 1px #757575;
+	color: black;
+	font-size: 15pt;
+	margin-right:10px;
+	border:none;
+}
+
+.div_bottom_btn {
+	text-align: center;
+}
+
+.page_table {
+	text-align: center;
+}
+
+.input_search {
+	font-size: 18px;
+	width: inherit;
+	border: inset;
+}
+
+.font_black {
+	font-size: 18px;
+	font-weight: 600;
+	color: black;
+	
+	margin-left: 10px;
+	margin-right: 5px;
+}
+
+.div_top_line {
+	width: auto;
+	margin-bottom: 5px;
+}
+
+.disabled {
+	background-color: #8e8e8e;
+	box-shadow : 0px 0px 1px #757575;
+}
+
+.btn-width {
+	width: 60px;
+}
+
+.login_table_div {
+	float: left;
+	width: 70%;
+	margin-left: 20px;
+}
+
+.login_button_div {
+	float: left;
+	height: 78px;
+	vertical-align: top;
+	margin-top: 5px;
+	width: 15%;
+	margin-left: 10px;
+}
+
+.chkbox_none {
+	display: none;
+}
+
+.btn_password_change {
+	width: 65px;
+	display: inline-block;
+	font-weight: normal;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: middle;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	border: 1px solid transparent;
+	padding: 0.5rem 0.75rem;
+	font-size: 12px;
+	line-height: 1.25;
+	border-radius: 0.25rem;
+	transition: all 0.15s ease-in-out;
+}
+
+.grp_table_margin {
+	margin-top: 1%;
+	margin-bottom: 1%;
+	margin-left: 1%;
+	margin-right: 1%;
+}
+
+@media all and (min-width:500px) {
+	.grp_table_margin {
+		margin-top: 1%;
+		margin-bottom: 1%;
+		margin-left: 20%;
+		margin-right: 20%;
+	}
+}
+
+@media all and (min-width:768px) {
+	.grp_table_margin {
+		margin-top: 1%;
+		margin-bottom: 1%;
+		margin-left: 25%;
+		margin-right: 25%;
+	}
+}
+
+@media all and (min-width:1024px) {
+	.grp_table_margin {
+		margin-top: 1%;
+		margin-bottom: 1%;
+		margin-left: 30%;
+		margin-right: 30%;
+	}
+}
+
+@media all and (min-width:1380px) {
+	.grp_table_margin {
+	margin-top: 1%;
+	margin-bottom: 1%;
+	margin-left: 35%;
+	margin-right: 35%;
+	}
+}
+
+.grp_input_width {
+	width: 70%;
+}
+
+/* 줄바꿈 속성 지정 */
+.word_break {
+	word-break:keep-all;
+	word-wrap:break-word;
+}
+
+

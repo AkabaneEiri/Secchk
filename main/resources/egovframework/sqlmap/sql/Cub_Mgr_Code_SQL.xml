@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="MgrCode">
+	<typeAlias alias="codeVO" type="egovframework.main.service.VO.CodeVO"/>
+	<typeAlias alias="codeSearchVO" type="egovframework.main.service.VO.CodeSearchVO"/>
+	<typeAlias alias="groupCodeVO" type="egovframework.main.service.VO.GroupCodeVO"/>
+	
+	<insert id="codeDAO.insertCodeVO" parameterClass="codeVO">
+	INSERT INTO t_security_code
+	( cd, cd_nm, rmrk, grp_cd )
+	VALUES
+	( #cd#, #cd_nm#, #rmrk#, #grp_cd# )
+	ON DUPLICATE KEY UPDATE cd=cd
+	</insert>
+	
+	<select id="codeDAO.selectAllCodeList" resultClass="codeVO">
+	SELECT *
+	FROM t_security_code
+	ORDER BY cd ASC
+	</select>
+	
+	<select id="codeDAO.selectCodeList" parameterClass="codeSearchVO" resultClass="codeVO">
+	SELECT *
+	FROM t_security_code
+	<dynamic prepend="WHERE"> 
+		<isNotEmpty property="search_dvs" prepend="AND">
+			grp_cd = #search_dvs#
+		</isNotEmpty>
+		<isNotEmpty property="search_nm" prepend="AND">
+			cd_nm like '%' || #search_nm# || '%'
+		</isNotEmpty>
+	</dynamic>
+	ORDER BY cd ASC
+	</select>
+	
+	<select id="codeDAO.countSelectedCodeList" parameterClass="codeSearchVO" resultClass="integer">
+	SELECT COUNT(cd)
+	FROM t_security_code
+	WHERE grp_cd = #search_dvs#	
+	</select>
+	
+	<select id="codeDAO.getCodeVO" parameterClass="String" resultClass="codeVO">
+	SELECT *
+	FROM t_security_code
+	WHERE cd = #cd#
+	</select>
+	
+	<update id="codeDAO.updateCodeVO" parameterClass="codeVO">
+	UPDATE t_security_code
+	SET cd_nm = #chng_cd_nm#, rmrk = #chng_rmrk#
+	WHERE cd = #cd#
+	</update>
+	
+	<select id="codeDAO.countAllCodeList" resultClass="integer">
+	SELECT COUNT(cd)
+	FROM t_security_code
+	</select>
+	
+	<select id="pageDAO.setPaging">
+	SELECT
+		AAA.*
+	FROM(
+		SELECT
+			COUNT(*) OVER() AS TOTAL_COUNT,
+			AA.*
+		FROM(
+			SELECT
+				ROW_NUMBER() OVER (ORDER BY cd DESC) RNUM,
+				cd,
+				cd_nm,
+				rmrk,
+				grp_cd
+			FROM
+				t_security_code
+
+			) AA
+		) AAA
+	WHERE
+		AAA.RNUM BETWEEN 0 AND 20
+	</select>
+	
+	<delete id="codeDAO.deleteCodeVO" parameterClass="codeVO">
+	DELETE FROM t_security_code
+	WHERE cd = #cd#
+	</delete>
+	
+	<select id="codeDAO.selectCodeListByDvs" resultClass="codeVO">
+	SELECT *
+	FROM t_security_code
+	WHERE grp_cd = #grp_cd#
+	</select>
+	
+	<!-- Manage Group Code SQL -->
+	<select id="groupCodeDAO.getAllGroupCodeList" resultClass="groupCodeVO">
+	SELECT *
+	FROM t_security_grp_cd
+	</select>
+	
+	<select id="groupCodeDAO.getTotalCount" resultClass="integer">
+	SELECT COUNT(*)
+	FROM t_security_grp_cd
+	</select>
+	
+	<select id="groupCodeDAO.selectGroupCodeListByName" parameterClass="codeSearchVO" resultClass="groupCodeVO">
+	SELECT *
+	FROM t_security_grp_cd
+	<dynamic prepend="WHERE"> 
+		<isNotEmpty property="search_nm" prepend="AND">
+			cd_nm like '%' || #search_nm# || '%'
+		</isNotEmpty>
+	</dynamic>
+	ORDER BY cd ASC
+	</select>
+	
+	<select id="groupCodeDAO.selectGroupCodeVO" parameterClass="String" resultClass="groupCodeVO">
+	SELECT *
+	FROM t_security_grp_cd
+	WHERE cd = #cd#
+	</select>
+	
+	<insert id="groupCodeDAO.insertGroupCode" parameterClass="groupCodeVO">
+	INSERT INTO t_security_grp_cd
+	( cd, cd_nm, rmrk )
+	VALUES
+	( #cd#, #cd_nm#, #rmrk# )
+	ON DUPLICATE KEY UPDATE cd=cd
+	</insert>
+	
+	<update id="groupCodeDAO.updateGroupCode" parameterClass="groupCodeVO">
+	UPDATE t_security_grp_cd
+	SET cd_nm = #chng_cd_nm#, rmrk = #chng_rmrk#
+	WHERE cd = #cd#
+	</update>
+	
+	<delete id="groupCodeDAO.deleteGroupCode" parameterClass="groupCodeVO">
+	DELETE FROM t_security_grp_cd
+	WHERE cd = #cd#
+	</delete>
+</sqlMap>

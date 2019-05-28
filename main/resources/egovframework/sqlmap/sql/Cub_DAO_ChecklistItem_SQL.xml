@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="dao_checklistItem">
+	<typeAlias alias="checklistItemVO" type="egovframework.main.service.VO.ChecklistItemVO"/>
+	<typeAlias alias="listsearchVO" type="egovframework.main.service.VO.ListsearchVO"/>
+
+	<select id="checklistItemDAO.ChecklistSelect" parameterClass="checklistItemVO" resultClass="checklistItemVO">
+	SELECT *
+	FROM T_SECURITY_CTLG
+	WHERE 1=0
+	<isNotEmpty prepend ="OR"  property= "ctlg_cd">
+		ctlg_cd = (select cd from t_security_code where cd_nm = #ctlg_cd# and cd like '%G%' or cd = #ctlg_cd#)
+	</isNotEmpty>
+	order by prtcuse_frqc desc;
+	</select>
+	<select id="checklistItemDAO.ChecklistPreSelect" parameterClass="checklistItemVO" resultClass="checklistItemVO">
+	SELECT *
+	FROM t_security_ctlg
+	where ctlg_itm_cd = #ctlg_itm_cd#
+	</select>
+	
+	<update id="checklistItemDAO.ChecklistUpdate" parameterClass="checklistItemVO">
+		 update t_security_ctlg
+		 SET prtcuse_frqc =
+		 (SELECT prtcuse_frqc FROM t_security_ctlg WHERE ctlg_itm_cd = #ctlg_itm_cd#)+1
+		WHERE ctlg_itm_cd = #ctlg_itm_cd#
+	</update>
+	
+	<update id="checklistItemDAO.ChecklistReset" parameterClass="checklistItemVO">
+		update t_security_ctlg
+		set stdd_yn = 'N'
+		where ctlg_cd = (select ctlg_cd from t_security_ctlg_cd where ctlg_nm = #ctlg_cd#);
+	</update>
+	
+	<insert id="checklistItemDAO.ChecklistInsert" parameterClass="checklistItemVO">
+	INSERT INTO t_security_ctlg
+	(ctlg_cd, ctlg_itm_cd, ctlg_itm_ctnt, stdd_yn, prtcuse_frqc)
+	VALUES(
+	(select cd from t_security_code where cd_nm = #ctlg_cd# and cd like '%G%' or
+	cd = #ctlg_cd#),
+	#ctlg_itm_cd#,
+	#ctlg_itm_ctnt#,
+	'N',
+	'0'
+	)
+	</insert>
+	
+	<insert id="checklistItemDAO.ChecklistInsert_Excel" parameterClass="checklistItemVO">
+	INSERT INTO t_security_ctlg
+	(ctlg_cd, ctlg_itm_cd, ctlg_itm_ctnt, stdd_yn, prtcuse_frqc)
+	VALUES(
+	#ctlg_cd#,
+	#ctlg_itm_cd#,
+	#ctlg_itm_ctnt#,
+	'N',
+	'0'
+	)
+	ON DUPLICATE KEY UPDATE ctlg_cd=ctlg_cd
+	</insert>
+	
+	<select id="checklistItemDAO.selectChecklistItem" parameterClass="listsearchVO" resultClass="checklistItemVO">
+		SELECT *
+		FROM t_security_ctlg
+		WHERE 1=1
+			AND ctlg_itm_cd=#findCode#
+	</select>
+	
+	<select id="checklistItemDAO.getChecklistCode" parameterClass="ChecklistItemVO" resultClass="ChecklistItemVO">
+    SELECT *
+    FROM T_SECURITY_CTLG
+    where ctlg_cd = (select cd from t_security_code where cd_nm = #ctlg_cd# and cd like '%G%' or cd = #ctlg_cd#)
+    and rownum = 1
+    </select>
+    
+</sqlMap>

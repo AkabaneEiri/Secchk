@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="User">
+	<typeAlias alias="MemberVO" type="egovframework.main.service.VO.MemberVO"/>
+	<typeAlias alias="userVO" type="egovframework.main.service.VO.UserVO"/>
+	<typeAlias alias="MemberSearchVO" type="egovframework.main.service.VO.MemberSearchVO"/>
+	<typeAlias alias="TroopsVO" type="egovframework.main.service.VO.TroopsVO"/>
+	
+	 
+	<select id="memberDAO.selectMemberList" parameterClass="membersearchVO" resultClass="memberVO">
+		SELECT * FROM 
+			(SELECT
+			ROWNUM rnum,
+			srvno,
+			pw,
+			rnkcd,
+			(
+				SELECT cd_nm FROM 
+				t_security_code 
+				WHERE cd = t_security_user.rnkcd
+				) AS cd_nm,
+			stmt,
+			rspofc_nm,
+			athrt,
+			fnl_login_date,
+			prtbl_telno,
+			login_err_rtrv,
+			chng_date,
+			incdt_idtf_cd,
+			montr,
+			acc_state_info
+		FROM
+			t_security_user
+		where
+		incdt_idtf_cd = #searchCode#
+			)
+		WHERE 1=1 
+		<isNotEmpty prepend ="AND" property="searchKeyword2">
+			athrt='B1'
+		</isNotEmpty>
+		
+		<isNotEmpty property="searchKeyword">
+			<isEqual prepend = "AND" property="searchCondition" compareValue="01">
+				srvno = #searchKeyword#
+			</isEqual>
+			<isEqual prepend ="AND" property="searchCondition" compareValue="00">
+			stmt = #searchKeyword#
+			</isEqual>
+			<isEqual prepend = "AND" property="searchCondition" compareValue="02">
+			rspofc_nm like '%' || #searchKeyword# || '%'
+			</isEqual>
+		</isNotEmpty>
+		<isNotEmpty prepend = "AND" property="end">
+			<![CDATA[	
+				 rnum >= #end#
+			 ]]> 
+		 </isNotEmpty>
+		 <isNotEmpty prepend = "AND" property="start">
+			 <![CDATA[
+				 rnum <= #start#
+			]]> 
+		</isNotEmpty>
+		order by srvno asc
+ 
+	</select>
+	
+	<select id="memberDAO.selectMemberListTotCnt" parameterClass="membersearchVO" resultClass="int">
+		select count(srvno) from t_security_user where 1=1
+		<isEqual prepend = "AND" property="searchCondition" compareValue="00">
+			srvno = #searchKeyword#
+		</isEqual>
+		<isEqual prepend ="AND" property="searchCondition" compareValue="01">
+		stmt = #searchKeyword#
+		</isEqual>
+		<isEqual prepend = "AND" property="searchCondition" compareValue="02">
+		rspofc_nm like '%' || #searchKeyword# || '%'
+		</isEqual>
+		<isNotEmpty prepend = "AND" property="searchCode">
+		incdt_idtf_cd = #searchCode#
+		</isNotEmpty>
+	</select>
+	
+	<select id="memberDAO.selectMemberModify" parameterClass="membersearchVO" resultClass="memberVO">
+		select * from t_security_user where 1=1
+		<isEqual prepend = "AND" property="searchCondition" compareValue="00">
+			srvno = #searchKeyword#
+		</isEqual>
+	</select>
+	
+	<!-- 
+	<select id="memberDAO.selectMemberList" parameterClass="membersearchVO" resultClass="memberVO">
+		SELECT 
+			rno, srvno,pw, rnkcd, cd_nm,stmt, rspofc_nm, athrt, fnl_login_date, prtbl_telno, login_err_rtrv, chng_date, incdt_idtf_cd, montr, acc_state_info
+		FROM ( 
+			SELECT rownum rno, srvno,pw, rnkcd, cd_nm,stmt, rspofc_nm, athrt, fnl_login_date, prtbl_telno, login_err_rtrv, chng_date, incdt_idtf_cd, montr, acc_state_info
+			FROM 
+					(
+						SELECT srvno,pw, rnkcd, cd_nm,stmt, rspofc_nm, athrt, fnl_login_date, prtbl_telno, login_err_rtrv, chng_date, incdt_idtf_cd, montr, acc_state_info
+						FROM t_security_user A, t_security_code B
+						WHERE A.rnkcd = B.cd
+						<isEqual prepend="AND" property="searchCondition" compareValue="01">
+							title like '%' || #searchKeyword# || '%'
+						</isEqual>
+						<isEqual prepend="AND" property="searchCondition" compareValue="02">
+							fulnm like '%' || #searchKeyword# || '%'
+						</isEqual>
+					)
+					<![CDATA[
+						WHERE ROWNUM > #start# 
+						)
+					WHERE RNO < #end#
+					]]>
+					order by rno DESC
+				
+		
+	</select>
+	-->
+	<!-- select id="memberDAO.selectMemberModify" parameterClass="membersearchVO" resultClass="memberVO">
+	select * 
+	from t_security_user
+	where srvno = #srvno#
+	</select-->
+	
+	<insert id="memberDAO.insertMember" parameterClass="memberVO">
+		INSERT INTO	t_security_user 
+			(
+				srvno,		pw,		rnkcd,		stmt,		rspofc_nm,		athrt,		fnl_login_date,		prtbl_telno,		login_err_rtrv,		chng_date,		incdt_idtf_cd,		montr,		acc_state_info
+					)
+		VALUES
+			(
+				#srvno#,	#pw#,	#rnkcd#,	#stmt#,	#rspofc_nm#	,#athrt#,	sysdate,	#prtbl_telno#,	'0',	sysdate,	(SELECT incdt_idtf_cd FROM t_security_incdt  where incdt_nm = #incdt_idtf_cd#),	#montr#,	'K1'
+					);
+
+	</insert>
+	
+	<delete id="memberDAO.DeleteMember" parameterClass="memberVO">
+	delete t_security_user
+	where srvno = #srvno#
+	</delete>
+	
+	<select id="userDAO.selectUserBySrvno" parameterClass="String" resultClass="userVO">
+		SELECT *,
+		(SELECT cd_nm
+		FROM t_security_code
+		WHERE cd = rnkcd) AS rnkcd_nm,
+		(SELECT cd_nm
+		FROM t_security_code
+		WHERE cd = incdt_idtf_cd) AS incdt_idtf_cd_nm
+		FROM t_security_user WHERE SRVNO=#srvno#
+	</select>
+	
+	<select id="memberDAO.getUserselect" parameterClass="memberVO" resultClass="memberVO">
+		SELECT
+	srvno,
+	pw,
+	rnkcd,
+	stmt,
+	rspofc_nm,
+	athrt,
+	fnl_login_date,
+	prtbl_telno,
+	login_err_rtrv,
+	chng_date,
+	(SELECT incdt_nm FROM t_security_incdt b WHERE a.incdt_idtf_cd = b.incdt_idtf_cd) AS incdt_idtf_cd,
+	montr,
+	acc_state_info
+FROM
+	t_security_user a
+WHERE SRVNO=#srvno#
+	</select>
+	
+	<update id="memberDAO.Modifymember" parameterClass="memberVO" >
+UPDATE
+	t_security_user
+SET
+	srvno 						= #srvno#,
+	pw 							= #pw#,
+	rnkcd			 			= #rnkcd#,
+	stmt 						= #stmt#,
+	rspofc_nm 			= #rspofc_nm#,
+	athrt 						= #athrt#,
+	fnl_login_date 		= sysdate,
+	prtbl_telno 			= #prtbl_telno#,
+	login_err_rtrv 		= '0',
+	chng_date 			= sysdate,
+	incdt_idtf_cd 			= (SELECT incdt_idtf_cd FROM t_security_incdt  where incdt_nm = #incdt_idtf_cd#),
+	montr 					= #montr#,
+	acc_state_info 		= 'K1' 
+WHERE
+	srvno = #srvno#
+	</update>
+	<update id="userDAO.updateUserErrCnt" parameterClass="userVO">
+	UPDATE t_security_user
+	SET login_err_rtrv = #login_err_rtrv#
+	WHERE srvno = #srvno#
+	</update>
+	
+	<select id="userDAO.selectUserErrCnt" parameterClass="String" resultClass="integer">
+	SELECT login_err_rtrv
+	FROM t_security_user
+	WHERE srvno = #srvno#
+	</select>
+	
+	<update id="userDAO.updateUserStatus" parameterClass="userVO">
+	UPDATE t_security_user
+	SET acc_state_info = #acc_state_info#
+	WHERE srvno = #srvno#
+	</update>
+	
+	<select id="userDAO.selectUserChangePwDate" parameterClass="String" resultClass="integer">
+	SELECT SYSDATE - chng_date
+	FROM t_security_user
+	WHERE srvno = #srvno#
+	</select>
+	
+	<update id="userDAO.updatePassword" parameterClass="userVO">
+	UPDATE t_security_user
+	SET pw = #pw#, chng_date = SYSDATE
+	WHERE srvno = #srvno#
+	</update>
+	
+	<update id="userDAO.updateInitErrCount" parameterClass="userVO">
+	UPDATE t_security_user
+	SET login_err_rtrv = '0'
+	WHERE srvno = #srvno#
+	</update>
+	
+	<select id="troopsDAO.getTroopsList" parameterClass="TroopsVO" resultClass="TroopsVO">
+	SELECT *
+	FROM t_security_incdt
+	WHERE 1=1
+	</select>
+
+	<update id="userDAO.updateLoginDate" parameterClass="userVO">
+	UPDATE t_security_user
+	SET fnl_login_date = SYSDATE
+	WHERE srvno = #srvno#
+	</update>
+</sqlMap>

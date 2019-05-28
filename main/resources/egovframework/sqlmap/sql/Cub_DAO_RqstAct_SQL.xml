@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="dao_rqstAct">
+	<typeAlias alias="requestActivityVO" type="egovframework.main.service.VO.RequestActivityVO"/>
+	<typeAlias alias="listsearchVO" type="egovframework.main.service.VO.ListsearchVO"/>
+
+	<insert id="requestActivityDAO.insertRequestVO" parameterClass="requestActivityVO">
+		INSERT INTO t_security_rqst_incdt_actvt
+			( incdt_idtf_cd, rqst_date, rqstr_srvno, actvt_date, rsn, state_cd, incdt_actvt_type_cd, seq )
+		VALUES
+			( #incdt_idtf_cd#, SYSDATE, #rqstr_srvno#, #actvt_date#, #rsn#, #state_cd#, 
+			(SELECT incdt_actvt_type_cd
+			FROM t_security_incdt_actvt_type
+			WHERE 1=1 AND ctlg_cd=#ctlg_cd#), (SELECT NVL(MAX(seq), 0) FROM t_security_rqst_incdt_actvt)+1 )
+	</insert>
+	
+	<select id="requestActivityDAO.getRequestListBySrvno" parameterClass="String" resultClass="requestActivityVO">
+		SELECT *, to_char(actvt_date, 'yyyy-mm-dd') AS actvt_date,
+			(SELECT cd_nm FROM t_security_code WHERE cd=A.incdt_actvt_type_cd) AS incdt_actvt_type_cd_nm
+					
+		FROM t_security_rqst_incdt_actvt A
+		WHERE rqstr_srvno=#srvno#
+	</select>
+	
+	<select id="requestActivityDAO.getLimitReqActList" parameterClass="String" resultClass="requestActivityVO">
+	SELECT *, (SELECT cd_nm FROM t_security_code WHERE cd=incdt_actvt_type_cd) AS incdt_actvt_type_cd_nm,
+			(SELECT stmt FROM t_security_user WHERE srvno=rqstr_srvno) AS rqstr_nm,
+			(SELECT cd_nm FROM t_security_code A, t_security_user B WHERE B.srvno=rqstr_srvno AND A.cd=B.rnkcd) AS rqstr_rnk
+	FROM t_security_rqst_incdt_actvt
+	WHERE incdt_idtf_cd = #incdt_idtf_cd#
+	ORDER BY rqst_date DESC
+	LIMIT 4
+	</select>
+	
+	<select id="requestActivityDAO.getRqstActBySeq" parameterClass="String" resultClass="requestActivityVO">
+		SELECT *, 
+			(SELECT cd_nm
+			FROM t_security_code
+			WHERE cd = A.incdt_actvt_type_cd) AS incdt_actvt_type_cd_nm
+		FROM t_security_rqst_incdt_actvt A
+		WHERE seq = #seq#
+	</select>
+</sqlMap>

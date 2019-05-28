@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="dao_task">
+	<typeAlias alias="taskVO" type="egovframework.main.service.VO.TaskVO"/>
+	<typeAlias alias="listsearchVO" type="egovframework.main.service.VO.ListsearchVO"/>
+	<typeAlias alias="userVO" type="egovframework.main.service.VO.UserVO"/>
+	<typeAlias alias="taskDataVO" type="egovframework.main.service.VO.TaskDataVO"/>
+
+	<select id="taskDAO.selectTask" parameterClass="listsearchVO" resultClass="taskVO">
+		SELECT *
+		FROM t_security_task
+		WHERE incdt_actvt_type_cd = #findCode#
+			AND task_psnchnrg_srvno = #srvno#
+	</select>
+	
+	<select id="taskDAO.selectTaskListBySrvno" parameterClass="String" resultClass="taskVO">
+		SELECT *, 
+			(SELECT cd_nm FROM t_security_code WHERE cd=A.incdt_actvt_type_cd) AS incdt_actvt_type_cd_nm
+		FROM t_security_task A
+		WHERE task_psnchnrg_srvno = #srvno#
+	</select>	
+	
+	<select id="taskDAO.selectTaskListByAct" parameterClass="listsearchVO" resultClass="taskVO">
+		SELECT *
+		FROM 
+			(SELECT 
+				C.incdt_idtf_cd,  incdt_actvt_type_cd, actvt_date, task, task_psnchnrg_srvno, state_cd, start_date, fnsh_date, stmt AS task_psnchnrg_nm, incdt_actvt_type_cd_nm, C.seq
+			FROM 
+				(SELECT incdt_idtf_cd, incdt_actvt_type_cd, actvt_date, task, task_psnchnrg_srvno, state_cd, start_date, fnsh_date, A.seq,
+					cd_nm AS incdt_actvt_type_cd_nm
+				FROM t_security_task A, t_security_code B
+				WHERE 1=1 AND A.incdt_actvt_type_cd = B.cd) C, t_security_user D
+		
+			WHERE 1=1 AND C.task_psnchnrg_srvno = D.srvno)
+		
+		WHERE incdt_idtf_cd = #incdt_idtf_cd# AND incdt_actvt_type_cd = #findCode#
+	</select>
+	
+	<update id="taskDAO.updateTaskStart" parameterClass="taskVO">
+		UPDATE t_security_task 
+		SET start_date = SYSDATETIME, state_cd = 'E2'
+		WHERE incdt_actvt_type_cd = #incdt_actvt_type_cd# 
+			AND task_psnchnrg_srvno = #task_psnchnrg_srvno#
+			AND task = #task#
+	</update>
+	
+	<update id="taskDAO.updateTaskFinish" parameterClass="taskVO">
+		UPDATE t_security_task 
+		SET fnsh_date = SYSDATETIME, state_cd = 'E3'
+		WHERE seq = #seq#
+	</update>
+	
+	<update id="taskDAO.updateTaskStartBySeq" parameterClass="String">
+	UPDATE t_security_task
+	SET start_date = SYSDATETIME, state_cd = 'E2'
+	WHERE seq = #seq#
+	</update>
+	
+	<update id="taskDAO.updateTaskFinishBySeq" parameterClass="String">
+	UPDATE t_security_task
+	SET fnsh_date = SYSDATETIME, state_cd = 'E3'
+	WHERE seq = #seq#
+	</update>
+	
+	<select id="taskDAO.selectTaskByTaskData" parameterClass="taskDataVO" resultClass="taskVO">
+	SELECT *
+	FROM t_security_task
+	WHERE id = #id# 
+		AND task_psnchnrg_srvno = #task_psnchnrg_srvno#
+	</select>
+	
+	<update id="taskDAO.updateTaskFinishByData" parameterClass="taskDataVO">
+	UPDATE t_security_task
+	SET fnsh_date = SYSDATETIME, state_cd = 'E3'
+	WHERE id = #id#
+		AND task_psnchnrg_srvno = #task_psnchnrg_srvno#
+	</update>
+	
+	<select id="taskDAO.selectTaskListById" parameterClass="String" resultClass="taskVO">
+	SELECT *,
+	(SELECT stmt FROM t_security_user WHERE srvno = A.task_psnchnrg_srvno) AS task_psnchnrg_nm
+	FROM t_security_task A
+	WHERE id = #id#
+	</select>
+	
+	<select id="taskDAO.selectTaskListForMain" parameterClass="String" resultClass="taskVO">
+	SELECT *, 
+		(SELECT cd_nm FROM t_security_code WHERE cd=A.incdt_actvt_type_cd) AS incdt_actvt_type_cd_nm
+	FROM t_security_task A
+	WHERE task_psnchnrg_srvno = #srvno# AND state_cd = 'E2'
+	ORDER BY actvt_date DESC
+	LIMIT 4
+	</select>
+</sqlMap>
