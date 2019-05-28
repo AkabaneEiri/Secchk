@@ -27,7 +27,12 @@
 			grp_cd = #search_dvs#
 		</isNotEmpty>
 		<isNotEmpty property="search_nm" prepend="AND">
-			cd_nm like '%' || #search_nm# || '%'
+			<isEqual property="search_condition" compareValue="cd">
+				cd like '%' || #search_nm# || '%'
+			</isEqual>
+			<isEqual property="search_condition" compareValue="cd_nm">
+				cd_nm like '%' || #search_nm# || '%'
+			</isEqual>			
 		</isNotEmpty>
 	</dynamic>
 	ORDER BY cd ASC
@@ -84,16 +89,18 @@
 	WHERE cd = #cd#
 	</delete>
 	
-	<select id="codeDAO.selectCodeListByDvs" resultClass="codeVO">
+	<select id="codeDAO.selectCodeListByDvs" parameterClass="String" resultClass="codeVO">
 	SELECT *
 	FROM t_security_code
 	WHERE grp_cd = #grp_cd#
+	ORDER BY cd ASC
 	</select>
 	
 	<!-- Manage Group Code SQL -->
 	<select id="groupCodeDAO.getAllGroupCodeList" resultClass="groupCodeVO">
 	SELECT *
 	FROM t_security_grp_cd
+	ORDER BY cd_nm ASC
 	</select>
 	
 	<select id="groupCodeDAO.getTotalCount" resultClass="integer">
@@ -136,4 +143,16 @@
 	DELETE FROM t_security_grp_cd
 	WHERE cd = #cd#
 	</delete>
+	
+	<select id="groupCodeDAO.getAllGroupCodeListBySort" resultClass="groupCodeVO">
+	SELECT *
+	FROM t_security_grp_cd
+	ORDER BY LENGTH(TRIM(cd)) ASC, TRIM(cd) ASC;
+	</select>
+	
+	<select id="codeDAO.searchDuplicateCode" parameterClass="codeVO" resultClass="codeVO">
+	SELECT *
+	FROM t_security_code
+	WHERE cd = #cd#
+	</select>
 </sqlMap>

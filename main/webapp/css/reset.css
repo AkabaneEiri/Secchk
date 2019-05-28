@@ -61,7 +61,7 @@ padding:0;
 border:0;
 border-bottom:1px solid #757575;
 /*color:#3f51b5;*/
-font-size:13px;
+font-size: 1rem;/*13px;*/  /*by mina 상대폰트크기로 변경*/ 
 vertical-align:top;
 border-radius:0;
 box-sizing:content-box;

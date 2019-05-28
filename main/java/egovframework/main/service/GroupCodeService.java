@@ -26,4 +26,7 @@ public interface GroupCodeService {
 
 	// delete group code
 	void deleteGroupCode(GroupCodeVO groupCodeVO) throws Exception;
+	
+	// get list by sort
+	List<GroupCodeVO> getAllGroupCodeListBySort() throws Exception;
 }

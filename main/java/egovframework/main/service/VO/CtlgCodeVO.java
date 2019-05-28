@@ -31,4 +31,21 @@ public class CtlgCodeVO {
 		this.mdcls = mdcls;
 	}
 	private String mdcls;
+	
+	
+	private String lrgcls_nm = "";
+	private String mdcls_nm = "";
+
+	public String getLrgcls_nm() {
+		return lrgcls_nm;
+	}
+	public String getMdcls_nm() {
+		return mdcls_nm;
+	}
+	public void setLrgcls_nm(String lrgcls_nm) {
+		this.lrgcls_nm = lrgcls_nm;
+	}
+	public void setMdcls_nm(String mdcls_nm) {
+		this.mdcls_nm = mdcls_nm;
+	}
 }

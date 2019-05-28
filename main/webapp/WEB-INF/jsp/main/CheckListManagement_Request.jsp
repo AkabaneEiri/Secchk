@@ -15,7 +15,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
-<title>체크리스트 추가/수정</title>
+<title>체크리스트</title>
 <script src="js/jquery-3.1.1.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/common.js"></script>
@@ -31,128 +31,9 @@
 <link href="css/detail.css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="css/main_detail.css">
 
-<script type="text/javascript">	
-	$(document).ready(function () {
-		var checkList = new Array();
-		var checkListItemCode = new Array();
-		var checkListCode = new Array();
-		
-		var length = $("input[name = 'cd']").length;
-		
-		for(var i = 0; i < length; ++i) {
-			checkListItemCode[i] = new Array();
-			checkList[i] = new Array();
-			
-			checkListCode[i] = $("input[name = 'cd']")[i].value;
-			console.log($("input[name = 'itm_cd']").length);
-			
-			var num = 0;
-			var max = i*10 + 10;
-			
-			for(var x = i*10; x < max; ++x) {				
-				checkListItemCode[i][num] = $("input[name = 'itm_cd']")[x].value;
-				checkList[i][num] = $("input[name = 'ctnt']")[x].value;
-				num += 1;
-			}
-		}
-		
-		var optionText, array = [], newString, maxChar = 15;
-		
-		$("#select").on("click", function(){
-			var target = document.getElementById("checkListByLogined");
-			var selectedCode = $("#selected_code").val();
-			var selectedNum = -1;
-			
-			console.log(selectedNum);
-			target.options.length = 0;
-			$('textarea#detail_area').text("");
-			
-			var result = false;
-			
-			for(resultNum in checkListCode) {
-				if(!result) {
-					if(checkListCode[resultNum] == selectedCode) {
-						selectedNum = resultNum;
-						result = true;
-					}
-				}				
-			}
-			
-			if(selectedNum == -1) {
-				var opt = document.createElement("option");
-				opt.value = -1;
-				opt.innerHTML = "선택된 부대활동이 없습니다.";
-				target.appendChild(opt);
-			}
-			else {
-				var opt = document.createElement("option");
-				opt.value = -1;
-				opt.innerHTML = "항목을 선택해주십시오.";
-				target.appendChild(opt);
-				for(x in checkList[selectedNum]) {	
-					var optList = document.createElement("option");
-					optList.value = checkListItemCode[selectedNum][x];
-					optList.innerHTML = checkList[selectedNum][x];
-					target.appendChild(optList);
-				}
-			}		
-			
-			$('#checkListByLogined').each(function(){
-			    $(this).find('option').each(function(i,e) {
-			        $(e).attr('title',$(e).text());
-			        optionText = $(e).text();
-			        newString = '';
-			        if (optionText.length > maxChar) {
-			            array = optionText.split(' ');
-			            $.each(array,function(ind,ele) { 
-			                newString += ele+' ';
-			                if (ind > 0 && newString.length > maxChar) {
-			                	newString += ".."
-			                    $(e).text(newString);
-			                    return false;
-			                }
-			            });
-			        }
-			    });
-			});
-		});	
-		
-		
-		$('#checkListByLogined').on("change", function(){
-			var selectedValue = $('#checkListByLogined option:selected').val();
-			var arrIndex_1 = -1;
-			var arrIndex_2 = -1;
-			
-			if(selectedValue == -1) {
-				$('textarea#detail_area').text("항목을 선택해주십시오.");
-			}
-			else {
-				for(x in checkListItemCode) {
-					if(checkListItemCode[x].indexOf(selectedValue) !== -1) {
-						arrIndex_1 = x;
-						arrIndex_2 = (checkListItemCode[x].indexOf(selectedValue));					
-					}					
-				}
-				$('textarea#detail_area').text(checkList[arrIndex_1][arrIndex_2]);
-			}			
-		})
-		
-		function selectBox() {
-			
-		}
-		
-		$("#newCheck").click(function(){
-			if($(this).is(":checked") == true) {
-				$("#checkListByLogined option:eq(0)").prop('selected', 'selected');
-				$("textarea#detail_area").text("");
-				$("#checkListByLogined").prop('disabled', true);
-			}				
-			else {
-				$("#checkListByLogined").prop('disabled', false);
-			}				
-		});
-	});	
-</script>
+<script src="js/CheckListManagement_Request.js"></script>
+<script src="js/OccasionalSafeManagement_Request.js"></script>
+<script src="js/engine.js"></script>
 
 </head>
 
@@ -161,63 +42,78 @@
 	<div class="sub_contents_wrap">	
 		
 		<article class="sub_title">
-			<span>체크리스트 추가/수정</span>
+			<span>체크리스트</span>
 		</article>
 		
 		<article class="cur_page">
 			<div id="title">
-			홈<span>></span>체크리스트 추가/수정
+			홈<span>></span>체크리스트<span>></span>등록
 			</div>		
 		</article>
 		
 		<section class="subContent_section" id="auto">
 		
 		<div class="table_margin">
-		<p style="text-align:center;">
-			<img src="images/title_img/CheckListManagement_Request.png" alt="체크리스트 요청"  style="width:330px; height:80px;">
-		</p>
-		
-		<table class="table table-striped sub_table table01" style="margin:auto;margin-bottom:10px;">
+		<!-- 
+		<div style="text-align: left;font-size: 14px;"><span class="import_marker">&nbsp;*</span><span>&nbsp;는 필수입력 항목입니다.</span></div>
+		 -->
+		<table class="table table-striped sub_table table01" style="margin:auto;margin-top:10px;margin-bottom:10px;">
 		<colgroup>
-			<col width="20%"/>
+			<col width="23%"/>
 			<col width="80%"/>
 		</colgroup>
 		<tr>
-			<th scope="20%">신규 여부</th>
-			<td scope="80%" style="text-align:left; padding-left:12px; padding-bottom:9px;">
+			<th>신 규</th>
+			<td style="text-align:left; padding-left:12px; padding-bottom:9px;">
 				<input class="checkbox_fixed forChecklist" type="checkbox" id="newCheck" onclick=""/>
-				<span>&emsp;* 신규항목 요청 시 체크해 주세요.</span> 
+				<span>&emsp;* 신규항목 요청 시 체크해 주세요.</span>
 			</td>
 		</tr>
 		<tr>
-			<th scope="20%">부대활동</th>
+			<!-- <th rowspan="4">활<br>동<br>유<br>형</th> -->
+			<th style="text-align:center;">대분류</td>
+			<td style="text-align: left">
+				<select id="largeCondition" name="largeCondition" onchange="LargeChange(this)" style="width:100%;height:30px;">
+					<option value="">선택</option>
+						<c:forEach var="largeList" items="${largeList}" varStatus="statics">
+							<option id="${fn:trim(largeList.cd)}" value="${fn:trim(largeList.cd)}"><c:out value="${largeList.cd_nm}"/></option>
+						</c:forEach>
+				</select>
+			</th>
+		</tr>			
+		<tr>
+			<th style="text-align:center;">중분류</th>
+			<td style="text-align: left">
+				<select id="middleCondition" name="middleCondition" onchange="MiddleChange(this)" style="width:100%;height:30px;">
+					<option value="">선택</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<th rowspan="2" style="text-align:center;"><!-- <span class="import_marker">* </span> -->세부활동</th>
+			<td style="text-align: left">
+				<select id="select_condition" name="select_condition" style="height: 31px;">
+					<option value="ctlg_nm">세부활동</option>
+					<option value="ctlg_cd">세부활동 코드</option>
+				</select>
+				<input type="text" id="input_text_condition" class="sub_input" style="width:40%;height:30px;box-shadow : 0px 0px 1px #757575;border:none;"/>
+				<button type="button" class="btn btn-sm btn-primary"onclick="onClick_Search()" style="vertical-align: top;"><i class="fas fa-search"></i>&nbsp;검색</button>
+			</td>
+		</tr>
+		<tr>
+			<td style="text-align: left">
+				<select id="activity" name="activity" style="width:100%;height:30px;">
+					<option value="">선택</option>
+				</select>
+			</td>
+		</tr>
+		<%-- <tr>
+			<th scope="20%"><span class="import_marker">* </span>부대활동</th>
 			<td scope="80%">
 				<!-- data form -->
 				<form id="ctlg_datas" name="ctlg_datas" method="post">
-				<c:forEach items="${checkList}" var="checkLS" varStatus="status">
-					<input type="hidden" name="cd" value="${checkLS.ctlg_cd}"/>
-				
-					<input type="hidden" name="ctnt" value="${checkLS.ctlg_itm_cd_1_nm}"/>
-					<input type="hidden" name="ctnt" value="${checkLS.ctlg_itm_cd_2_nm}"/>
-					<input type="hidden" name="ctnt" value="${checkLS.ctlg_itm_cd_3_nm}"/>
-					<input type="hidden" name="ctnt" value="${checkLS.ctlg_itm_cd_4_nm}"/>
-					<input type="hidden" name="ctnt" value="${checkLS.ctlg_itm_cd_5_nm}"/>
-					<input type="hidden" name="ctnt" value="${checkLS.ctlg_itm_cd_6_nm}"/>
-					<input type="hidden" name="ctnt" value="${checkLS.ctlg_itm_cd_7_nm}"/>
-					<input type="hidden" name="ctnt" value="${checkLS.ctlg_itm_cd_8_nm}"/>
-					<input type="hidden" name="ctnt" value="${checkLS.ctlg_itm_cd_9_nm}"/>
-					<input type="hidden" name="ctnt" value="${checkLS.ctlg_itm_cd_10_nm}"/>
-					
-					<input type="hidden" name="itm_cd" value="${checkLS.ctlg_itm_cd_1}"/>
-					<input type="hidden" name="itm_cd" value="${checkLS.ctlg_itm_cd_2}"/>
-					<input type="hidden" name="itm_cd" value="${checkLS.ctlg_itm_cd_3}"/>
-					<input type="hidden" name="itm_cd" value="${checkLS.ctlg_itm_cd_4}"/>
-					<input type="hidden" name="itm_cd" value="${checkLS.ctlg_itm_cd_5}"/>
-					<input type="hidden" name="itm_cd" value="${checkLS.ctlg_itm_cd_6}"/>
-					<input type="hidden" name="itm_cd" value="${checkLS.ctlg_itm_cd_7}"/>
-					<input type="hidden" name="itm_cd" value="${checkLS.ctlg_itm_cd_8}"/>
-					<input type="hidden" name="itm_cd" value="${checkLS.ctlg_itm_cd_9}"/>
-					<input type="hidden" name="itm_cd" value="${checkLS.ctlg_itm_cd_10}"/>
+				<c:forEach items="${checkList}" var="checkLS" varStatus="status">					
+					<input type="hidden" name="${fn:trim(checkLS.ctlg_cd)}" id="${fn:trim(checkLS.ctlg_itm_cd)}" value="${checkLS.ctlg_itm_ctnt}"/>
 				</c:forEach>
 				</form>
 			
@@ -227,19 +123,19 @@
 						value="" disabled="disabled"/>
 				</form>
 	
-				<form method="post" name="selectedName" action="" style="float: left; margin: 0;">
+				<form method="post" name="selectedName" action="" style="float: left; margin: 0; width:75%">
 						<input id="selected_name" name="selected_name" 
 						class="input-text-disabled"
-						value="" disabled="disabled"/>
+						value="" disabled="disabled" style="font-size: 12pt;color: #757575;height:29px;"/>
 				</form>
 			
 				<button type="Search" class="btn btn-sm btn-primary btn-width" data-toggle="modal" data-target="#TaskSearch" style="margin-left: 10px;"><i class="fas fa-search"></i>&nbsp;검색</button>
 				<jsp:include page="taskSearchModal.jsp"></jsp:include>
 			</td>
-		</tr>
+		</tr> --%>
 		<tr>
-			<th scope="20%">체크리스트</th>
-			<td scope="80%">
+			<th>체크리스트</th>
+			<td>
 				<select id="checkListByLogined" style="width: 100%; height:30px;">
 					<option>부대활동을 선택해주십시오.</option>
 				</select>
@@ -247,21 +143,21 @@
 		</tr>
 		
 		<tr>
-			<th scope="20%">상세 내용</th>					
-			<td scope="80%">
-				<textarea id="detail_area" name="detail_area" rows="4" cols="10" disabled="disabled" style="box-shadow : 0px 0px 1px #757575;font-size: 16px;border:none;"></textarea>
+			<th>상세 내용</th>					
+			<td>
+				<textarea id="detail_area" name="detail_area" rows="4" cols="10" disabled="disabled" style="box-shadow : 0px 0px 1px #757575;border:none;"></textarea>
 			</td>
 		</tr>
 		<tr>
-			<th scope="20%">이유</th>
-			<td scope="80%">
-				<textarea id="rsn_area" name="rsn_area" rows="4" cols="10" placeholder="수정이 필요한 이유를 입력해주세요." style="font-size: 16px;box-shadow : 0px 0px 1px #757575;border:none;"></textarea>
+			<th><!-- <span class="import_marker">* </span> -->이유</th>
+			<td>
+				<textarea id="rsn_area" name="rsn_area" rows="4" cols="10" placeholder="수정이 필요한 이유를 입력해주세요." style="box-shadow : 0px 0px 1px #757575;border:none;" onkeydown="javascript:fn_maxLength(this, 100);"></textarea>
 			</td>
 		</tr>
 		<tr>
-			<th scope="20%">건의 내용</th>					
-			<td scope="80%">
-				<textarea id="comment_area" name="comment_area" rows="4" cols="10" placeholder="건의할 체크리스트 내용을 입력해주세요." style="font-size: 16px;box-shadow : 0px 0px 1px #757575;border:none;"></textarea>
+			<th><!-- <span class="import_marker">* </span> -->건의 내용</th>					
+			<td>
+				<textarea id="comment_area" name="comment_area" rows="4" cols="10" placeholder="건의할 체크리스트 내용을 입력해주세요." style="box-shadow : 0px 0px 1px #757575;border:none;" onkeydown="javascript:fn_maxLength(this, 500);"></textarea>
 			</td>
 		</tr>
 		
@@ -274,10 +170,16 @@
 		</form:form>
 		</table>
 		
+		<form id="ctlg_datas" name="ctlg_datas" method="post">
+			<c:forEach items="${checkList}" var="checkLS" varStatus="status">					
+				<input type="hidden" name="${fn:trim(checkLS.ctlg_cd)}" id="${fn:trim(checkLS.ctlg_itm_cd)}" value="${checkLS.ctlg_itm_ctnt}"/>
+			</c:forEach>
+		</form>
+		
 		<div style="text-align: center;">
 			<button type="button" class="btn btn-sm btn-primary btn-width" id="request" onclick="javascript:fn_onClick_requestChecklist()">
 			<i class="fas fa-pencil-alt"></i>&nbsp;등록</button>
-			<button type="button" class="btn btn-sm btn-primary btn-width" id="back" onclick="javascript:history.back();">
+			<button type="button" class="btn btn-sm btn-primary btn-width" id="back" onclick="javascript:location.href = 'CheckListManagement.do';">
 			<i class="fas fa-undo"></i>&nbsp;취소</button>
 		</div>	
 		<br>	

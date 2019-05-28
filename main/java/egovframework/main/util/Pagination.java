@@ -42,7 +42,7 @@ public class Pagination {
 	}
 	
 	private void setStartToEnd() {
-		start = (currentPage - 1) * 10;
+		start = (currentPage - 1) * countPerPage;
 		end = start + countPerPage;
 		if (end > totalRecordCount)
 			end = totalRecordCount;

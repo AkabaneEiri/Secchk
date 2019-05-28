@@ -32,4 +32,10 @@ public interface ChecklistItemService {
 	ChecklistItemVO getChecklistCode(ChecklistItemVO checklistItemVO) throws Exception;
 
 	List<ChecklistItemVO> ChecklistPreSelect(ChecklistItemVO checklistItemVO) throws Exception;
+	
+	ChecklistItemVO getMaxItemCode(String ctlg_cd) throws Exception;
+	
+	List<ChecklistItemVO> getEmptyItemCodeList(String ctlg_cd) throws Exception;
+	
+	ChecklistItemVO getCtlgCodeByItemCode(String ctlg_itm_cd) throws Exception;
 }

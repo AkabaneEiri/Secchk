@@ -32,7 +32,7 @@ public class ChecklistItemServiceImpl extends EgovAbstractServiceImpl implements
 	// search all
 	public List<ChecklistItemVO> getAllChecklistItemList() throws Exception
 	{
-		return null;
+		return checklistItemDAO.getAllChecklistItemList();
 	}
 
 	@Override
@@ -91,5 +91,17 @@ public class ChecklistItemServiceImpl extends EgovAbstractServiceImpl implements
 	public List<ChecklistItemVO> ChecklistPreSelect(
 			ChecklistItemVO checklistItemVO) throws Exception {
 		return checklistItemDAO.ChecklistPreSelect(checklistItemVO);
+	}
+	
+	public ChecklistItemVO getMaxItemCode(String ctlg_cd) throws Exception {
+		return checklistItemDAO.getMaxItemCode(ctlg_cd);
+	}
+	
+	public List<ChecklistItemVO> getEmptyItemCodeList(String ctlg_cd) throws Exception{
+		return checklistItemDAO.getEmptyItemCodeList(ctlg_cd);
+	}
+	
+	public ChecklistItemVO getCtlgCodeByItemCode(String ctlg_itm_cd) throws Exception {
+		return checklistItemDAO.getCtlgCodeByItemCode(ctlg_itm_cd);
 	}
 }

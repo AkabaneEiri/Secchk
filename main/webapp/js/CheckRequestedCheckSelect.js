@@ -1,3 +1,21 @@
+$(document).ready(function(){
+	$("#opn").bind("keyup", checkVal);
+});
+function checkVal(){
+	var opn = document.getElementById("opn");
+	var res = document.getElementById("opn_res");
+	var opn_length = opn.value.length; 
+	if(opn_length > 100)
+		{
+			opn_res.value = opn_length+"/80";
+			opn.value = opn.value.slice(0,80);
+		}
+	else
+		{
+			opn_res.value = opn_length+"/80";
+		}
+}
+
 function getParameterByName(name) {
     name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
     var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
@@ -20,8 +38,7 @@ function Approval_Approve(){
     
     if(ApproveConfirm)
         {
-        var ResultUrl = "CheckRequest_Result.do?state_cd="+state_cd+"&seq="+seq+"&rvw_opn="+rvw_opn+"&isNew="+itm_cd+"&ctlg_cd="+ctlg_cd+"&ctlg_itm_ctnt="+ctlg_itm_ctnt+"&cltg_itm_cd_1="+ctlg_itm_cd_1;
-            document.write("");
+        var ResultUrl = "CheckRequest_Result.do?state_cd="+encodeURI(state_cd)+"&seq="+seq+"&rvw_opn="+encodeURI(rvw_opn)+"&isNew="+encodeURI(itm_cd)+"&ctlg_cd="+encodeURI(ctlg_cd)+"&ctlg_itm_ctnt="+encodeURI(ctlg_itm_ctnt)+"&cltg_itm_cd_1="+encodeURI(ctlg_itm_cd_1);
             location.href = ResultUrl;
         }
     else{
@@ -33,13 +50,13 @@ function    Approval_Deny(){
     var state_cd ='D3';
     var seq= getParameterByName('seq');
     var rvw_opn = document.Approve_Value.Value_opn.value;
+    var ctlg_itm_cd_1 = "";
  
     var DenyConfirm = confirm('해당 요청을 반려하시겠습니까?')
     
     if(DenyConfirm)
         {
-            var ResultUrl = "CheckRequest_Result.do?state_cd="+state_cd+"&seq="+seq+"&rvw_opn="+rvw_opn;
-            document.write("");
+            var ResultUrl = "CheckRequest_Result.do?state_cd="+encodeURI(state_cd)+"&seq="+seq+"&rvw_opn="+encodeURI(rvw_opn);
             location.href = ResultUrl;
         }
     else{
@@ -47,6 +64,5 @@ function    Approval_Deny(){
     }
 }
 function    Approval_Cancle(){
-    document.write("");
     location.href="CheckRequestedCheckList.do";
 }

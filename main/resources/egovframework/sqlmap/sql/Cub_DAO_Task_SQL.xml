@@ -18,6 +18,7 @@
 			(SELECT cd_nm FROM t_security_code WHERE cd=A.incdt_actvt_type_cd) AS incdt_actvt_type_cd_nm
 		FROM t_security_task A
 		WHERE task_psnchnrg_srvno = #srvno#
+		ORDER BY actvt_date DESC
 	</select>	
 	
 	<select id="taskDAO.selectTaskListByAct" parameterClass="listsearchVO" resultClass="taskVO">
@@ -87,8 +88,29 @@
 	SELECT *, 
 		(SELECT cd_nm FROM t_security_code WHERE cd=A.incdt_actvt_type_cd) AS incdt_actvt_type_cd_nm
 	FROM t_security_task A
-	WHERE task_psnchnrg_srvno = #srvno# AND state_cd = 'E2'
+	WHERE task_psnchnrg_srvno = #srvno# AND state_cd != 'E3'
 	ORDER BY actvt_date DESC
-	LIMIT 4
+	LIMIT 5
+	</select>
+	
+	<select id="taskDAO.getTaskListByCondition" parameterClass="taskVO" resultClass="taskVO">
+	SELECT *,
+		(SELECT cd_nm FROM t_security_code WHERE cd=A.incdt_actvt_type_cd) AS incdt_actvt_type_cd_nm
+	FROM t_security_task A
+		<dynamic prepend="WHERE"> 		
+			<isNotEmpty prepend="AND" property="task_psnchnrg_srvno">
+				A.task_psnchnrg_srvno = #task_psnchnrg_srvno#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="actvt_date">
+				A.actvt_date = #actvt_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="state_cd">
+				A.state_cd = #state_cd#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="incdt_actvt_type_cd_nm">
+				(SELECT cd_nm FROM t_security_code WHERE cd=A.incdt_actvt_type_cd) like '%' || #incdt_actvt_type_cd_nm# || '%'
+			</isNotEmpty>
+		</dynamic>
+	ORDER BY actvt_date DESC
 	</select>
 </sqlMap>

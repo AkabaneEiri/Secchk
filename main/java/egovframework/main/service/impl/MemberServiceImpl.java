@@ -60,5 +60,12 @@ import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
 			memberDAO.Modifymember(memberVO);
 			
 		}
+
+		@Override
+		public List<MemberVO> getManagerList(MemberSearchVO membersearchVO)
+				throws Exception {
+			// TODO 자동 생성된 메소드 스텁
+			return memberDAO.getManagerList(membersearchVO);
+		}
 	}
 

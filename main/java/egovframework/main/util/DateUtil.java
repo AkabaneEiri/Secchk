@@ -2,6 +2,7 @@ package egovframework.main.util;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 public class DateUtil {
 	SimpleDateFormat dateFormat = null;
@@ -50,4 +51,7 @@ public class DateUtil {
 		String time = dateFormat.format(Calendar.getInstance().getTime());
 		return time;
 	}
+	
+	// get now
+	public static Date getNow() { return Calendar.getInstance().getTime(); }
 }

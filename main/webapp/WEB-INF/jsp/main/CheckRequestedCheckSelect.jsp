@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>요청된 체크리스트 검토</title>
+<title>체크리스트 검토</title>
 <script src="js/jquery-3.1.1.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/common.js"></script>
@@ -24,6 +24,7 @@
 <link rel="stylesheet" type="text/css" href="css/main.css">
 <link rel="stylesheet" href="css/jquery-ui.css">
 <link rel="stylesheet" type="text/css" href="css/main_detail.css">
+<link rel="stylesheet" type="text/css" href="css/ime_mode.css">
  
 </head>
  
@@ -33,29 +34,42 @@
     <div class="sub_contents_wrap">    
         
         <article class="sub_title">
-            <span>요청된 체크리스트 검토</span>
+            <span>체크리스트 검토</span>
         </article>
         
         <article class="cur_page">
             <div id="title">
-            홈<span>></span>시스템관리<span>></span>요청된 체크리스트 검토
+            홈<span>></span>시스템관리<span>></span>체크리스트 검토
             </div>        
         </article>
         
         <section class="subContent_section" id="CheckRequest">
-       	<p style="text-align:center;">
-		<img src="images/title_img/CheckRequestedCheckSelect.png" alt="승인 요청"  style="width:330px; height:80px;">
-		</p> 
 		<form name="Approve_Value">
             <c:forEach var="Check" items="${CheckReuqest}" varStatus="statics">
-				<c:if test="${Check.ctlg_itm_cd_1} == null ">
-					<div class="btn-group-toggle" data-toggle="buttons" value= "IsNew">
-                    	<label class="btn btn-light"><input type="checkbox"> 신규 여부</label>
-                    </div>
-                 </c:if>
-                
-        	<table class="table table-border sub_table table01"  style="text-align:center;width:90%; margin:auto;">
+            	
+            	                
+        	<table class="table table-border sub_table table01"  style="text-align:center;width:90%; margin:auto; margin-top:20px;">
             <tbody>
+                
+                <tr>
+                	<th colspan= "2">신규여부</th>
+                    <td>
+                        <!--  <input class="DiableInputbox" name="Value_ctlg_cd" value="${Check.ctlg_cd}" disabled> -->
+                        <c:choose>
+		            		<c:when test="${Check.new_yn == 'Y'}">
+		            			 <input class="DiableInputbox" name="new_yn" value="Y" disabled>
+		            		</c:when>
+		            		<c:otherwise>
+		            			<input class="DiableInputbox" name="new_yn" value="N" disabled>
+		            		</c:otherwise>
+		            	</c:choose>
+                    </td>
+                    <th colspan= "2">부대활동 유형</th>
+                    <td>
+                        <input class="DiableInputbox" name="Value_type" value="${Check.ctlg_cd}" disabled>
+                    </td>
+                    
+                </tr>
                 <tr>
                     <th colspan= "2">요청자</th>
                     <td>
@@ -67,44 +81,36 @@
                     </td>
                 </tr>
                 <tr>
-                    <th colspan= "2">부대활동 유형</th>
-                    <td>
-                        <input class="DiableInputbox" name="Value_type" value="${Check.ctlg_cd}" disabled>
-                    </td>
-                    <th colspan= "2">체크리스트</th>
-                    <td>
-                        <input class="DiableInputbox" name="Value_ctlg_cd" value="${Check.ctlg_cd}" disabled>
-                    </td>
-                </tr>
-                <tr>
-                    <th rowspan = "2" style="vertical-align:middle;height:200px">체크리스트 항목</th>
+                    <th rowspan = "2" style="vertical-align:middle;height:auto;">체크리스트 항목</th>
                     <th>변경 전</th>
                     <td colspan= "4">
-                        <textarea class="DiableInputbox" name="Value_ctlg_itm_cd" style="width:100%;border:0.5px solid #FAFAFA;text-align:center;font-size:14pt;color:#4e6361;" value="${Check.ctlg_itm_cd_1}" disabled>${Check.ctlg_itm_cd_1}</textarea>
-                        <input type="hidden"name="Value_ctlg_itm_cd_1" style="width:100%;line-height:5;border:0.5px solid #FAFAFA;text-align:center;font-size:14pt;color:#4e6361;" value="${Check.ctlg_itm_cd_2}" disabled>
+                        <input class="DiableInputbox textarea_noresize" name="Value_ctlg_itm_cd" style="width:100%;border:0.5px solid #FAFAFA;text-align:center;color:#4e6361;" value="${Check.ctlg_itm_cd_1}" disabled>
+                        <input type="hidden"name="Value_ctlg_itm_cd_1"  value="${Check.ctlg_itm_cd_2}" disabled>
                     </td>
                 </tr>
                 <tr>
                     <th>변경 후</th>
                     <td colspan= "4">
-                        <textarea class="DiableInputbox" name="Value_ctnt" value="${Check.rqst_ctnt}" disabled>${Check.rqst_ctnt}</textarea>
+                        <input class="DiableInputbox textarea_noresize" name="Value_ctnt" style="width:100%;border:0.5px solid #FAFAFA;text-align:center;color:#4e6361;"value="${Check.rqst_ctnt}" disabled>
                     </td>
                 </tr>
                 <tr>
                     <th colspan= "2">사유</th>
                     <td colspan= "4">
-                        <input class="DiableInputbox" name="Value_rsn" value="${Check.rsn}" disabled>
+                        <input class="DiableInputbox" name="Value_rsn" style="width:100%;border:0.5px solid #FAFAFA;text-align:center;color:#4e6361;" value="${Check.rsn}" disabled>
                     </td>
                 </tr>
                 <tr>
                     <th colspan= "2">검토 의견</th>
-                    <td colspan="4" >
+                    <td colspan="4" style="color:#757575">
                     <c:choose>
                         <c:when test="${requestChecklistVO.state_cd eq '미승인'}">
-                            <input class="sub_input" name="Value_opn"  value="${Check.opn}">
+                            <input class="sub_input ime_input" name="Value_opn"  id = "opn"value="${Check.opn}" style="width:100%;border:0.5px solid #4e6361;ime-mode:active">
+                            <br>
+                    		<input class="sub_input " name="opn_res" id="opn_res" style="color:red;background-color: white;font-size: 12px;margin-top:10px;" value= "0/80"disabled>
                         </c:when>
                         <c:otherwise>
-                            <input class="sub_input" name="Value_opn" value="${Check.opn}" disabled>
+                        	<input class="DiableInputbox" name="Value_opn" style="width:100%;border:0.5px solid #FAFAFA;text-align:center;color:#4e6361;" value="${Check.opn}" disabled>
                         </c:otherwise>
                     </c:choose>                    
                     </td>
@@ -125,7 +131,7 @@
     </c:if>
     	&nbsp;
         <button type="button" class="btn btn-sm btn-primary"  onclick="Approval_Cancle()">
-        <i class="fas fa-undo"></i>&nbsp;취소</button>
+        <i class="fas fa-list"></i>&nbsp;목록</button>
     </div> 
 	<br>
     </section>

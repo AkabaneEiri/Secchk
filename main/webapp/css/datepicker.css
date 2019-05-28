@@ -1,0 +1,16 @@
+.ui-datepicker-trigger{
+    border:none;
+    background:none;
+    height: inherit;
+    font-size: 25px;
+    color: black;
+ }
+ 
+ .input-datepicker {
+ 	vertical-align: top;
+ 	height: inherit; 	
+ }
+ 
+ .margin-left-for-input {
+ 	margin-left: 4px;
+ }

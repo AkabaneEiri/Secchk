@@ -13,6 +13,21 @@ $(document).ready(function(){
 	 	error: whenError
 });
 });
+function readthis(res){
+	var Name = res;
+	 var code = new Object();
+	 code.Name = Name;
+	 
+	 var jsonString = JSON.stringify(code);
+	 $.ajax({
+		 	url: "TaskSmallSearch.do",															//request보낼 경로
+		 	type: "post",																		//메소드(post로 적용)
+		 	data: {"jsonString":jsonString}, 													//보낼 데이터
+		 	success : whenSuccessLoad,
+		 	//성공 시 값 보낼 펑션
+		 	error: whenError
+	});
+}
 function clickTdEvent1(tdObj){
 	
 	var Code = tdObj.id;
@@ -28,7 +43,7 @@ function clickTdEvent1(tdObj){
 	
 	tdObj.style.backgroundColor = "#D8D8D8";
 	
-	document.listForm.searchKeyword.value = Name;
+	document.getElementById("searchKeyword").value = Name;
 	
 	parent.clickTrEvent(tdObj);
 }
@@ -55,11 +70,29 @@ function whenError(){
 //사용자검색 모달용 펑션
 /////////////////////////////////////////////
 function Member_Search(){
-	var searchCondition;
-	var searchKeyword;
+//	var listtable = $("table_hover");
+//	var rowLen = listtable.rows.length;
+//	var celLen = listtable.cells.length;
+	 // Declare variables 
+	  var input, filter, table, tr, td, i, txtValue;
+	  input = document.getElementById("searchKeyword");
+	  filter = input.value.toUpperCase();
+	  table = document.getElementById("table_hover");
+	  tr = table.getElementsByTagName("tr");
 
-	searchCondition = document.listForm.searchCondition.value;
-	searchKeyword = document.listForm.searchKeyword.value;
+	  // Loop through all table rows, and hide those who don't match the search query
+	  for (i = 0; i < tr.length; i++) {
+	    td = tr[i].getElementsByTagName("td")[0];
+	    if (td) {
+	      txtValue = td.textContent || td.innerText;
+	      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+	        tr[i].style.display = "";
+	      } else {
+	        tr[i].style.display = "none";
+	      }
+	    } 
+	  }
+
 }
 /////////////////////////////////////////////
 //모달용 펑션 끝

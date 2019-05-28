@@ -6,7 +6,59 @@
 	<typeAlias alias="MemberSearchVO" type="egovframework.main.service.VO.MemberSearchVO"/>
 	<typeAlias alias="TroopsVO" type="egovframework.main.service.VO.TroopsVO"/>
 	
-	 
+	<select id="memberDAO.getManagerList" parameterClass="membersearchVO" resultClass="memberVO">
+		SELECT * FROM 
+			(SELECT
+			ROWNUM rnum,
+			srvno,
+			pw,
+			rnkcd,
+			(
+				SELECT cd_nm FROM 
+				t_security_code 
+				WHERE cd = t_security_user.rnkcd
+				) AS cd_nm,
+			stmt,
+			rspofc_nm,
+			athrt,
+			fnl_login_date,
+			prtbl_telno,
+			login_err_rtrv,
+			chng_date,
+			incdt_idtf_cd,
+			montr,
+			acc_state_info
+		FROM
+			t_security_user
+			)
+		WHERE 1=1 
+		<isNotEmpty property="searchKeyword">
+			<isEqual prepend = "AND" property="searchCondition" compareValue="01">
+				srvno = #searchKeyword#
+			</isEqual>
+			<isEqual prepend ="AND" property="searchCondition" compareValue="00">
+				stmt like '%' || #searchKeyword# || '%'
+			</isEqual>
+			<isEqual prepend = "AND" property="searchCondition" compareValue="02">
+				rspofc_nm like '%' || #searchKeyword# || '%'
+			</isEqual>
+		</isNotEmpty>
+		<isNotEmpty prepend = "and" property="searchKeyword2">
+			srvno = #searchKeyword2#		
+		</isNotEmpty>
+		<isNotEmpty property="searchAthrt">
+			<isEqual prepend = "AND" property="searchAthrt" compareValue="B1">
+				athrt = 'B1'
+			</isEqual>
+			<isEqual prepend ="AND" property="searchAthrt" compareValue="B2">
+				athrt = 'B2'
+			</isEqual>
+			<isEqual prepend = "AND" property="searchAthrt" compareValue="B3">
+				athrt = 'B3'
+			</isEqual>					
+		</isNotEmpty>
+		order by srvno asc
+	</select>
 	<select id="memberDAO.selectMemberList" parameterClass="membersearchVO" resultClass="memberVO">
 		SELECT * FROM 
 			(SELECT
@@ -32,36 +84,21 @@
 		FROM
 			t_security_user
 		where
-		incdt_idtf_cd = #searchCode#
+		incdt_idtf_cd = #searchCode# AND athrt = 'B1'
 			)
 		WHERE 1=1 
-		<isNotEmpty prepend ="AND" property="searchKeyword2">
-			athrt='B1'
-		</isNotEmpty>
-		
 		<isNotEmpty property="searchKeyword">
 			<isEqual prepend = "AND" property="searchCondition" compareValue="01">
 				srvno = #searchKeyword#
 			</isEqual>
 			<isEqual prepend ="AND" property="searchCondition" compareValue="00">
-			stmt = #searchKeyword#
+			stmt like'%' || #searchKeyword# || '%'
 			</isEqual>
 			<isEqual prepend = "AND" property="searchCondition" compareValue="02">
 			rspofc_nm like '%' || #searchKeyword# || '%'
 			</isEqual>
 		</isNotEmpty>
-		<isNotEmpty prepend = "AND" property="end">
-			<![CDATA[	
-				 rnum >= #end#
-			 ]]> 
-		 </isNotEmpty>
-		 <isNotEmpty prepend = "AND" property="start">
-			 <![CDATA[
-				 rnum <= #start#
-			]]> 
-		</isNotEmpty>
 		order by srvno asc
- 
 	</select>
 	
 	<select id="memberDAO.selectMemberListTotCnt" parameterClass="membersearchVO" resultClass="int">
@@ -124,11 +161,11 @@
 	<insert id="memberDAO.insertMember" parameterClass="memberVO">
 		INSERT INTO	t_security_user 
 			(
-				srvno,		pw,		rnkcd,		stmt,		rspofc_nm,		athrt,		fnl_login_date,		prtbl_telno,		login_err_rtrv,		chng_date,		incdt_idtf_cd,		montr,		acc_state_info
+				srvno,		pw,		rnkcd,		stmt,		rspofc_nm,		athrt,		fnl_login_date,		prtbl_telno,		login_err_rtrv,		chng_date,		incdt_idtf_cd,		montr,		acc_state_info, ip
 					)
 		VALUES
 			(
-				#srvno#,	#pw#,	#rnkcd#,	#stmt#,	#rspofc_nm#	,#athrt#,	sysdate,	#prtbl_telno#,	'0',	sysdate,	(SELECT incdt_idtf_cd FROM t_security_incdt  where incdt_nm = #incdt_idtf_cd#),	#montr#,	'K1'
+				#srvno#,	#pw#,	#rnkcd#,	#stmt#,	#rspofc_nm#	,#athrt#,	sysdate,	#prtbl_telno#,	'0',	sysdate,	(SELECT incdt_idtf_cd FROM t_security_incdt  where incdt_nm = #incdt_idtf_cd#),	#montr#,	'K1', #ip#
 					);
 
 	</insert>
@@ -150,7 +187,7 @@
 	</select>
 	
 	<select id="memberDAO.getUserselect" parameterClass="memberVO" resultClass="memberVO">
-		SELECT
+	SELECT
 	srvno,
 	pw,
 	rnkcd,
@@ -163,7 +200,7 @@
 	chng_date,
 	(SELECT incdt_nm FROM t_security_incdt b WHERE a.incdt_idtf_cd = b.incdt_idtf_cd) AS incdt_idtf_cd,
 	montr,
-	acc_state_info
+	acc_state_info, ip
 FROM
 	t_security_user a
 WHERE SRVNO=#srvno#
@@ -173,19 +210,38 @@ WHERE SRVNO=#srvno#
 UPDATE
 	t_security_user
 SET
+<isNotEmpty  property="srvno">
 	srvno 						= #srvno#,
-	pw 							= #pw#,
+</isNotEmpty>
+<isNotEmpty  property="rnkcd">
 	rnkcd			 			= #rnkcd#,
+</isNotEmpty>
+<isNotEmpty  property="stmt">
 	stmt 						= #stmt#,
-	rspofc_nm 			= #rspofc_nm#,
+</isNotEmpty>
+<isNotEmpty  property="rspofc_nm">
+	rspofc_nm 					= #rspofc_nm#,
+</isNotEmpty>
+<isNotEmpty  property="athrt">
 	athrt 						= #athrt#,
-	fnl_login_date 		= sysdate,
-	prtbl_telno 			= #prtbl_telno#,
-	login_err_rtrv 		= '0',
-	chng_date 			= sysdate,
-	incdt_idtf_cd 			= (SELECT incdt_idtf_cd FROM t_security_incdt  where incdt_nm = #incdt_idtf_cd#),
-	montr 					= #montr#,
-	acc_state_info 		= 'K1' 
+</isNotEmpty>
+	fnl_login_date 				= sysdate,
+<isNotEmpty  property="prtbl_telno">
+	prtbl_telno 				= #prtbl_telno#,
+</isNotEmpty>
+<isNotEmpty  property="incdt_idtf_cd">
+	incdt_idtf_cd 				= (SELECT incdt_idtf_cd FROM t_security_incdt  where incdt_nm = #incdt_idtf_cd#),
+</isNotEmpty>
+<isNotEmpty  property="montr">
+	montr 						= #montr#,
+</isNotEmpty>
+<isNotEmpty property="acc_state_info">
+	acc_state_info 		= #acc_state_info#,
+</isNotEmpty>
+<isNotEmpty property="ip">
+	ip 		= #ip#,
+</isNotEmpty>
+pw 							= #pw#
 WHERE
 	srvno = #srvno#
 	</update>
@@ -229,6 +285,13 @@ WHERE
 	SELECT *
 	FROM t_security_incdt
 	WHERE 1=1
+	<isNotEmpty prepend = "AND" property="incdt_nm">
+	incdt_nm like '%'||#incdt_nm#||'%'
+	</isNotEmpty>
+	<isNotEmpty prepend = "AND" property="incdt_idtf_cd">
+	incdt_idtf_cd = #incdt_idtf_cd#
+	</isNotEmpty>
+	ORDER BY incdt_idtf_cd asc
 	</select>
 
 	<update id="userDAO.updateLoginDate" parameterClass="userVO">

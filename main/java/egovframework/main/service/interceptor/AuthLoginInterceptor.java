@@ -18,12 +18,19 @@ public class AuthLoginInterceptor extends HandlerInterceptorAdapter{
 		HttpSession httpSession = request.getSession();
 		Object obj = httpSession.getAttribute("loginedUser");
 		
+		//System.out.println("request url : " + request.getRequestURI());
+		
 		if( obj == null ) {
 			response.setContentType("text/html; charset=UTF-8");
 
             PrintWriter out = response.getWriter();
 
-            out.println("<script>alert('로그인이 필요한 서비스입니다.'); location.href='index.do';</script>");
+            if (request.getRequestURI() == "/Infomation.do" || request.getRequestURI() == "/mobile/Infomation.do") {
+            	out.println("<script>alert('로그인이 필요한 서비스입니다.'); window.close();</script>");
+            }
+            else {
+            	out.println("<script>alert('로그인이 필요한 서비스입니다.'); location.href='index.do';</script>");
+            }            
 
             out.flush(); 
             

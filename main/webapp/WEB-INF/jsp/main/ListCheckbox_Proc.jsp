@@ -13,175 +13,235 @@
 $(document).ready(function(){
 	
 	// display none set
-	if(${taskData.guidnc_1 == null || taskData.guidnc_1 == ''}) {
-		$("input:checkbox[id='guidnc_1_y_chk']").addClass("chkbox_none");
-		$("input:checkbox[id='guidnc_1_n_chk']").addClass("chkbox_none");
+	if(${taskData.guidnc_1 != null && taskData.guidnc_1 != ''}) {
+		$("#label_gui_1_y").removeClass("chkbox_none");
+		$("#label_gui_1_n").removeClass("chkbox_none");
 	}
-	if(${taskData.guidnc_2 == null || taskData.guidnc_2 == ''}) {
-		$("input:checkbox[id='guidnc_2_y_chk']").addClass("chkbox_none");
-		$("input:checkbox[id='guidnc_2_n_chk']").addClass("chkbox_none");
+	if(${taskData.guidnc_2 != null && taskData.guidnc_2 != ''}) {
+		$("#label_gui_2_y").removeClass("chkbox_none");
+		$("#label_gui_2_n").removeClass("chkbox_none");
 	}
-	if(${taskData.guidnc_3 == null || taskData.guidnc_3 == ''}) {
-		$("input:checkbox[id='guidnc_3_y_chk']").addClass("chkbox_none");
-		$("input:checkbox[id='guidnc_3_n_chk']").addClass("chkbox_none");
+	if(${taskData.guidnc_3 != null && taskData.guidnc_3 != ''}) {
+		$("#label_gui_3_y").removeClass("chkbox_none");
+		$("#label_gui_3_n").removeClass("chkbox_none");
 	}
-	if(${taskData.ctlg_itm_cd_1 == null || taskData.ctlg_itm_cd_1 == ''}) {
-		$("input:checkbox[id='ctlg_1_y_chk']").addClass("chkbox_none");
-		$("input:checkbox[id='ctlg_1_n_chk']").addClass("chkbox_none");
+	if(${taskData.ctlg_itm_cd_1 != null && taskData.ctlg_itm_cd_1 != ''}) {
+		$("#label_1_y").removeClass("chkbox_none");
+		$("#label_1_n").removeClass("chkbox_none");
 	}
-	if(${taskData.ctlg_itm_cd_2 == null || taskData.ctlg_itm_cd_2 == ''}) {
-		$("input:checkbox[id='ctlg_2_y_chk']").addClass("chkbox_none");
-		$("input:checkbox[id='ctlg_2_n_chk']").addClass("chkbox_none");
+	if(${taskData.ctlg_itm_cd_2 != null && taskData.ctlg_itm_cd_2 != ''}) {
+		$("#label_2_y").removeClass("chkbox_none");
+		$("#label_2_n").removeClass("chkbox_none");
 	}
-	if(${taskData.ctlg_itm_cd_3 == null || taskData.ctlg_itm_cd_3 == ''}) {
-		$("input:checkbox[id='ctlg_3_y_chk']").addClass("chkbox_none");
-		$("input:checkbox[id='ctlg_3_n_chk']").addClass("chkbox_none");
+	if(${taskData.ctlg_itm_cd_3 != null && taskData.ctlg_itm_cd_3 != ''}) {
+		$("#label_3_y").removeClass("chkbox_none");
+		$("#label_3_n").removeClass("chkbox_none");
 	}
-	if(${taskData.ctlg_itm_cd_4 == null || taskData.ctlg_itm_cd_4 == ''}) {
-		$("input:checkbox[id='ctlg_4_y_chk']").addClass("chkbox_none");
-		$("input:checkbox[id='ctlg_4_n_chk']").addClass("chkbox_none");
+	if(${taskData.ctlg_itm_cd_4 != null && taskData.ctlg_itm_cd_4 != ''}) {
+		$("#label_4_y").removeClass("chkbox_none");
+		$("#label_4_n").removeClass("chkbox_none");
 	}
-	if(${taskData.ctlg_itm_cd_5 == null || taskData.ctlg_itm_cd_5 == ''}) {
-		$("input:checkbox[id='ctlg_5_y_chk']").addClass("chkbox_none");
-		$("input:checkbox[id='ctlg_5_n_chk']").addClass("chkbox_none");
+	if(${taskData.ctlg_itm_cd_5 != null && taskData.ctlg_itm_cd_5 != ''}) {
+		$("#label_5_y").removeClass("chkbox_none");
+		$("#label_5_n").removeClass("chkbox_none");
 	}
-	if(${taskData.ctlg_itm_cd_6 == null || taskData.ctlg_itm_cd_6 == ''}) {
-		$("input:checkbox[id='ctlg_6_y_chk']").addClass("chkbox_none");
-		$("input:checkbox[id='ctlg_6_n_chk']").addClass("chkbox_none");
+	if(${taskData.ctlg_itm_cd_6 != null && taskData.ctlg_itm_cd_6 != ''}) {
+		$("#label_6_y").removeClass("chkbox_none");
+		$("#label_6_n").removeClass("chkbox_none");
 	}
-	if(${taskData.ctlg_itm_cd_7 == null || taskData.ctlg_itm_cd_7 == ''}) {
-		$("input:checkbox[id='ctlg_7_y_chk']").addClass("chkbox_none");
-		$("input:checkbox[id='ctlg_7_n_chk']").addClass("chkbox_none");
+	if(${taskData.ctlg_itm_cd_7 != null && taskData.ctlg_itm_cd_7 != ''}) {
+		$("#label_7_y").removeClass("chkbox_none");
+		$("#label_7_n").removeClass("chkbox_none");
 	}
-	if(${taskData.ctlg_itm_cd_8 == null || taskData.ctlg_itm_cd_8 == ''}) {
-		$("input:checkbox[id='ctlg_8_y_chk']").addClass("chkbox_none");
-		$("input:checkbox[id='ctlg_8_n_chk']").addClass("chkbox_none");
+	if(${taskData.ctlg_itm_cd_8 != null && taskData.ctlg_itm_cd_8 != ''}) {
+		$("#label_8_y").removeClass("chkbox_none");
+		$("#label_8_n").removeClass("chkbox_none");
 	}
-	if(${taskData.ctlg_itm_cd_9 == null || taskData.ctlg_itm_cd_9 == ''}) {
-		$("input:checkbox[id='ctlg_9_y_chk']").addClass("chkbox_none");
-		$("input:checkbox[id='ctlg_9_n_chk']").addClass("chkbox_none");
+	if(${taskData.ctlg_itm_cd_9 != null && taskData.ctlg_itm_cd_9 != ''}) {
+		$("#label_9_y").removeClass("chkbox_none");
+		$("#label_9_n").removeClass("chkbox_none");
 	}
-	if(${taskData.ctlg_itm_cd_10 == null || taskData.ctlg_itm_cd_10 == ''}) {
-		$("input:checkbox[id='ctlg_10_y_chk']").addClass("chkbox_none");
-		$("input:checkbox[id='ctlg_10_n_chk']").addClass("chkbox_none");
+	if(${taskData.ctlg_itm_cd_10 != null && taskData.ctlg_itm_cd_10 != ''}) {
+		$("#label_10_y").removeClass("chkbox_none");
+		$("#label_10_n").removeClass("chkbox_none");
 	}
 		
 	
 	// commanderlist ////////////////////////////////////////////////////////////////////
-	if("${taskData.guidnc_yn_1}" == "Y ")
+	if(${fn:trim(taskData.guidnc_yn_1) == 'Y'})
 		$("input:checkbox[id='guidnc_1_y_chk']").prop('checked', true);
-	else if("${taskData.guidnc_yn_1}" == "N ")
+	else if(${fn:trim(taskData.guidnc_yn_1) == 'N'})
 		$("input:checkbox[id='guidnc_1_n_chk']").prop('checked', true);
-	else if("${taskData.guidnc_yn_1}" == "C ") {
+	else if(${fn:trim(taskData.guidnc_yn_1) == 'C'}) {
 		$("input:checkbox[id='guidnc_1_y_chk']").prop('disabled', 'disabled');
 		$("input:checkbox[id='guidnc_1_n_chk']").prop('disabled', 'disabled');
 	}
 	
-	if("${taskData.guidnc_yn_2}" == "Y ")
+	if(${fn:trim(taskData.guidnc_yn_2) == 'Y'})
 		$("input:checkbox[id='guidnc_2_y_chk']").prop('checked', true);
-	else if("${taskData.guidnc_yn_1}" == "N ")
+	else if(${fn:trim(taskData.guidnc_yn_2) == 'N'})
 		$("input:checkbox[id='guidnc_2_n_chk']").prop('checked', true);
-	else if("${taskData.guidnc_yn_1}" == "C ") {
+	else if(${fn:trim(taskData.guidnc_yn_2) == 'C'}) {
 		$("input:checkbox[id='guidnc_2_y_chk']").prop('disabled', 'disabled');
 		$("input:checkbox[id='guidnc_2_n_chk']").prop('disabled', 'disabled');
 	}
 	
-	if("${taskData.guidnc_yn_3}" == "Y ")
+	if(${fn:trim(taskData.guidnc_yn_3) == 'Y'})
 		$("input:checkbox[id='guidnc_3_y_chk']").prop('checked', true);
-	else if("${taskData.guidnc_yn_1}" == "N ")
+	else if(${fn:trim(taskData.guidnc_yn_3) == 'N'})
 		$("input:checkbox[id='guidnc_3_n_chk']").prop('checked', true);
-	else if("${taskData.guidnc_yn_1}" == "C ") {
+	else if(${fn:trim(taskData.guidnc_yn_3) == 'C'}) {
 		$("input:checkbox[id='guidnc_3_y_chk']").prop('disabled', 'disabled');
 		$("input:checkbox[id='guidnc_3_n_chk']").prop('disabled', 'disabled');
 	}
 	
 	// checklist ////////////////////////////////////////////////////////////////////
-	if("${taskData.ctlg_itm_yn_1}" == "Y ")
+	if(${fn:trim(taskData.ctlg_itm_yn_1) == 'Y'})
 		$("input:checkbox[id='ctlg_1_y_chk']").prop('checked', true);
-	else if("${taskData.ctlg_itm_yn_1}" == "N ")
+	else if(${fn:trim(taskData.ctlg_itm_yn_1) == 'N'}) {
+		$("input:checkbox[id='ctlg_1_n_chk']").parent().removeClass("checks-img-red");
+		$("input:checkbox[id='ctlg_1_n_chk']").parent().addClass("checks-img");
+		$("input:checkbox[id='ctlg_1_y_chk']").prop('disabled', 'disabled');
+		$("input:checkbox[id='ctlg_1_n_chk']").prop('disabled', 'disabled');
 		$("input:checkbox[id='ctlg_1_n_chk']").prop('checked', true);
-	else if("${taskData.ctlg_itm_yn_1}" == "C ") {
+	}		
+	else if(${fn:trim(taskData.ctlg_itm_yn_1) == 'C'}) {	// check red
+		$("input:checkbox[id='ctlg_1_n_chk']").prop('checked', true);
 		$("input:checkbox[id='ctlg_1_y_chk']").prop('disabled', 'disabled');
 		$("input:checkbox[id='ctlg_1_n_chk']").prop('disabled', 'disabled');
 	}
 	
-	if("${taskData.ctlg_itm_yn_2}" == "Y ")
+	if(${fn:trim(taskData.ctlg_itm_yn_2) == 'Y'})
 		$("input:checkbox[id='ctlg_2_y_chk']").prop('checked', true);
-	else if("${taskData.ctlg_itm_yn_2}" == "N ")
+	else if(${fn:trim(taskData.ctlg_itm_yn_2) == 'N'}) {
+		$("input:checkbox[id='ctlg_2_n_chk']").parent().removeClass("checks-img-red");
+		$("input:checkbox[id='ctlg_2_n_chk']").parent().addClass("checks-img");
+		$("input:checkbox[id='ctlg_2_y_chk']").prop('disabled', 'disabled');
+		$("input:checkbox[id='ctlg_2_n_chk']").prop('disabled', 'disabled');
 		$("input:checkbox[id='ctlg_2_n_chk']").prop('checked', true);
-	else if("${taskData.ctlg_itm_yn_2}" == "C ") {
+	}
+	else if(${fn:trim(taskData.ctlg_itm_yn_2) == 'C'}) {
+		$("input:checkbox[id='ctlg_2_n_chk']").prop('checked', true);
 		$("input:checkbox[id='ctlg_2_y_chk']").prop('disabled', 'disabled');
 		$("input:checkbox[id='ctlg_2_n_chk']").prop('disabled', 'disabled');
 	}
 	
-	if("${taskData.ctlg_itm_yn_3}" == "Y ")
+	if(${fn:trim(taskData.ctlg_itm_yn_3) == 'Y'})
 		$("input:checkbox[id='ctlg_3_y_chk']").prop('checked', true);
-	else if("${taskData.ctlg_itm_yn_3}" == "N ")
+	else if(${fn:trim(taskData.ctlg_itm_yn_3) == 'N'}) {
+		$("input:checkbox[id='ctlg_3_n_chk']").parent().removeClass("checks-img-red");
+		$("input:checkbox[id='ctlg_3_n_chk']").parent().addClass("checks-img");
+		$("input:checkbox[id='ctlg_3_y_chk']").prop('disabled', 'disabled');
+		$("input:checkbox[id='ctlg_3_n_chk']").prop('disabled', 'disabled');
 		$("input:checkbox[id='ctlg_3_n_chk']").prop('checked', true);
-	else if("${taskData.ctlg_itm_yn_3}" == "C ") {
+	}		
+	else if(${fn:trim(taskData.ctlg_itm_yn_3) == 'C'}) {
+		$("input:checkbox[id='ctlg_3_n_chk']").prop('checked', true);
 		$("input:checkbox[id='ctlg_3_y_chk']").prop('disabled', 'disabled');
 		$("input:checkbox[id='ctlg_3_n_chk']").prop('disabled', 'disabled');
 	}
 	
-	if("${taskData.ctlg_itm_yn_4}" == "Y ")
+	if(${fn:trim(taskData.ctlg_itm_yn_4) == 'Y'})
 		$("input:checkbox[id='ctlg_4_y_chk']").prop('checked', true);
-	else if("${taskData.ctlg_itm_yn_4}" == "N ")
+	else if(${fn:trim(taskData.ctlg_itm_yn_4) == 'N'}) {
+		$("input:checkbox[id='ctlg_4_n_chk']").parent().removeClass("checks-img-red");
+		$("input:checkbox[id='ctlg_4_n_chk']").parent().addClass("checks-img");
+		$("input:checkbox[id='ctlg_4_y_chk']").prop('disabled', 'disabled');
+		$("input:checkbox[id='ctlg_4_n_chk']").prop('disabled', 'disabled');
 		$("input:checkbox[id='ctlg_4_n_chk']").prop('checked', true);
-	else if("${taskData.ctlg_itm_yn_4}" == "C ") {
+	}				
+	else if(${fn:trim(taskData.ctlg_itm_yn_4) == 'C'}) {
+		$("input:checkbox[id='ctlg_4_n_chk']").prop('checked', true);
 		$("input:checkbox[id='ctlg_4_y_chk']").prop('disabled', 'disabled');
 		$("input:checkbox[id='ctlg_4_n_chk']").prop('disabled', 'disabled');
 	}
 	
-	if("${taskData.ctlg_itm_yn_5}" == "Y ")
+	if(${fn:trim(taskData.ctlg_itm_yn_5) == 'Y'})
 		$("input:checkbox[id='ctlg_5_y_chk']").prop('checked', true);
-	else if("${taskData.ctlg_itm_yn_5}" == "N ")
+	else if(${fn:trim(taskData.ctlg_itm_yn_5) == 'N'}) {
+		$("input:checkbox[id='ctlg_5_n_chk']").parent().removeClass("checks-img-red");
+		$("input:checkbox[id='ctlg_5_n_chk']").parent().addClass("checks-img");
+		$("input:checkbox[id='ctlg_5_y_chk']").prop('disabled', 'disabled');
+		$("input:checkbox[id='ctlg_5_n_chk']").prop('disabled', 'disabled');
 		$("input:checkbox[id='ctlg_5_n_chk']").prop('checked', true);
-	else if("${taskData.ctlg_itm_yn_5}" == "C ") {
+	}			
+	else if(${fn:trim(taskData.ctlg_itm_yn_5) == 'C'}) {
+		$("input:checkbox[id='ctlg_5_n_chk']").prop('checked', true);
 		$("input:checkbox[id='ctlg_5_y_chk']").prop('disabled', 'disabled');
 		$("input:checkbox[id='ctlg_5_n_chk']").prop('disabled', 'disabled');
 	}
 	
-	if("${taskData.ctlg_itm_yn_6}" == "Y ")
+	if(${fn:trim(taskData.ctlg_itm_yn_6) == 'Y'})
 		$("input:checkbox[id='ctlg_6_y_chk']").prop('checked', true);
-	else if("${taskData.ctlg_itm_yn_6}" == "N ")
+	else if(${fn:trim(taskData.ctlg_itm_yn_6) == 'N'}) {
+		$("input:checkbox[id='ctlg_6_n_chk']").parent().removeClass("checks-img-red");
+		$("input:checkbox[id='ctlg_6_n_chk']").parent().addClass("checks-img");
+		$("input:checkbox[id='ctlg_6_y_chk']").prop('disabled', 'disabled');
+		$("input:checkbox[id='ctlg_6_n_chk']").prop('disabled', 'disabled');
 		$("input:checkbox[id='ctlg_6_n_chk']").prop('checked', true);
-	else if("${taskData.ctlg_itm_yn_6}" == "C ") {
+	}				
+	else if(${fn:trim(taskData.ctlg_itm_yn_6) == 'C'}) {
+		$("input:checkbox[id='ctlg_6_n_chk']").prop('checked', true);
 		$("input:checkbox[id='ctlg_6_y_chk']").prop('disabled', 'disabled');
 		$("input:checkbox[id='ctlg_6_n_chk']").prop('disabled', 'disabled');
 	}
 	
-	if("${taskData.ctlg_itm_yn_7}" == "Y ")
+	if(${fn:trim(taskData.ctlg_itm_yn_7) == 'Y'})
 		$("input:checkbox[id='ctlg_7_y_chk']").prop('checked', true);
-	else if("${taskData.ctlg_itm_yn_7}" == "N ")
+	else if(${fn:trim(taskData.ctlg_itm_yn_7) == 'N'}) {
+		$("input:checkbox[id='ctlg_7_n_chk']").parent().removeClass("checks-img-red");
+		$("input:checkbox[id='ctlg_7_n_chk']").parent().addClass("checks-img");
+		$("input:checkbox[id='ctlg_7_y_chk']").prop('disabled', 'disabled');
+		$("input:checkbox[id='ctlg_7_n_chk']").prop('disabled', 'disabled');
 		$("input:checkbox[id='ctlg_7_n_chk']").prop('checked', true);
-	else if("${taskData.ctlg_itm_yn_7}" == "C ") {
+	}		
+	else if(${fn:trim(taskData.ctlg_itm_yn_7) == 'C'}) {
+		$("input:checkbox[id='ctlg_7_n_chk']").prop('checked', true);
 		$("input:checkbox[id='ctlg_7_y_chk']").prop('disabled', 'disabled');
 		$("input:checkbox[id='ctlg_7_n_chk']").prop('disabled', 'disabled');
 	}
 	
-	if("${taskData.ctlg_itm_yn_8}" == "Y ")
+	if(${fn:trim(taskData.ctlg_itm_yn_8) == 'Y'})
 		$("input:checkbox[id='ctlg_8_y_chk']").prop('checked', true);
-	else if("${taskData.ctlg_itm_yn_8}" == "N ")
+	else if(${fn:trim(taskData.ctlg_itm_yn_8) == 'N'}) {
+		$("input:checkbox[id='ctlg_8_n_chk']").parent().removeClass("checks-img-red");
+		$("input:checkbox[id='ctlg_8_n_chk']").parent().addClass("checks-img");
+		$("input:checkbox[id='ctlg_8_y_chk']").prop('disabled', 'disabled');
+		$("input:checkbox[id='ctlg_8_n_chk']").prop('disabled', 'disabled');
 		$("input:checkbox[id='ctlg_8_n_chk']").prop('checked', true);
-	else if("${taskData.ctlg_itm_yn_8}" == "C ") {
+	}		
+	else if(${fn:trim(taskData.ctlg_itm_yn_8) == 'C'}) {
+		$("input:checkbox[id='ctlg_8_n_chk']").prop('checked', true);
 		$("input:checkbox[id='ctlg_8_y_chk']").prop('disabled', 'disabled');
 		$("input:checkbox[id='ctlg_8_n_chk']").prop('disabled', 'disabled');
 	}
 	
-	if("${taskData.ctlg_itm_yn_9}" == "Y ")
+	if(${fn:trim(taskData.ctlg_itm_yn_9) == 'Y'})
 		$("input:checkbox[id='ctlg_9_y_chk']").prop('checked', true);
-	else if("${taskData.ctlg_itm_yn_9}" == "N ")
+	else if(${fn:trim(taskData.ctlg_itm_yn_9) == 'N'}) {
+		$("input:checkbox[id='ctlg_9_n_chk']").parent().removeClass("checks-img-red");
+		$("input:checkbox[id='ctlg_9_n_chk']").parent().addClass("checks-img");
+		$("input:checkbox[id='ctlg_9_y_chk']").prop('disabled', 'disabled');
+		$("input:checkbox[id='ctlg_9_n_chk']").prop('disabled', 'disabled');
 		$("input:checkbox[id='ctlg_9_n_chk']").prop('checked', true);
-	else if("${taskData.ctlg_itm_yn_9}" == "C ") {
+	}				
+	else if(${fn:trim(taskData.ctlg_itm_yn_9) == 'C'}) {
+		$("input:checkbox[id='ctlg_9_n_chk']").prop('checked', true);
 		$("input:checkbox[id='ctlg_9_y_chk']").prop('disabled', 'disabled');
 		$("input:checkbox[id='ctlg_9_n_chk']").prop('disabled', 'disabled');
 	}
 	
-	if("${taskData.ctlg_itm_yn_10}" == "Y ")
+	if(${fn:trim(taskData.ctlg_itm_yn_10) == 'Y'})
 		$("input:checkbox[id='ctlg_10_y_chk']").prop('checked', true);
-	else if("${taskData.ctlg_itm_yn_10}" == "N ")
+	else if(${fn:trim(taskData.ctlg_itm_yn_10) == 'N'}) {
+		$("input:checkbox[id='ctlg_10_n_chk']").parent().removeClass("checks-img-red");
+		$("input:checkbox[id='ctlg_10_n_chk']").parent().addClass("checks-img");
+		$("input:checkbox[id='ctlg_10_y_chk']").prop('disabled', 'disabled');
+		$("input:checkbox[id='ctlg_10_n_chk']").prop('disabled', 'disabled');
 		$("input:checkbox[id='ctlg_10_n_chk']").prop('checked', true);
-	else if("${taskData.ctlg_itm_yn_10}" == "C ") {
+	}					
+	else if(${fn:trim(taskData.ctlg_itm_yn_10) == 'C'}) {
+		$("input:checkbox[id='ctlg_10_n_chk']").prop('checked', true);
 		$("input:checkbox[id='ctlg_10_y_chk']").prop('disabled', 'disabled');
 		$("input:checkbox[id='ctlg_10_n_chk']").prop('disabled', 'disabled');
 	}

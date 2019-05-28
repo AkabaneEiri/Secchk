@@ -15,14 +15,14 @@
 				<a href="#0">지휘 및 통제</a>
 				<ul class="sub-menu">
 					<li><a href="TroopsMonitoring.do"><img src="images/cd_bullet.png">부대활동 모니터링</a></li>
-					<li><a href="EnterCommanderGuide.do"><img src="images/cd_bullet.png">지휘관지침 입력</a></li>
+					<!-- <li><a href="EnterComGuide.do"><img src="images/cd_bullet.png">지휘관지침 입력</a></li>   -->
 				</ul>
 			</li> <!-- item-has-children -->
 			<li>
-				<a href="ReservedSafeManagement.do">예정된 안전관리활동</a>
+				<a href="ReservedSafeManagement.do">예정 활동</a>
 			</li>
 			<li>
-				<a href="OccasionalSafeManagement.do">수시 안전관리활동</a>
+				<a href="OccasionalSafeManagement.do">수시 활동</a>
 			</li>
 			<li>
 				<a href="CheckListManagement.do">체크리스트</a>

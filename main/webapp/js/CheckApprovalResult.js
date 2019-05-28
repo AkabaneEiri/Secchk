@@ -1,3 +1,21 @@
+$(document).ready(function(){
+	$("#opn").bind("keyup", checkVal);
+});
+function checkVal(){
+	var opn = document.getElementById("opn");
+	var res = document.getElementById("opn_res");
+	var opn_length = opn.value.length; 
+	if(opn_length > 100)
+		{
+			opn_res.value = opn_length+"/80";
+			opn.value = opn.value.slice(0,80);
+		}
+	else
+		{
+			opn_res.value = opn_length+"/80";
+		}
+}
+
 function getParameterByName(name) {
     name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
     var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
@@ -14,8 +32,7 @@ function Approval_Approve(){
 	
 	if(ApproveConfirm)
 		{
-			document.write("");
-			location.href ="CheckApprovlaResult_Result.do?state_cd="+state_cd+"&seq="+seq+"&opn="+opn;
+			location.href ="CheckApprovlaResult_Result.do?state_cd="+encodeURI(state_cd)+"&seq="+seq+"&opn="+encodeURI(opn);
 		}
 	else{
 		alert("취소하셨습니다.");
@@ -32,14 +49,12 @@ function	Approval_Deny(){
 	
 	if(DenyConfirm)
 		{
-			document.write("");
-			location.href ="CheckApprovlaResult_Result.do?state_cd="+state_cd+"&seq="+seq+"&opn="+opn;
+			location.href ="CheckApprovlaResult_Result.do?state_cd="+encodeURI(state_cd)+"&seq="+seq+"&opn="+encodeURI(opn);
 		}
 	else{
 		alert("취소하셨습니다.");
 	}
 }
 function	Approval_Cancle(){
-	document.write("");
 	location.href="CheckApproval.do";
 }

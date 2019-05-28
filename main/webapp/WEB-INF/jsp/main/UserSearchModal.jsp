@@ -4,22 +4,26 @@
 
 <!-- 모달 팝업 --> 
 <div class="modal" id="UserSearch"  role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" > 
-	<div class="modal-dialog" height="450px"> 
-		<div class="modal-content" style="height: 565px"> 
+	<div class="modal-dialog"> 
+		<div class="modal-content"> 
 			<div class="modal-header"> 
 				<button type="button" class="close" data-dismiss="modal">
 					<span aria-hidden="true">×</span>
 					<span class="sr-only">Close</span>
 				</button> 
-					<h4 class="modal-title" id="TaskSearchLabel">담당자 검색</h4> 
+					<!--  <h4 class="modal-title" id="TaskSearchLabel">담당자 검색</h4>  -->
+				<p style="text-align:center;">
+					<img src="images/title_img/SearchUser.png" alt="담당자 검색"  style="width:330px; height:65px;">
+				</p>   
 			</div>
+			<div class="modal-body" style="height:547px">
 			<div class="modal-body" style="height:80%">
-				<iframe src="UserSearchModal.do" width="100%" scrolling="yes" height="100%" id="iframe" onload="access()"></iframe>
+				<iframe src="UserSearchModal.do" width="100%" scrolling="yes" height="100%" id="iframe_user"></iframe>
 			</div>
 			<div class="modal-footer"> 
-				<button type="button" class="btn btn-sm btn-primary" id= "select"  data-dismiss="modal">
+				<button type="button" class="btn btn-sm btn-primary" id= "select"  data-dismiss="modal" onclick="User_select()">
 					<i class="fas fa-check"></i>&nbsp;확인</button> 
-				<button type="button" class="btn btn-sm btn-default" data-dismiss="modal">
+				<button type="button" class="btn btn-sm btn-default" data-dismiss="modal" onclick="User_Refresh()">
 					<i class="fas fa-undo"></i>&nbsp;취소</button> 
 			</div> 
 		</div>

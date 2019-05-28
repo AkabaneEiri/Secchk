@@ -13,20 +13,23 @@
 	</insert>	
 	
 	<select id="requestChecklistDAO.getRequestedListByLogined" parameterClass="userVO" resultClass="requestChecklistVO">
-	SELECT to_char(rqst_date, 'yyyy-mm-dd') AS rqst_date, rqstr_srvno, A.ctlg_cd, ctlg_nm, ctlg_itm_cd_1, state_cd, rqst_ctnt, rsn, new_yn, A.seq
-	FROM t_security_rqst_ctlg A, t_security_ctlg_cd B
-	WHERE A.rqstr_srvno = #srvno# AND B.ctlg_cd = A.ctlg_cd
+	SELECT *, TO_CHAR(rqst_date, 'yyyy-mm-dd') AS rqst_date,
+		(SELECT ctlg_nm FROM t_security_ctlg_cd WHERE ctlg_cd = A.ctlg_cd) AS ctlg_nm
+	FROM t_security_rqst_ctlg A
+	WHERE rqstr_srvno = #srvno#
+	ORDER BY rqst_date DESC
 	</select>
 	
 	<select id="requestChecklistDAO.getLimitReqCheckist" parameterClass="String" resultClass="requestChecklistVO">
 	SELECT *, (SELECT cd_nm FROM t_security_code WHERE cd=A.ctlg_cd) AS ctlg_nm,
 		(SELECT ctlg_itm_ctnt FROM t_security_ctlg WHERE ctlg_itm_cd=A.ctlg_itm_cd_1) AS ctlg_itm_nm,
-	 	(SELECT stmt FROM t_security_user WHERE srvno=A.rqstr_srvno) AS rqstr_nm,
+	 	(SELECT rspofc_nm FROM t_security_user WHERE srvno=A.rqstr_srvno) AS rqstr_nm,
 	 	(SELECT cd_nm FROM t_security_code A, t_security_user B WHERE B.srvno=rqstr_srvno AND A.cd=B.rnkcd) AS rqstr_rnk
 	FROM t_security_rqst_ctlg A
 	WHERE incdt_idtf_cd = #incdt_idtf_cd#
+	and state_cd = 'D1'
 	ORDER BY rqst_date DESC
-	LIMIT 4
+	LIMIT 5
 	</select>
 	
 	<select id="requestChecklistDAO.getRqstChkBySeq" parameterClass="String" resultClass="requestChecklistVO">
@@ -40,4 +43,94 @@
 		FROM t_security_rqst_ctlg A
 		WHERE seq = #seq#
 	</select>
+	
+	<select id="requestChecklistDAO.getNewCount" parameterClass="userVO" resultClass="Integer">
+	SELECT COUNT(*)
+	FROM t_security_rqst_ctlg
+	WHERE incdt_idtf_cd = #incdt_idtf_cd# AND state_cd = 'D1'
+	</select>
+	
+	<select id="requestChecklistDAO.getRequestedListForMain" parameterClass="String" resultClass="requestChecklistVO">
+	SELECT *, TO_CHAR(rqst_date, 'yyyy-mm-dd') AS rqst_date,
+		(SELECT ctlg_nm FROM t_security_ctlg_cd WHERE ctlg_cd = A.ctlg_cd) AS ctlg_nm
+	FROM t_security_rqst_ctlg A
+	WHERE rqstr_srvno = #srvno# AND state_cd != 'D2'
+	ORDER BY rqst_date DESC
+	LIMIT 5
+	</select>
+	
+	<select id="requestChecklistDAO.searchRequest" parameterClass="requestChecklistVO" resultClass="requestChecklistVO">
+		SELECT 
+		seq,
+		rqst_date,
+		(SELECT rspofc_nm FROM t_security_user B WHERE rqstr_srvno = B.srvno) AS rqstr_srvno,
+		(SELECT ctlg_nm FROM t_security_ctlg_cd B WHERE A.CTLG_CD = b.ctlg_cd) AS ctlg_cd,
+		CASE
+			WHEN ctlg_itm_cd_1 = '-1'
+			THEN ''
+		ELSE
+			(SELECT CTLG_ITM_CTNT FROM t_security_ctlg B WHERE A.CTLG_ITM_CD_1 = B.CTLG_ITM_CD)
+		END 
+		AS ctlg_itm_cd_1,
+		(ctlg_itm_cd_1) AS ctlg_itm_cd_2,
+		rqst_ctnt,
+		(SELECT cd_nm FROM t_security_code b WHERE a.state_cd = b.cd) as	state_cd,
+		rsn, 
+		CASE 
+			WHEN new_yn = '1' THEN 'Y' 
+			WHEN new_yn = 'Y' THEN 'Y' 
+		ELSE 'N'
+		END
+		AS new_yn,
+		opn
+	FROM t_security_rqst_ctlg A
+	where incdt_idtf_cd = #incdt_idtf_cd#
+	<isNotEmpty prepend = "AND" property="rqst_date">
+	rqst_date = #rqst_date#
+	</isNotEmpty>
+	<isNotEmpty prepend = "AND" property="rqstr_srvno">
+	rqstr_srvno in (select srvno from t_security_user where rspofc_nm like '%'|| #rqstr_srvno#||'%')
+	</isNotEmpty>
+	<isNotEmpty prepend = "AND" property="ctlg_cd">
+	ctlg_cd in (select ctlg_cd from t_security_ctlg_cd where ctlg_nm like '%' || #ctlg_cd# || '%')
+	</isNotEmpty>
+	<isNotEmpty prepend = "AND" property="state_cd">
+	state_cd = #state_cd#
+	</isNotEmpty>
+	<isEqual prepend = "AND" property="new_yn" compareValue="Y">
+	new_yn = 1
+	</isEqual>
+	<isEqual prepend = "AND" property="new_yn" compareValue="N">
+	new_yn NOT LIKE 1
+	</isEqual>
+	<isNotEmpty prepend = "AND" property="ctlg_itm_cd_1">
+	(SELECT CTLG_ITM_CTNT FROM t_security_ctlg B WHERE A.CTLG_ITM_CD_1 = B.CTLG_ITM_CD) LIKE
+	 '%' || #ctlg_itm_cd_1# || '%'
+	</isNotEmpty>
+	<isNotEmpty prepend ="AND" property="rqst_ctnt">
+	rqst_ctnt like '%' || #rqst_ctnt# || '%'
+	</isNotEmpty>
+	order by rqst_date desc
+	</select>
+	
+	<select id="requestChecklistDAO.getListByCondition" parameterClass="requestChecklistVO" resultClass="requestChecklistVO">
+	SELECT *,
+		(SELECT cd_nm FROM t_security_code WHERE cd=A.ctlg_cd) AS ctlg_nm
+	FROM t_security_rqst_ctlg A
+		<dynamic prepend="WHERE"> 		
+			<isNotEmpty prepend="AND" property="rqstr_srvno">
+				A.rqstr_srvno = #rqstr_srvno#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="rqst_date">
+				A.rqst_date = #rqst_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="state_cd">
+				A.state_cd = #state_cd#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="ctlg_nm">
+				(SELECT cd_nm FROM t_security_code WHERE cd=A.ctlg_cd) like '%' || #ctlg_nm# || '%'
+			</isNotEmpty>
+		</dynamic>
+	ORDER BY rqst_date DESC
+	</select>	
 </sqlMap>

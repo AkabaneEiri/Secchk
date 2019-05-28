@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 
 import egovframework.main.service.CheckApprovalService;
 import egovframework.main.service.VO.CheckApprovalVO;
+import egovframework.main.service.VO.ListsearchVO;
 import egovframework.main.service.VO.MemberSearchVO;
+import egovframework.main.service.VO.UserVO;
 import egovframework.main.service.common.CheckApprovalDAO;
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
 
@@ -54,5 +56,20 @@ public class CheckApprovalServiceImpl extends AbstractServiceImpl implements Che
 	
 	public CheckApprovalVO getApprovalByVO(CheckApprovalVO checkApprovalVO) throws Exception {
 		return checkApprovalDAO.getApprovalByVO(checkApprovalVO);
+	}
+	
+	// get count
+	public int getNewCount(UserVO userVO) throws Exception {
+		return checkApprovalDAO.getNewCount(userVO);
+	}
+	@Override
+	public List<CheckApprovalVO> searchApproval(CheckApprovalVO checkApprovalVO)
+			throws Exception {
+		return checkApprovalDAO.searchApproval(checkApprovalVO);
+	}
+	
+	// get rqst ugcy in task date page
+	public CheckApprovalVO getApprovalByTaskData(ListsearchVO listsearchVO) throws Exception {
+		return checkApprovalDAO.getApprovalByTaskData(listsearchVO);
 	}
 }

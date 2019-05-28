@@ -7,7 +7,9 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import egovframework.main.service.RequestActivityService;
+import egovframework.main.service.VO.CheckApprovalVO;
 import egovframework.main.service.VO.RequestActivityVO;
+import egovframework.main.service.VO.UserVO;
 import egovframework.main.service.common.RequestActivityDAO;
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
 
@@ -48,5 +50,25 @@ public class RequestActivityServiceImpl extends EgovAbstractServiceImpl implemen
 	
 	public RequestActivityVO getRqstActBySeq(String seq) throws Exception {
 		return requestActivityDAO.getRqstActBySeq(seq);
+	}
+
+	// get count
+	public int getNewCount(UserVO userVO) throws Exception {
+		return requestActivityDAO.getNewCount(userVO);
+	}
+	
+	// get limit list for main
+	public List<RequestActivityVO> getRequestedListForMain(String srvno) throws Exception {
+		return requestActivityDAO.getRequestedListForMain(srvno);
+	}
+
+	@Override
+	public List<RequestActivityVO> searchApproval(
+			RequestActivityVO requestActivityVO) throws Exception {
+		return requestActivityDAO.searchApproval(requestActivityVO);
+	}
+	
+	public List<RequestActivityVO> getListByCondition(RequestActivityVO requestActivityVO) throws Exception {
+		return requestActivityDAO.getListByCondition(requestActivityVO);
 	}
 }

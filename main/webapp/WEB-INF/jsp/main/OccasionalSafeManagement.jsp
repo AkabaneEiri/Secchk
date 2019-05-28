@@ -15,7 +15,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
-<title>수시 안전관리 활동</title>
+<title>수시 활동</title>
 <script src="js/jquery-3.1.1.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/common.js"></script>
@@ -31,6 +31,26 @@
 <script src="js/submit.js"></script>
 <link href="css/detail.css" rel="stylesheet">
 
+<script>
+$(document).ready(function() {
+	if (${curYear != null}) {
+		$("#activityYear").val(${curYear});
+	}
+	
+	if (${curMon != null}) {
+		$("#activityMonth").val(${curMon});
+	}
+	
+	if (${curDay != null}) {
+		$("#activityDay").val(${curDay});
+	}
+	
+	if (${curSelected_state != null}) { 
+		$("#select_state").val("${curSelected_state}"); 
+	}
+})
+</script>
+
 </head>
 
 <body>
@@ -38,22 +58,73 @@
 	<div class="sub_contents_wrap">	
 		
 		<article class="sub_title">
-			<span>수시 안전관리 활동</span>
+			<span>수시 활동</span>
 		</article>
 		
 		<article class="cur_page">
 			<div id="title">
-			홈<span>></span>수시 안전관리 활동
+			홈<span>></span>수시 활동
 			</div>		
 		</article>
 		
 		<section class="subContent_section" id="auto">
 		<div class="table_margin">
-		<p style="text-align:center;">
-			<img src="images/title_img/OccasionalSafeManagement.png" alt="요청한 수시 안전관리활동"  style="width:330px; height:80px;">
-		</p> 
 		
-		<table class="table table-striped indexboard sub_table table01" style="margin:auto;margin-top:10px;margin-bottom:10px;">
+		<table class="table table-striped sub_table table01">
+		<thead class="thead_title">
+			<tr>
+				<th><c:out value="활동일자"/></th>
+				<th><c:out value="부대활동"/></th>
+				<th><c:out value="상태"/></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td style="min-width: 167px;">
+					<select id="activityYear" style="">
+						<option value="">년</option>
+						<c:set var="year" value="2019"/>
+						<c:forEach begin="2019" end="2030">		
+							<option value="${year}">${year}</option>				
+							<c:set var="year" value="${year+1}"/>
+						</c:forEach>
+					</select>
+					<select id="activityMonth" style="">
+						<option value="">월</option>
+						<c:set var="month" value="1"/>
+						<c:forEach begin="1" end="12">
+							<option value="${month}">${month}</option>
+							<c:set var="month" value="${month+1}"/>
+						</c:forEach>
+					</select>
+					<select id="activityDay" style="">
+						<option value="">일</option>
+						<c:set var="day" value="1"/>
+						<c:forEach begin="1" end="31">
+							<option value="${day}">${day}</option>
+							<c:set var="day" value="${day+1}"/>
+						</c:forEach>
+					</select>
+				</td>
+				<td>
+					<input class="sub_input" type="text" id="search_nm" class="form-control grp_input_width" placeholder="부대활동" value="${curSearch_nm }"/>
+				</td>
+				<td>
+					<select id="select_state">
+						<option value="">선택</option>
+						<option value="D1">검토중</option>
+						<option value="D2">승인완료</option>
+						<option value="D3">반려</option>
+					</select>
+				</td>
+			</tr>
+		</tbody>
+		</table>
+		<div class="div_bottom_btn">
+			<button type="button" class="btn btn-sm btn-primary" onclick="fn_search_rqstAct()" style="vertical-align: top;"><i class="fas fa-search"></i>&nbsp;조회</button>
+		</div>
+		
+		<table class="table table-striped sub_table table01" style="margin:auto;margin-top:10px;margin-bottom:10px;">
 		<colgroup>
 			<col width="25%"/>
 			<col width="45%"/>
@@ -62,7 +133,7 @@
 		</colgroup>
 		<thead class="thead_title" style="text-align: center;">
 			<tr>
-				<th>일자</th>
+				<th>활동일자</th>
 				<th>요청한 활동</th>
 				<th>결과</th>
 				<th>상세</th>
@@ -76,9 +147,9 @@
 				<c:otherwise>
 					<c:forEach var="rqstLS" items="${requestList}" varStatus="status">
 						<tr>
-							<td>${rqstLS.actvt_date}</td>
-							<td>${rqstLS.incdt_actvt_type_cd_nm}</td>
-							<td style="text-align: center">
+							<td style="min-width: 114px;">${rqstLS.actvt_date}</td>
+							<td><span class="word_break">${rqstLS.incdt_actvt_type_cd_nm}</span></td>
+							<td style="text-align: center; min-width: 72px;">
 								<c:choose>
 									<c:when test="${fn:trim(rqstLS.state_cd) == 'D1'}">검토 중</c:when>
 									<c:when test="${fn:trim(rqstLS.state_cd) == 'D2'}">승인 완료</c:when>

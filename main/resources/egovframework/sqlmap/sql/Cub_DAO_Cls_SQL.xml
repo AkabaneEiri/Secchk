@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="dao_cls">
+	<typeAlias alias="clsVO" type="egovframework.main.service.VO.ClsVO"/>
+	
+	<insert id="clsDAO.insertClsVO" parameterClass="clsVO">
+	INSERT INTO t_security_cls ( lrgcls, mdcls )
+	VALUES ( #lrgcls#, #mdcls# )
+	</insert>
+	
+	<select id="clsDAO.getAllClsList" resultClass="clsVO">
+	SELECT *,
+		(SELECT cd_nm FROM t_security_code WHERE cd = A.lrgcls) AS lrgcls_nm,
+		(SELECT cd_nm FROM t_security_code WHERE cd = A.mdcls) AS mdcls_nm
+	FROM t_security_cls A
+	</select>
+</sqlMap>

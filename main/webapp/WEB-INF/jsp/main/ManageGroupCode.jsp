@@ -42,7 +42,7 @@
 	<div class="sub_contents_wrap">	
 		
 		<article class="sub_title">
-			<span>코드관리</span>
+			<span>그룹코드 관리</span>
 		</article>
 		
 		<article class="cur_page">
@@ -57,22 +57,24 @@
 			<form:form commandName="codeSearchVO" name="listForm" method="post">
 				<table style="text-align:left;margin:auto;margin-top:10px;margin-bottom:10px;width:90%">
 					<tr>
-						<td style="width:10%">■ 코드명 : </td>
+						<td style="width:97px;">■ 코드명 : </td>
 						<td style="width:25%">
 							<input id="search_nm" name="search_nm" style="height:30px;box-shadow:0px 0px 1px #757575;border:none;text-align:center;font-size:15pt;color :gray;" type="text" value="<c:out value="${codeSearchVO.search_nm}"/>" />
 						</td>
 						<td style="text-align:left; padding-left:10px;">
-							<button type="Search" class="btn btn-sm btn-primary" id="search" onclick="groupCode_Search()">
+							<button type="button" class="btn btn-sm btn-primary" id="search" onclick="groupCode_Search()">
 								<i class="fas fa-search"></i>&nbsp;검색
+							</button>
+							<button type="button" class="btn btn-sm btn-primary" id="mgrCode" onclick="fn_go_mgrCode()">
+								<i class="fas fa-pencil-alt"></i>&nbsp;코드관리
 							</button>
 						</td>
 					</tr>
 				</table>
 				<input type="hidden" id="currentPageNo" name="currentPageNo"/>
 				<input type="hidden" id="currentSearch" name="currentSearch"/>
-			</form:form>
+			</form:form>			
 			
-			<form action="" name="codelistForm" id="codelistForm" method="post"	onsubmit="">
 				<table class="table table-striped page_table sub_table table01" style="width:90%; text-align:center;margin:auto;margin-top:10px;margin-bottom:10px">
 					<thead class="thead_text">
 						<tr>
@@ -103,8 +105,7 @@
 							</tr>
 						</c:forEach>
 					</tbody>
-				</table>
-			</form>
+				</table>			
 
 			<table style="margin:auto; width:90%">
 			<tr>

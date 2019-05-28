@@ -19,29 +19,61 @@
 	</select>
 	<select id="taskDAO.selectTaskMiddle" parameterClass="membersearchVO" resultClass="taskVO">
 		SELECT * FROM T_SECURITY_CODE 
-		WHERE CD LIKE 'I%'
+		WHERE 1=0 
+		or CD LIKE 'I%'
+		AND grp_cd = 'L9'
 		<isNotEmpty prepend = "AND" property="searchConditionLarge">
 		cd IN (SELECT mdcls
 		FROM t_security_ctlg_cd
 		WHERE lrgcls = #searchConditionLarge#)
 		or cd = #searchConditionLarge#
+		AND grp_cd = 'L9'
+		</isNotEmpty>
+		<isNotEmpty prepend = "and" property="end">
+		1=0;
+		</isNotEmpty>
+	</select>
+	
+	<select id="taskDAO.getClsList" parameterClass = "taskVO" resultClass = "taskVO">
+		select	
+			ctlg_cd, 
+			ctlg_nm, 
+			lrgcls,
+			(SELECT cd_nm FROM t_security_code WHERE cd = lrgcls) AS  lrgcls_nm,
+			mdcls,
+			(SELECT cd_nm FROM t_security_code WHERE cd = mdcls) AS  mdcls_nm
+		from t_security_ctlg_cd
+		where 1=0
+		<isNotEmpty prepend ="or" property ="ctlg_cd">
+			ctlg_cd = #ctlg_cd#
 		</isNotEmpty>
 	</select>
 	
 	<select id="taskDAO.selectTaskOrder" parameterClass = "taskVO" resultClass="taskVO">
 		SELECT * FROM T_SECURITY_CTLG_CD
-		WHERE 1=1
-		<isNotEmpty prepend = "AND" property="lrgcls">
+		WHERE 1=0
+		<isNotEmpty prepend = "OR" property="lrgcls">
 		lrgcls like '%' || #lrgcls# || '%'
 		</isNotEmpty>
-		<isNotEmpty prepend = "AND" property="mdcls">
+		<isNotEmpty prepend = "OR" property="mdcls">
 		mdcls like 
-		(SELECT cd FROM t_security_code WHERE cd_nm = #mdcls#)
+		(SELECT cd FROM t_security_code WHERE cd_nm = #mdcls# and cd like'I%')
 		</isNotEmpty>
-		<isNotEmpty prepend = "AND" property="ctlg_nm" >
+		<isNotEmpty prepend = "OR" property="ctlg_nm" >
 		ctlg_nm like '%' || #ctlg_nm# || '%'
 		</isNotEmpty>
-		<isNotEmpty prepend = "AND" property="ctlg_cd">
+		<isNotEmpty prepend = "OR" property="ctlg_cd">
+		ctlg_cd like '%' || #ctlg_cd# || '%'
+		</isNotEmpty>
+	</select>
+	<select id="taskDAO.getTaskSearchNameWithOption" parameterClass = "taskVO" resultClass="taskVO">
+		SELECT * FROM T_SECURITY_CTLG_CD
+		WHERE lrgcls = #lrgcls#
+		and mdcls = #mdcls#
+		<isNotEmpty prepend = "and" property="ctlg_nm" >
+		ctlg_nm like '%' || #ctlg_nm# || '%'
+		</isNotEmpty>
+		<isNotEmpty prepend = "and" property="ctlg_cd">
 		ctlg_cd like '%' || #ctlg_cd# || '%'
 		</isNotEmpty>
 	</select>
@@ -62,26 +94,79 @@
 		</isNotEmpty>
 
 	</select>
-	 
+	<select id="taskDAO.getTaskSearchOption" parameterClass="taskVO" resultClass="taskVO">
+	SELECT ctlg_cd,
+		ctlg_nm,
+		lrgcls,
+		(SELECT cd_nm FROM t_security_code WHERE cd = a.lrgcls) AS lrgcls_nm,
+		mdcls,
+		(SELECT cd_nm FROM t_security_code WHERE cd = mdcls) AS mdcls_nm
+		FROM T_SECURITY_CTLG_CD a
+		where 1=0
+	<isNotEmpty prepend = "OR" property="lrgcls" >
+		lrgcls = #lrgcls#
+	</isNotEmpty>
+	</select>
 	<select id="taskDAO.selectTaskList" parameterClass="membersearchVO" resultClass="taskVO">
-			SELECT (SELECT CD_NM FROM t_security_code WHERE CD = t_security_task.incdt_idtf_cd) AS INCDT_IDTF_CD,
-		 INCDT_ACTVT_TYPE_CD, 
-		 actvt_date, 
-		 TASK, 
-		 (SELECT stmt FROM t_security_user b WHERE srvno =t_security_task.task_psnchnrg_srvno) AS task_psnchnrg_srvno,
-		(SELECT cd_nm FROM t_security_code WHERE cd = (SELECT rnkcd FROM t_security_user b WHERE srvno =t_security_task.task_psnchnrg_srvno)) AS task_psnchnrg_rnk,
-		  state_cd
-		FROM t_security_task
+	SELECT 
+	(SELECT CD_NM FROM t_security_code WHERE CD = a.incdt_idtf_cd) AS INCDT_IDTF_CD,
+	(select cd_nm from t_security_code where cd = a.INCDT_ACTVT_TYPE_CD) as INCDT_ACTVT_TYPE_CD, 
+	actvt_date, 
+	TASK, 
+	(SELECT rspofc_nm FROM t_security_user b WHERE srvno =a.task_psnchnrg_srvno) AS task_psnchnrg_srvno,
+	(SELECT cd_nm FROM t_security_code WHERE cd = (SELECT rnkcd FROM t_security_user b WHERE srvno =a.task_psnchnrg_srvno)) AS task_psnchnrg_rnk,
+	state_cd,
+	(SELECT lrgcls
+		FROM t_security_ctlg_cd b
+		WHERE b.ctlg_cd = (
+		SELECT ctlg_cd
+		FROM t_security_incdt_actvt_type c
+		WHERE incdt_actvt_type_cd = a.incdt_actvt_type_cd
+		)
+	) AS lrgcls,
+	(SELECT cd_nm FROM t_security_code WHERE cd = (SELECT lrgcls
+		FROM t_security_ctlg_cd b
+		WHERE b.ctlg_cd = (
+		SELECT ctlg_cd
+		FROM t_security_incdt_actvt_type c
+		WHERE incdt_actvt_type_cd = a.incdt_actvt_type_cd
+		)
+	)) AS lrgcls_nm,
+	(SELECT mdcls
+		FROM t_security_ctlg_cd b
+		WHERE b.ctlg_cd = (
+		SELECT ctlg_cd
+		FROM t_security_incdt_actvt_type c
+		WHERE incdt_actvt_type_cd = a.incdt_actvt_type_cd
+		)
+	) AS mdcls,
+	(SELECT cd_nm FROM t_security_code WHERE cd = (SELECT mdcls
+		FROM t_security_ctlg_cd b
+		WHERE b.ctlg_cd = (
+		SELECT ctlg_cd
+		FROM t_security_incdt_actvt_type c
+		WHERE incdt_actvt_type_cd = a.incdt_actvt_type_cd
+		)
+	))as mdcls_nm,
+	seq
+	FROM t_security_task a
 		WHERE 1=0
-		<isNotEmpty prepend ="OR"  property= "searchCondition1">
-		INCDT_ACTVT_TYPE_CD = (SELECT CD FROM t_security_code WHERE CD_NM = #searchCondition1# AND CD LIKE 'F%')
+		<isNotEmpty prepend ="OR"  property= "searchCode">
+		incdt_idtf_cd = #searchCode#
+		</isNotEmpty>
+		<isNotEmpty prepend ="AND"  property= "searchCondition1">
+		INCDT_ACTVT_TYPE_CD = (SELECT	incdt_actvt_type_cd FROM	t_security_incdt_actvt_type WHERE CTLG_CD = #searchCondition1#)
 		</isNotEmpty>
 		<isNotEmpty prepend ="AND"  property= "searchCondition2">
 		actvt_date = #searchCondition2#
 		</isNotEmpty>
-		<isNotEmpty prepend ="AND"  property= "searchCode">
-		incdt_idtf_cd = #searchCode#
+		<isNotEmpty prepend ="AND" property="searchCondition3">
+		incdt_actvt_type_cd in (SELECT incdt_actvt_type_cd FROM t_security_incdt_actvt_type WHERE ctlg_cd in (SELECT ctlg_cd FROM t_security_ctlg_cd WHERE lrgcls = #searchCondition3#))
 		</isNotEmpty>
+		<isNotEmpty prepend ="AND" property="searchCondition">
+		incdt_actvt_type_cd in (SELECT incdt_actvt_type_cd FROM t_security_incdt_actvt_type WHERE ctlg_cd in (SELECT ctlg_cd FROM t_security_ctlg_cd WHERE mdcls = #searchCondition#))
+		</isNotEmpty>
+
 		order by INCDT_IDTF_CD
 	</select>
 	<select id="taskDAO.getTaskSelected" parameterClass="taskVO" resultClass="taskVO">
@@ -92,6 +177,13 @@
 		and		task_psnchnrg_srvno = #task_psnchnrg_srvno#
 		and		actvt_date = #actvt_date#
 	</select>
+	<select id="taskDAO.getActivityRequire" parameterClass="taskVO" resultClass="taskVO">
+	select id from t_security_incdt_actvt
+	where incdt_idtf_cd = #incdt_idtf_cd#
+	and incdt_actvt_type_cd = (SELECT CD FROM t_security_code WHERE CD_NM = #incdt_actvt_type_cd# AND CD LIKE 'F%')
+	and state_cd = 'E1'
+	and actvt_date = #actvt_date#
+	</select>
 	<insert id="taskDAO.InsertTask" parameterClass="taskVO">
 		INSERT INTO T_SECURITY_TASK
 		(
@@ -100,8 +192,8 @@
 		VALUES
 		(
 			#incdt_idtf_cd#,  
-			(SELECT CD FROM t_security_code WHERE CD_NM = #incdt_actvt_type_cd# AND CD LIKE 'F%')
-			, #actvt_date#, #task#, #task_psnchnrg_srvno#, 'E1', (SELECT t_security_incdt_actvt_ai_seq.current_value+1 FROM db_root)
+			(select incdt_actvt_type_cd from t_security_incdt_actvt_type where ctlg_cd = #incdt_actvt_type_cd#),
+			#actvt_date#, #task#, #task_psnchnrg_srvno#, 'E1', (SELECT t_security_incdt_actvt_ai_seq.current_value+1 FROM db_root)
 		);
 		
 		INSERT INTO T_SECURITY_INCDT_ACTVT
@@ -109,7 +201,7 @@
 		VALUES
 		(
 		#incdt_idtf_cd#,
-		(SELECT CD FROM t_security_code WHERE CD_NM = #incdt_actvt_type_cd# AND CD LIKE 'F%'),
+		(select incdt_actvt_type_cd from t_security_incdt_actvt_type where ctlg_cd = #incdt_actvt_type_cd#),
 		 'E1',
 		 #actvt_date#,
  		(SELECT t_security_incdt_actvt_ai_seq.current_value+1 FROM db_root)
@@ -152,16 +244,91 @@
 		(SELECT t_security_incdt_actvt_ai_seq.current_value FROM db_root),
 		#incdt_actvt_type_cd#,
 		#task_psnchnrg_srvno#,
-		(SELECT CD FROM t_security_code WHERE CD_NM = #incdt_actvt_type_cd# AND CD LIKE 'F%'),
-		#incdt_idtf_cd#,
-		(SELECT CD FROM t_security_code WHERE CD_NM = #incdt_actvt_type_cd# AND CD LIKE 'G%'),
+		#incdt_actvt_type_cd#,
+		(select incdt_actvt_type_cd from t_security_incdt_actvt_type where ctlg_cd = #incdt_actvt_type_cd#),
+		(select ctlg_cd from t_security_incdt_actvt_type where incdt_actvt_type_cd = #incdt_actvt_type_cd#),
 		#actvt_date#
 		)
 	</insert>
-	
+	<insert id="taskDAO.InsertActivity" parameterClass="taskVO">
+		INSERT INTO T_SECURITY_TASK
+		(
+			INCDT_IDTF_CD, INCDT_ACTVT_TYPE_CD, ACTVT_DATE, TASK, TASK_PSNCHNRG_SRVNO, STATE_CD, id
+		)
+		VALUES
+		(
+			#incdt_idtf_cd#,  
+			#incdt_actvt_type_cd#
+			, #actvt_date#, #task#, #task_psnchnrg_srvno#, 'E1', #id#
+		);
+		
+		INSERT INTO T_SECURITY_TASK_DATA
+		(
+			state_cd,
+			ctlg_itm_cd_1,
+			ctlg_itm_cd_2,
+			ctlg_itm_cd_3,
+			ctlg_itm_cd_4,
+			ctlg_itm_cd_5,
+			ctlg_itm_cd_6,
+			ctlg_itm_cd_7,
+			ctlg_itm_cd_8,
+			ctlg_itm_cd_9,
+			ctlg_itm_cd_10,
+			id,
+			task,
+			task_psnchnrg_srvno,
+			task_cd,
+			incdt_idtf_cd,
+			ctlg_cd,
+			actvt_date
+		)
+		values
+		(
+		'E1',
+		(select ctlg_itm_cd_1 from t_security_sprtly_ctlg where seq = #seq#),
+		(select ctlg_itm_cd_2 from t_security_sprtly_ctlg where seq = #seq#),
+		(select ctlg_itm_cd_3 from t_security_sprtly_ctlg where seq = #seq#),
+		(select ctlg_itm_cd_4 from t_security_sprtly_ctlg where seq = #seq#),
+		(select ctlg_itm_cd_5 from t_security_sprtly_ctlg where seq = #seq#),
+		(select ctlg_itm_cd_6 from t_security_sprtly_ctlg where seq = #seq#),
+		(select ctlg_itm_cd_7 from t_security_sprtly_ctlg where seq = #seq#),
+		(select ctlg_itm_cd_8 from t_security_sprtly_ctlg where seq = #seq#),
+		(select ctlg_itm_cd_9 from t_security_sprtly_ctlg where seq = #seq#),
+		(select ctlg_itm_cd_10 from t_security_sprtly_ctlg where seq = #seq#),
+		#id#,
+		#incdt_actvt_type_cd#,
+		#task_psnchnrg_srvno#,
+		#incdt_actvt_type_cd#,
+		#incdt_idtf_cd#,
+		(select ctlg_cd from t_security_incdt_actvt_type where incdt_actvt_type_cd = #incdt_actvt_type_cd#),
+		#actvt_date#
+		)
+	</insert>
 	<select id="taskDAO.selectTaskStateCode" parameterClass="integer" resultClass="String">
 		SELECT state_cd
 		FROM t_security_task
 		WHERE seq = #seq#
 	</select>
+	<select id="taskDAO.getctlgCode" parameterClass="membersearchVO" resultClass="taskVO">
+	SELECT
+		ctlg_cd,
+		ctlg_nm
+	FROM
+		t_security_ctlg_cd
+	WHERE
+		ROWNUM BETWEEN 1 AND 100;
+		
+	</select>
+	<select id="taskDAO.selectId" parameterClass="taskVO" resultClass="taskVO">
+	SELECT ID FROM T_SECURITY_TASK WHERE SEQ = #seq#
+	</select>
+	<delete id="taskDAO.deleteTask" parameterClass="taskVO">
+		DELETE FROM T_SECURITY_TASK
+		where seq=#seq#;
+			
+		DELETE FROM T_SECURITY_TASK_DATA
+		where id=#id#
+		and task_psnchnrg_srvno = #task_psnchnrg_srvno#;
+	</delete>
 </sqlMap>

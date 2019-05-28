@@ -58,4 +58,13 @@ public class ListsearchVO { // 부여된 과업에 따른 체크리스트 검색
 	public void setState_cd(String state_cd) {
 		this.state_cd = state_cd;
 	}	
+	
+	private String search_by_name = "";	// 이름으로 검색
+
+	public String getSearch_by_name() {
+		return search_by_name;
+	}
+	public void setSearch_by_name(String search_by_name) {
+		this.search_by_name = search_by_name;
+	}	
 }

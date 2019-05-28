@@ -54,7 +54,7 @@
 		
 		<div class="div_title"><span style="margin-right: 10px;">${actVO.actvt_date}</span>   <span style="margin-left: 10px;">${actVO.incdt_actvt_type_cd_nm}</span></div>		
 		
-		<table class="table table-striped indexboard sub_table table01">
+		<table class="table table-striped indexboard sub_table table01" style="margin-bottom:10px;">
 			<thead class="thead_text" style="text-align: center">
 				<tr>
 					<th>과업</th>
@@ -75,7 +75,7 @@
 					<c:otherwise>
 							<tr>
 								<td><c:out value="${taskList.task}"/></td>
-								<td><c:out value="${taskList.task_psnchnrg_nm}"/></td>
+								<td><a href="javascript:fn_go_taskList('${taskList.id }', '${taskList.task_psnchnrg_srvno }');"><c:out value="${taskList.task_psnchnrg_nm}"/></a></td>
 								
 								<c:choose>
 									<c:when test="${fn:trim(taskList.state_cd) == 'E1'}">
@@ -100,6 +100,20 @@
 			</c:forEach>
 			</tbody>
 		</table>
+		
+		<form:form commandName="listsearchVO" name="checklistForm" method="post">
+					<form:hidden path="findCode"/>
+					<form:hidden path="task"/>
+					<form:hidden path="seq"/>
+					<form:hidden path="date"/>
+					<form:hidden path="actId"/>
+					<form:hidden path="srvno"/>
+		</form:form>
+		
+		<div class="div_bottom_btn">
+			<button type="button" class="btn btn-sm btn-primary btn-width" id="back" onclick="javascript:history.back();">
+				<i class="fas fa-list"></i>&nbsp;목록</button>
+		</div>
 		
 		</div>
 

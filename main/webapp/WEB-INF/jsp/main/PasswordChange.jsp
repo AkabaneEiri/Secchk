@@ -25,19 +25,19 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
 <title>로그인 화면</title>
-<script src="js/LoginJs/jquery-3.1.1.min.js"></script>
-<script src="js/LoginJs/bootstrap.min.js"></script>
-<script src="js/LoginJs/common.js"></script>	
-<script src="js/LoginJs/fontawesome-all.js"></script>	
-<script src="js/LoginJs/swiper.min.js"></script>
-<script src="js/LoginJs/swiper.js"></script>	
+<script src="js/jquery-3.1.1.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/common.js"></script>	
+<script src="js/fontawesome-all.js"></script>	
+<script src="js/swiper.min.js"></script>
+<script src="js/swiper.js"></script>	
 <script src="js/submit.js"></script>
 <script src="js/regula.js"></script>
 <script src="js/crypto/sha256.js"></script>
-<link href="css/logincss/bootstrap.css" rel="stylesheet">
-<link rel="stylesheet" type="text/css" href="css/logincss/reset.css">
-<link rel="stylesheet" href="css/logincss/swiper.css">
-<link rel="stylesheet" type="text/css" href="css/logincss/main.css">
+<link href="css/bootstrap.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="css/reset.css">
+<link rel="stylesheet" href="css/swiper.css">
+<link rel="stylesheet" type="text/css" href="css/main.css">
 <link href="css/detail.css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="css/main_detail.css">
 
@@ -55,17 +55,17 @@ function maxLengthCheck(object){
 	
 	<div class="contents_wrap">		
 		
-		<article class="login_title">
+		<article class="login_title" style="margin-top: 0px;">
 			<span>로그인</span>
 		</article>		
 		<article class="cur_page">
 			<div id="title">
-			홈<span>></span>로그인
+			홈<span>></span>로그인<span>></span>비밀번호 변경
 			</div>		
 		</article>		
 		<section class="login_section">
 			<div>
-				<div id="txt">서비스 이용을 위한 로그인 페이지입니다.</divn>
+				<div id="txt">비밀번호 변경 페이지입니다.</divn>
 			</div>
 			<div id="img">
 				<img src="images/logIcon.png">
@@ -99,7 +99,7 @@ function maxLengthCheck(object){
 
 					<div class="login_button" style="top: 20%;">				
 						<button type="submit" class="btn-sm btn-primary btn_password_change button" id="pw_change">
-							<i class="fas fa-check"></i>&nbsp;확인</button>
+							<i class="fas fa-check"></i>&nbsp;저장</button>
 					</div>
 				</table>			
 <!--		<div id="joins"><a href="Signin.do">회원가입</a></div> -->

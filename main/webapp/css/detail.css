@@ -232,7 +232,7 @@
 	.login {
  		position: absolute;
 		right: 4%;
-		top: 24px; 
+		top: 3px; 
 	}
 	.login img {
 		width: 96px;
@@ -358,9 +358,10 @@
 }
 
 .input_search {
-	font-size: 18px;
 	width: inherit;
-	border: inset;
+	border: 1px solid gray;
+    height: 25px;
+    font-size: 15px;
 }
 
 .font_black {
@@ -407,6 +408,7 @@
 
 .btn_password_change {
 	width: 65px;
+	height: inherit;
 	display: inline-block;
 	font-weight: normal;
 	text-align: center;
@@ -477,4 +479,23 @@
 	word-wrap:break-word;
 }
 
+.textarea_noresize {
+	resize: none;
+	height: auto;
+}
 
+.import_marker {
+	color: red;
+}
+
+.sub_ctlg_input {
+	width: 37%;
+}
+
+.display_none {
+	display: none;
+}
+
+select:disabled {
+	background-color: rgb(235, 235, 228);
+}

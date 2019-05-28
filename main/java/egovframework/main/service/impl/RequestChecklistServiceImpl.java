@@ -86,6 +86,22 @@ public class RequestChecklistServiceImpl extends EgovAbstractServiceImpl impleme
 		return requestChecklistDAO.getChecklist(checklistItemVO);
 	}
 
+	public int getNewCount(UserVO userVO) throws Exception {
+		return requestChecklistDAO.getNewCount(userVO);
+	}
+	
+	// get limit list for main
+	public List<RequestChecklistVO> getRequestedListForMain(String srvno) throws Exception {
+		return requestChecklistDAO.getRequestedListForMain(srvno);
+	}
+
+	@Override
+	public List<RequestChecklistVO> searchRequest(
+			RequestChecklistVO requestChecklistVO) throws Exception {
+		return requestChecklistDAO.searchRequest(requestChecklistVO);
+	}
+	
+	public List<RequestChecklistVO> getListByCondition(RequestChecklistVO requestChecklistVO) throws Exception {
+		return requestChecklistDAO.getListByCondition(requestChecklistVO);
+	}
 }
-
-

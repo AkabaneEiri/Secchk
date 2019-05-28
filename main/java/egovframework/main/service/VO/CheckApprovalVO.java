@@ -18,6 +18,7 @@ public class CheckApprovalVO {
 	private String rqstr_nm = "";	
 	private String incdt_actvt_type_cd_nm = "";	
 	private String ctlg_itm_nm = "";
+	private String task_cd = "";
 
 	public String getCtlg_itm_nm() {
 		return ctlg_itm_nm;
@@ -137,6 +138,12 @@ public class CheckApprovalVO {
 	}
 	public void setId(String id) {
 		this.id = id;
+	}
+	public String getTask_cd() {
+		return task_cd;
+	}
+	public void setTask_cd(String task_cd) {
+		this.task_cd = task_cd;
 	}
 	
 }

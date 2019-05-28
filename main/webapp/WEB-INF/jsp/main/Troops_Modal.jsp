@@ -27,19 +27,23 @@
 </head>
 
 <body> 
-
-	<div style="width:90%; height:300px; padding:10px; background-color:#F2F2F2; margin:auto">
+		<div class="btn" style="text-align:center;margin:auto; width:90%;margin-left:3%">
+			<button type="button" class="btn btn-default" disabled>부대명</button>
+			<input id="TroopsSearch" name="TroopsSearch" type="text"  style="border:1px solid gray; height:30px;font-size:15px;width:77%;padding-left:3px;"/>
+			<button type="button" class="btn btn-sm btn-primary" 	id="search"	onclick="Troops_Search()"><i class="fas fa-search"></i>&nbsp;검색</button>
+		</div>
+	<div style="overflow:scroll;width:90%; height:265px; padding:10px; background-color:#F2F2F2; margin:auto">
 	<table class="table table-hover" style="border:1px solid gray" id="table_hover">
 		<thead>
 			<tr>
-				<td>부대명</td>
+				<td style="text-align:center;color:black;">부대명</td>
 			</tr>
 		</thead>
 		<tbody>
 		<form  name="NameForm" method="post" action="">
 		<c:forEach var="list" items="${TroopsList}" varStatus="statics">
 			<tr>
-						<td style="text-align: left; font-size 15px"  id="${list.incdt_idtf_cd}"  name ="${list.incdt_idtf_cd}"  value= "${list.incdt_idtf_cd}"onclick="javascript:clickTdEvent(this)" >${list.incdt_nm}</td>
+				<td style="text-align: left; font-size 15px"  id="${list.incdt_idtf_cd}"  name ="${list.incdt_idtf_cd}"  value= "${list.incdt_idtf_cd}"onclick="javascript:clickTdEvent(this)" >${list.incdt_nm}</td>
 			</tr>
 		</c:forEach>
 		</form>

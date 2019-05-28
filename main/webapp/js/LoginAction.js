@@ -1,5 +1,6 @@
 // login form check function
 $(function(){
+	$("input[name=srvno]").focus();
 	
 	var flag = 0;
 	

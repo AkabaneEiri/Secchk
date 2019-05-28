@@ -35,4 +35,7 @@ public interface CodeService {
 	
 	// get list by grp_cd
 	List<CodeVO> getCodeListByDvs(String grp_cd) throws Exception;
+	
+	// search duplicate code
+	CodeVO searchDuplicateCode(CodeVO codeVO) throws Exception;
 }

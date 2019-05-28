@@ -16,6 +16,7 @@
 <script src="js/swiper.min.js"></script>
 <script src="js/swiper.js"></script>
 <script src="js/EnterCommanderGuide.js"></script>
+<script src="js/EnterComGuide.js"></script>
 <script src="js/jquery-ui.min.js"></script>
 
 <link href="css/bootstrap.css" rel="stylesheet">
@@ -49,7 +50,8 @@
 			<td style="width:12%">■ 부대활동</td>
 			<td style="width:25%">
 				<form method="post" name="SelectCode" action="">
-					<input id="searchCondition1" name="searchCondition1" style="height:30px;background-color:#CDCDCD;box-shadow:0px 0px 1px #757575;border:none;text-align:center;font-size:14pt;color :inherit;"value="<c:out value="${membersearchVO.searchCondition1}"/>"disabled />
+					<input id="searchCondition1" name="searchCondition1" style="height:30px;background-color:#CDCDCD;box-shadow:0px 0px 1px #757575;border:none;text-align:center;font-size:14pt;color :inherit;"value="${listsearchVO.search_by_name}" disabled />
+					<input type="hidden"  id="searchCode" name="searchCode" value=""/>
 				</form>
 			</td>
 			<td style="width:7%; text-align:left; padding-left:10px;">
@@ -59,16 +61,11 @@
 			<td style="width:7%; text-align:center;">일시</td>
 			<td style="width:13%">
 				<form method="post" name="taskdate" action="">
-					<input type="text" id="TaskDatepicker" onclick="Task_datepicker(this);" style="height:30px;background-color: lightgray;box-shadow : 0px 0px 1px #757575;text-align:center;font-size:14pt;border:none;"  name="searchCondition2" value=<c:out value="${membersearchVO.searchCondition2}"/>>
+					<input type="text" id="TaskDatepicker" style="height:30px;background-color: lightgray;box-shadow : 0px 0px 1px #757575;text-align:center;font-size:14pt;border:none;"  name="searchCondition2" value="${listsearchVO.date}">
 				</form>
 			</td>
 			<td style="text-align:left; padding-left:10px;">
-				<form:form commandName="membersearchVO" name="TaskSearch" method="post" >
-					<input type="hidden"  id="searchKeyword" name="searchKeyword" value=<c:out value="${membersearchVO.searchKeyword}"/> >
-					<input type="hidden"  id="searchKeyword2" name="searchKeyword2" value=<c:out value="${membersearchVO.searchKeyword2}"/>>
-					<input type="hidden"  id="searchCode" name="searchCode" value=""/>
-					<button type="Search" class="btn btn-sm btn-primary" 	id="search"	onclick="Task_Search()"><i class="fas fa-search"></i>&nbsp;조회</button>
-				</form:form>
+				<button type="Search" class="btn btn-sm btn-primary" 	id="search"	onclick="fn_search_task()"><i class="fas fa-search"></i>&nbsp;조회</button>
 			</td>
 			</tr>
 		</table>
@@ -85,18 +82,37 @@
 				</tr>
 				</c:when>
 				<c:otherwise>
-				<tr>
-					<form method="post" name="guidnc_name" action="">
-						<c:choose>
-							<c:when test="${ fn:trim(taskData.state_cd) eq 'E3'}">
-							<td style="width:200px">지침1</td>
-							<td>
-								<input id="CUI1" name="CUI1" style="box-shadow : 0px 0px 1px #848484;background-color:#CDCDCD;text-align:center;font-size:15pt;border:none;"value="${taskData.guidnc_1}" disabled/>
-							</td>
-							<td style="width:200px">
-							</td>
-							</c:when>
-							<c:otherwise>
+				
+				<form method="post" name="guidnc_name" action="">
+					<c:choose>
+						<c:when test="${ fn:trim(taskData.state_cd) eq 'E3'}">
+							<tr> <!-- 지침1 -->
+								<td style="width:200px">지침1</td>
+								<td>
+									<input id="CUI1" name="CUI1" style="box-shadow : 0px 0px 1px #848484;background-color:#CDCDCD;text-align:center;font-size:15pt;border:none;"value="${taskData.guidnc_1}" disabled/>
+								</td>
+								<td style="width:200px"></td>
+							</tr>
+							
+							<tr> <!-- 지침2 -->
+								<td>지침2	</td>
+								<td>
+									<input id="CUI2" name="CUI2" style="box-shadow : 0px 0px 1px #848484;background-color:#CDCDCD;text-align:center;font-size:15pt;border:none;" value="${taskData.guidnc_2}" disabled/>
+								</td>
+								<td style="width:200px"></td>
+							</tr>
+							
+							<tr> <!-- 지침3 -->
+								<td>지침3</td>
+								<td>
+									<input id="CUI3" name="CUI3" style="box-shadow : 0px 0px 1px #848484;background-color:#CDCDCD;text-align:center;font-size:15pt;border:none;"value="${taskData.guidnc_3}" disabled/>
+								</td>
+								<td style="width:200px"></td>
+							</tr>
+						</c:when>
+						
+						<c:otherwise>
+							<tr> <!-- 지침1 -->
 								<td style="width:200px">지침1</td>
 								<td>
 									<input id="CUI1" name="CUI1" style="box-shadow : 0px 0px 1px #848484;background-color:white;border:none ;text-align:center;font-size:15pt;color :#585858;border:none;" value="${taskData.guidnc_1}" />
@@ -104,20 +120,8 @@
 								<td style="width:200px">
 									<button type="Search" class="btn btn-sm btn-danger" 	id="search"	onclick="Guide_Delete1()"><i class="fas fa-trash"></i>삭제</button>
 								</td>
-							</c:otherwise>
-						</c:choose>
-					</tr>
-					<tr>
-						<c:choose>
-						<c:when test="${ fn:trim(taskData.state_cd) eq 'E3'}">
-							<td>지침2	</td>
-							<td>
-								<input id="CUI2" name="CUI2" style="box-shadow : 0px 0px 1px #848484;background-color:#CDCDCD;text-align:center;font-size:15pt;border:none;" value="${taskData.guidnc_2}" disabled/>
-							</td>
-							<td style="width:200px">
-							</td>
-							</c:when>
-							<c:otherwise>
+							</tr>
+							<tr> <!-- 지침2 -->
 								<td>지침2</td>
 								<td>
 									<input id="CUI2" name="CUI2" style="box-shadow : 0px 0px 1px #848484;background-color:white;border:none ;text-align:center;font-size:15pt;color :#585858;border:none;"value="${taskData.guidnc_2}" />
@@ -125,33 +129,22 @@
 								<td>
 									<button type="Search" class="btn btn-sm btn-danger" 	id="search"	onclick="Guide_Delete2()"><i class="fas fa-trash"></i>삭제</button>
 								</td>
-							</c:otherwise>
-						</c:choose>
-					</tr>
-					<tr>
-					<c:choose>
-					<c:when test="${ fn:trim(taskData.state_cd) eq 'E3'}">
-							<td>지침3</td>
-							<td>
-								<input id="CUI3" name="CUI3" style="box-shadow : 0px 0px 1px #848484;background-color:#CDCDCD;text-align:center;font-size:15pt;border:none;"value="${taskData.guidnc_3}" disabled/>
-							</td>
-							<td style="width:200px">
-							</td>
-							</c:when>
-						<c:otherwise>
-							<td>지침3</td>
-							<td>
-								<input id="Modify3" name="CUI3" style="box-shadow : 0px 0px 1px #848484;background-color:white;border:none ;text-align:center;font-size:15pt;color :#585858;border:none;"value="${taskData.guidnc_3}">
-							</td>
-							<td>
-								<button type="Search" class="btn btn-sm btn-danger" 	id="search"	onclick="Guide_Delete3()"><i class="fas fa-trash"></i>삭제</button>
-							</td>
+							</tr>
+							<tr> <!-- 지침3 -->
+								<td>지침3</td>
+								<td>
+									<input id="Modify3" name="CUI3" style="box-shadow : 0px 0px 1px #848484;background-color:white;border:none ;text-align:center;font-size:15pt;color :#585858;border:none;"value="${taskData.guidnc_3}">
+								</td>
+								<td>
+									<button type="Search" class="btn btn-sm btn-danger" 	id="search"	onclick="Guide_Delete3()"><i class="fas fa-trash"></i>삭제</button>
+								</td>
+							</tr>
 						</c:otherwise>
 					</c:choose>
 					
 					<input type="hidden" id="taskDataID" value="${taskData.id }"/>
-					</form>
-					</tr>	
+				</form>				
+					
 				</c:otherwise>
 			</c:choose>							
 				

@@ -51,4 +51,9 @@ public class GroupCodeServiceImpl extends EgovAbstractServiceImpl implements Gro
 	public void deleteGroupCode(GroupCodeVO groupCodeVO) throws Exception {
 		groupCodeDAO.deleteGroupCode(groupCodeVO);
 	}
+	
+	// get list by sort
+	public List<GroupCodeVO> getAllGroupCodeListBySort() throws Exception {		
+		return groupCodeDAO.getAllGroupCodeListBySort();
+	}
 }

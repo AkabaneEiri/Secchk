@@ -1,0 +1,6 @@
+.ime_input { 
+-webkit-ime-mode:active; 
+-moz-ime-mode:active; 
+-ms-ime-mode:active; 
+ime-mode:active; 
+} 

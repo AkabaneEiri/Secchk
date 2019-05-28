@@ -56,43 +56,53 @@
 			<div id="Wrap" class="div_top_line" style="text-align:left;margin:auto;">
 				<div>
 						<span>■ 그룹코드 : </span>
-						<select id="search_dvs" name="search_dvs">
+						<select id="search_dvs" name="search_dvs" onchange="Code_Search()">
 							<option value="">선택</option>
 							<c:forEach var="grpLS" items="${groupList}" varStatus="statics">
 								<option value="${grpLS.cd}">${grpLS.cd_nm}</option>
 							</c:forEach>
 						</select>
 						<script>
-							$("#search_dvs").val("<c:out value="${codeSearchVO.search_dvs}"/>").attr("selected", "selected");
+							$("#search_dvs").val("<c:out value='${codeSearchVO.search_dvs}'/>").attr("selected", "selected");
 						</script>
 						&emsp;
-						<span>코드명 : </span>
-						<input class="input_search" id="search_nm" name="search_nm" type="text" value="<c:out value="${codeSearchVO.search_nm}"/>" />
+						<span>
+							<select id="search_condition">
+								<option value="cd" selected="selected">코드</option>
+								<option value="cd_nm">코드명</option>
+							</select>
+							<script>
+								console.log(${codeSearchVO.search_condition});
+								if (${codeSearchVO.search_condition != null && codeSearchVO.search_condition != '' && codeSearchVO.search_condition != 'undefined'})
+									$("#search_condition").val("<c:out value='${codeSearchVO.search_condition}'/>").attr("selected", "selected");
+							</script>
+						</span>
+						<input style ="margin-top: 3px; height: 23px;" class="input_search" id="search_nm" name="search_nm" type="text" value="<c:out value="${codeSearchVO.search_nm}"/>" />
 						&nbsp;						
-						<button type="Search" class="btn btn-sm btn-primary" id="search" onclick="Code_Search()">
+						<button type="button" class="btn btn-sm btn-primary" id="search" onclick="Code_Search()">
 							<i class="fas fa-search"></i>&nbsp;검색
 						</button>
 						&nbsp;			
-						<button type="insert" class="btn btn-sm btn-primary" id="mgrGrpCode" onclick="fn_go_grpCode()">
+						<button type="button" class="btn btn-sm btn-primary" id="mgrGrpCode" onclick="fn_go_grpCode()">
 							<i class="fas fa-pencil-alt"></i>&nbsp;그룹코드관리
 						</button>			
 				<form:form commandName="codeSearchVO" name="listForm" method="post">
 					<input type="hidden" id="currentPageNo" name="currentPageNo"/>
 					<input type="hidden" id="currentSelected" name="currentSelected"/>
 					<input type="hidden" id="currentSearch" name="currentSearch"/>
+					<input type="hidden" id="currentSelectedCondition" name="currentSelectedCondition"/>
 				</form:form>
 					
 				</div>
 			</div>
-			
-			<form action="" name="codelistForm" id="codelistForm" method="post"	onsubmit="">
+			 
 				<table class="table table-striped page_table sub_table table01" style="text-align:center; margin:auto; margin-top:10px;">
 					<thead class="thead_title">
 						<tr>
 							<th>코드</th>
 							<th>코드명</th>
 							<th>비고</th>
-							<th>수정/삭제</th>
+							<th style="width: 154px;">수정/삭제</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -117,8 +127,8 @@
 						</c:forEach>
 					</tbody>
 				</table>
-			</form>
 			
+				 
 			<table style="width:100%; margin:auto;">
 			<tr>
 			<td style="text-align:center; width:70%">
@@ -134,6 +144,7 @@
 					<input type="hidden" id="currentPageNo" name="currentPageNo"/>
 					<input type="hidden" id="currentSelected" name="currentSelected"/>
 					<input type="hidden" id="currentSearch" name="currentSearch"/>
+					<input type="hidden" id="currentSelectedCondition" name="currentSelectedCondition"/>
 				</form>
 				</div>
 			</td>

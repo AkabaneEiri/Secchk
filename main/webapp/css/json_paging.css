@@ -1,0 +1,39 @@
+.clickable {
+	cursor: pointer;
+	}
+.hover {
+	text-decoration: underline;
+	}
+.page-number{
+	position: relative;
+  	float: left;
+  	padding: 6px 12px;
+  	margin-left: -1px;
+  	line-height: 1.42857143;
+  	color: #337ab7;
+  	text-decoration: none;
+  	background-color: #fff;
+  	border: 2px solid #bdbdbd;
+	}
+.active{ 
+	z-index: 3;
+  	color: #fff;
+  	cursor: default;
+  	background-color: #337ab7;
+	border-color: #337ab7;
+	}
+.focus {
+	z-index: 3;
+  	color: #fff;
+  	cursor: default;
+  	background-color: #337ab7;
+	border-color: #337ab7;
+	}
+.page-first{ 
+	border-top-left-radius: 6px;
+  	border-bottom-left-radius: 6px;
+	}
+.page-end{ 
+	border-top-right-radius: 6px;
+  	border-bottom-right-radius: 6px;
+	}

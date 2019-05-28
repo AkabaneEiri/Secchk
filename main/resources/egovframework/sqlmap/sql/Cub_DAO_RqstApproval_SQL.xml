@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="dao_activityType">
+	<typeAlias alias="checkApprovalVO" type="egovframework.main.service.VO.CheckApprovalVO"/>
+	<typeAlias alias="userVO" type="egovframework.main.service.VO.UserVO"/>
+	<typeAlias alias="listsearchVO" type="egovframework.main.service.VO.ListsearchVO"/>
+	
+	<select id="checkApprovalDAO.getNewCount" parameterClass="userVO" resultClass="Integer">
+	SELECT COUNT(*)
+	FROM t_security_rqst_ugcy
+	WHERE incdt_idtf_cd = #incdt_idtf_cd# AND state_cd = 'D1'
+	</select>
+	
+	<select id="checkApprovalDAO.getApprovalByTaskData" parameterClass="listsearchVO" resultClass="checkApprovalVO">
+	SELECT *,
+		(SELECT cd_nm FROM t_security_code WHERE cd=A.incdt_actvt_type_cd) AS incdt_actvt_type_cd_nm,
+		(SELECT ctlg_itm_ctnt FROM t_security_ctlg WHERE ctlg_itm_cd=A.ctlg_itm_cd) AS ctlg_itm_nm
+	FROM t_security_rqst_ugcy A
+	WHERE rqstr_srvno = #srvno# AND actvt_date = #date# AND ctlg_itm_cd = #findCode#
+	</select>
+</sqlMap>

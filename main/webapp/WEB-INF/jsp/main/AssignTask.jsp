@@ -17,6 +17,7 @@
 <script src="js/swiper.js"></script>
 <script src="js/AssignTask.js"></script>
 <script src="js/jquery-ui.min.js"></script>
+<script src="js/json_paging.js"></script>
 
 <link href="css/bootstrap.css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="css/reset.css">
@@ -25,6 +26,8 @@
 <link rel="stylesheet" href="css/jquery-ui.css">
 
 <link rel="stylesheet" type="text/css" href="css/main_detail.css">
+<link rel="stylesheet" type="text/css" href="css/json_paging.css">
+
  
 </head>
 
@@ -41,67 +44,34 @@
 			</div>		
 		</article>
 		<section class="subContent_section" id="AssignTask">
-		
 		<br>
-
-		<table style="text-align:left;width:90%; margin:auto; margin-top:10px;margin-bottom:10px;">
-			<tr>
-			<td style="width:9%">■ 부대활동</td>
-			<td style="width:15%">
-				<form method="post" name="SelectCode" action="">
-					<input id="searchCondition1" name="searchCondition1" style="background-color:#CDCDCD;box-shadow : 0px 0px 1px #757575;border:none;text-align:center;font-size:14pt;color :#757575; height:30px;" value="<c:out value="${membersearchVO.searchCondition1}"/>"disabled />
-				</form>
-			</td>
-			<td style="width:7%; text-align:left; padding-left:10px;">
-				<button type="Search" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#TaskSearch" ><i class="fas fa-search"></i>&nbsp;검색</button> 
-				<jsp:include page="taskSearchModal.jsp"></jsp:include>
-			</td>
-			<td style="width:6%; text-align:center;">일시</td>
-			<td style="width:13%">
-				<input type="text" style="background-color: lightgray; box-shadow : 0px 0px 1px #757575; font-size:17px; text-align:center;border:none; height:30px;" id="TaskDatepicker" onclick="Task_datepicker(this);" name="searchCondition2" value=<c:out value="${membersearchVO.searchCondition2}"/>>
-			</td>
-			<td style="text-align:left; padding-left:10px;">
-				<form:form commandName="membersearchVO" name="TaskSearch" method="post" >
-					<input type="hidden"  id="searchKeyword" name="searchKeyword" value=<c:out value="${membersearchVO.searchKeyword}"/> >
-					<input type="hidden"  id="searchKeyword2" name="searchKeyword2" value=<c:out value="${membersearchVO.searchKeyword2}"/>>
-					<input type="hidden"  id="searchCode" name="searchCode" value=""/>
-					<button type="Search" class="btn btn-sm btn-primary" 	id="search"	onclick="Task_Search()"><i class="fas fa-search"></i>조회</button>
-				</form:form>
-			</td>
-			</tr>
-		</table>
-
-		<table class="table table-striped sub_table table01" style="text-align:center;width:90%; margin:auto; margin-top:10px;margin-bottom:10px;">
+		
+		<!-- 검색조건 -->
+		<jsp:include page="TaskSearch_date.jsp"></jsp:include>
+		<br>
+		<table id = "Table_Task"class="table table-striped sub_table table01 tbl paginated" style="text-align:center;width:90%; margin:auto; margin-top:10px;margin-bottom:10px;border-bottom:none;">
 		<thead style="text-align:center;">
+			<tr>
+				<th style="width:3%"> 선택</th>
+				<th style="width:15%">대분류</th>
+				<th style="width:15%">중분류</th>
+				<th style="width:20%">세부활동</th>
+				<th style="width:20%">과업</th>
+				<th style="width:15%">담당자</th>
+			</tr>
 		</thead>
 		<tbody>
-			<td>과업</td>
-			<td>담당 부대</td>
-			<td>담당자</td>
-			</tr>
-			<c:choose>
-			<c:when test="${fn:length(taskList)==0}">
 				<tr>
-					<td></td>
-					<td> 데이터가 존재하지 않습니다</td>
-					<td></td>
 				</tr>
-			</c:when>
-			<c:otherwise>
-				<c:forEach var="Task" items="${taskList}" varStatus="statics">
-					<tr>
-						<td id="TaskName" name="TaskName"><c:out value="${Task.task}"/></td>
-						<td><c:out value="${Task.incdt_idtf_cd}"/></td>
-						<td><c:out value=" ${Task.task_psnchnrg_rnk}"/>  <c:out value=" ${Task.task_psnchnrg_srvno}"/> </td>
-					</tr>
-				</c:forEach>
-			</c:otherwise>
-			</c:choose>
 			</tbody>
 		</table>
+		<table class="tbl paginated" id="tbl" style="margin:auto">
+		</table>
 		<div style="text-align:right; margin-right:5%;">
-			<button type="insert" class="btn btn-sm btn-primary" id="insert" onclick="Task_Insert()">
+			<button type="button" class="btn btn-sm btn-primary" id="insert" onclick="Task_Insert()">
 			<i class="fas fa-pencil-alt"></i>&nbsp;등록</button>
+			<button type="button" class="btn btn-sm btn-danger" id="delete" onclick="Task_Delete()">
+			<i class="fas fa-pencil-alt"></i>&nbsp;삭제</button>
 		</div>
 		<br>
 		</section>	

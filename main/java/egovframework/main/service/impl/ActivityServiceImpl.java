@@ -119,5 +119,9 @@ public class ActivityServiceImpl extends EgovAbstractServiceImpl implements Acti
 	public int updateActFinishById(String id) throws Exception {
 		return activityDAO.updateActFinishById(id);
 	}
-		///////////////////////////////////////////
+	
+	public List<ActivityVO> getActBySearchVO(ListsearchVO listsearchVO) throws Exception {
+		return activityDAO.getActBySearchVO(listsearchVO);
+	}
+	///////////////////////////////////////////
 }

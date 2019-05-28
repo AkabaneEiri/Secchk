@@ -2,7 +2,9 @@ package egovframework.main.service;
 
 import java.util.List;
 
+import egovframework.main.service.VO.CheckApprovalVO;
 import egovframework.main.service.VO.RequestActivityVO;
+import egovframework.main.service.VO.UserVO;
 
 public interface RequestActivityService {
 	
@@ -23,4 +25,14 @@ public interface RequestActivityService {
 	List<RequestActivityVO> getLimitReqActList(String incdt_idtf_cd) throws Exception;
 	
 	RequestActivityVO getRqstActBySeq(String seq) throws Exception;
+	
+	// get count
+	int getNewCount(UserVO userVO) throws Exception;
+	
+	// get limit list for main
+	List<RequestActivityVO> getRequestedListForMain(String srvno) throws Exception;
+
+	List<RequestActivityVO> searchApproval(RequestActivityVO requestActivityVO) throws Exception;
+	
+	List<RequestActivityVO> getListByCondition(RequestActivityVO requestActivityVO) throws Exception;
 }

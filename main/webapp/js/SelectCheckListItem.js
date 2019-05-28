@@ -1,6 +1,42 @@
-
 $(document).ready(function(){
 		$("#tablesort").dataTable();
+		var Taskparam = getParameterByName("task");
+		var TaskList = document.getElementById("Task_name");
+
+		if(Taskparam != "")
+			{
+				var code = new Object();
+				var seq = Taskparam;
+				var Task = document.getElementById("result_nm").value;
+				code.seq = seq;
+				
+				var jsonString = JSON.stringify(code);
+				
+				 $.ajax({
+					url:"SelectChecklistItem_ajax.do?code="+encodeURI(seq)+"&Task="+encodeURI(Task),
+					type:"post",
+					data:{"jsonString":jsonString},
+					success:whenSuccessChange,
+					error:whenError
+				});
+			for(var i=0;i<TaskList.length;i++)
+				{
+					if(TaskList.options[i].value!='')
+						{
+							if(TaskList.options[i].value.trim()==Taskparam.trim())
+							{
+								TaskList.options[i].selected = true;
+							}
+						}
+					else
+					{
+					if(TaskList.options[i].value.trim()==Taskparam.trim()){
+						TaskList.options[i].selected = true;
+					}
+				}
+				}
+			}
+		
 	});
 function getParameterByName(name) {
     name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
@@ -9,141 +45,82 @@ function getParameterByName(name) {
     return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 }
 
-function makeSelectValue() {
-	
-	var Name = document.SelectCode.searchCondition1.value;
-	
-	if (Name=="")
-	{
-	 Name =  document.TaskSearch.searchCondition1.value;
-	}
-	var SptlyList = document.getElementById("Task_name");
-	var seq = target.options[target.selectedIndex].value;
-	var loc ="SelectCheckListResult.do?ctlg_cd="+Name+"&seq="+seq+"&code="
-	var value="";
-	var actionForm = document.rep;
-	var selectSize = document.rep.category_selected.length;
-	if(selectSize > 10)
-	{
-		alert("체크리스트 항목은 10개 이상 선택하실 수 없습니다.");
-		return;
-	}
-	for(i = 0; i < selectSize; i++) {
-	var newElement = document.createElement("INPUT");
-	actionForm.insertAdjacentElement("afterBegin", newElement);
-	newElement.type = "hidden";
-	newElement.name = "memovalue";
-	newElement.value = document.rep.category_selected.options[i].value;
-	value= value +"/"+ newElement.value;
-	
-	}
-	loc = loc + value;
-	console.log(loc);
-	location.href=loc;
-}
-
-
-function Checklist_Insert()
-{
-	var Name = document.SelectCode.searchCondition1.value;
-	
-	if (Name=="")
-	{
-	 Name =  document.TaskSearch.searchCondition1.value;
-	}
-	document.write("");
-	location.href ="SelectCheckListItem.do?ctlg_cd="+Name+"&Code="+Code;
-}
-
 function SelectReset()
 {
-	var Name = document.SelectCode.searchCondition1.value;
-//	var Task = document.rep.PreSetNew.value;
-	var Actvt = document.SelectCode.searchCondition1.value;
-	var val = document.getElementById("Task_name");
-	var seq;
-	var actionForm = document.rep;
-	var selectSize = document.rep.category_selected.length;
-	var value ="";
-	var Task_seq;
-	var Task_nm;
 	
-	for(i=0;i<val.options.length;i++){
-		if(val.options[i].selected == true)
-			{
-			Task_seq = val.options[i].value;
-			Task_nm = val.options[i].text;
-				break;
-			}
-	}
+	// define various
+	var code 				= new Object();
 	
-	var loc = "SelectCheckListPreSetCreate.do?ctlg_cd="+Name+"&Task_seq="+Task_seq+"&Task_nm="+Task_nm+"&task="+Actvt+"&code="
-	loc = loc + value+"&Reset=Y";
-	console.log(loc);
-	location.href=loc;
+	var TaskSmall 			= document.getElementById("Task_name");
+	var TaskSmallSelected 	= TaskSmall.options[TaskSmall.selectedIndex].value;
+	var PreSetid 			= document.getElementById("Task_name_List");
+	var PreSetSelected		= PreSetid.options[PreSetid.selectedIndex].value;
+	var Task				= PreSetid.options[PreSetid.selectedIndex].text;
+
+	//make various to Object
+	code.TaskSmall 			= TaskSmallSelected;
+	code.TaskPreSet			= PreSetSelected;
+	code.Task				= Task;
+	code.reset				= "Y";
+	
+	// make Code to JSON String
+	var jsonString 			= JSON.stringify(code);
+	
+	//Use Ajax Connection
+	$.ajax({
+		url 	: "SelectCheckList_Ajax_JSON.do",
+		tpye	: "post",
+		data	: {"jsonString":jsonString},
+		success	:whenSuccessrestore,
+		error 	: whenError
+	})
+	
 }
 function MakeSelectPre()
 {
-	var Name = document.SelectCode.searchCondition1.value;
-//	var Task = document.rep.PreSetNew.value;
-	var Actvt = document.SelectCode.searchCondition1.value;
-	var val = document.getElementById("Task_name");
-	var seq;
-	var actionForm = document.rep;
-	var selectSize = document.rep.category_selected.length;
-	var value ="";
-	var Task_seq;
-	var Task_nm;
+	// define various
+	var code 				= new Object();
 	
-	for(i=0;i<val.options.length;i++){
-		if(val.options[i].selected == true)
-			{
-			Task_seq = val.options[i].value;
-			Task_nm = val.options[i].text;
-				break;
-			}
-	}
+	var TaskSmall 			= document.getElementById("Task_name");
+	var TaskSmallSelected 	= TaskSmall.options[TaskSmall.selectedIndex].value;
+	var PreSetid 			= document.getElementById("Task_name_List");
+	var PreSetSelected		= PreSetid.options[PreSetid.selectedIndex].value;
+	var Task				= PreSetid.options[PreSetid.selectedIndex].text;
+	var CtlgList			= document.getElementById("category_selected");
+	var Ctlg_size			= CtlgList.length; 
+	var Ctlg				= "";
 	
-	var loc = "SelectCheckListPreSetCreate.do?ctlg_cd="+Name+"&Task_seq="+Task_seq+"&Task_nm="+Task_nm+"&task="+Actvt+"&code="
-	if(selectSize > 10)
-	{
-		alert("체크리스트 항목은 10개 이상 선택하실 수 없습니다.");
-		return;
-	}
+	// check Ctlg_Size
+	if(Ctlg_size > 10)
+		{
+			alert("체크리스트 항목은 10개 이상 선택하실 수 없습니다.");
+			return false;
+		}
+	// make SelectBox to String List
+	for(i = 0; i < Ctlg_size; i++) {
+		var newElement;
+		 newElement = CtlgList.options[i].value.trim();
+		Ctlg= Ctlg +"/"+ newElement;
+		}
 	
-
+	//put Various to Object
+	code.TaskSmall 		= TaskSmallSelected;
+	code.TaskPreSet 	= PreSetSelected;
+	code.task 			= Task;
+	code.CltgList 		= Ctlg;
+	code.reset			= "N";
 	
-	for(i = 0; i < selectSize; i++) {
-	var newElement = document.createElement("INPUT");
-	actionForm.insertAdjacentElement("afterBegin", newElement);
-	newElement.type = "hidden";
-	newElement.name = "memovalue";
-	newElement.value = document.rep.category_selected.options[i].value;
-	value= value +"/"+ newElement.value;
-	}
-	loc = loc + value;
-	console.log(loc);
-	location.href=loc;
-	}
-
-function Task_Search()
-{
-	var Name = document.SelectCode.searchCondition1.value;
-
-	document.write("");
-	location.href ="SelectCheckListItem.do?ctlg_cd="+Name;
+	//make code to JSON String
+	var jsonString			= JSON.stringify(code);
 	
-}
-function access(){
-	var iframe = document.getElementById("iframe");
-	var innerDoc = iframe.contentDocument || iframe.contentWindow.document;
-}
-
-function clickTdEvent(tdObj){
+	$.ajax({
+		url 	: "SelectCheckList_Ajax_JSON.do",
+		tpye	: "post",
+		data	: {"jsonString":jsonString},
+		success	:whenSuccesssubmit,
+		error 	: whenError
+	})
 	
-	var Name = tdObj.innerText;
-
-	document.SelectCode.searchCondition1.value=Name;
 }
 
 function ClearList(OptionList, TitleName) {
@@ -204,40 +181,51 @@ function move(side){
 		}
 	}
 }
-function test(obj){
+function selectPre(obj){
 	var code = new Object();
 	var seq = obj.value;
-	var Task = document.SelectCode.searchCondition1.value;
-	code.seq = seq;
-	
-	var jsonString = JSON.stringify(code);
-	
-	 $.ajax({
-		url:"SelectChecklistItem_ajax.do?code="+seq+"&Task="+Task,
-		type:"post",
-		data:{"jsonString":jsonString},
-		success:whenSuccessChange,
-		error:whenError
-	})
-	
+	if(seq != "")
+		{
+			var Task = document.getElementById("result_cd").value;
+			code.seq = seq;
+			
+			var jsonString = JSON.stringify(code);
+			if(seq != 'E001')
+				{
+					 $.ajax({
+						url:"SelectChecklistItem_ajax.do?code="+encodeURI(seq)+"&Task="+encodeURI(Task),
+						type:"post",
+						data:{"jsonString":jsonString},
+						success:whenSuccessChange,
+						error:whenError
+					});
+				}
+		}
 }
 function whenSuccessChange(res)
 {
-	console.log(res);
-	var obj = JSON.parse(res)
-	var OptionBox = document.getElementById("category_selected");
+//	console.log(res);					// 콘솔 통신 확인을 위한 구문
+	var obj = JSON.parse(res)			// Parse JSON Data
+	
+	var OptionBox = document.getElementById("category_selected"); //get Selected OptionBox
+	var OptionBox_All = document.getElementById("categofy_name"); //get All Checklist's OptionBox
+	
+	
+	//Restore OptionBox
 	for(var i = OptionBox.length; i>=0;i--)
 		{
 			OptionBox.options[i] = null;
 		}
-	for(var i=0;i<obj.length;i++)
+	
+	//Input New OptionBox
+	for(var i=0;i<obj.Selected.length;i++)
 		{
 			var objOption 	= document.createElement("option");
-			if(obj[i].ctlg_itm_ctnt.length > 25)
+			if(obj.Selected[i].ctlg_itm_ctnt.length > 25)
 				{
-				obj[i].ctlg_itm_ctnt = obj[i].ctlg_itm_ctnt.substring(0,25) + "...";
+				obj.Selected[i].ctlg_itm_ctnt = obj.Selected[i].ctlg_itm_ctnt.substring(0,25) + "...";
 				}
-			var frqc = obj[i].prtcuse_frqc;
+			var frqc = obj.Selected[i].prtcuse_frqc;
 			if (frqc.length == 1)
 				{
 					frqc = "\u00A0"+ frqc;
@@ -246,18 +234,152 @@ function whenSuccessChange(res)
 								frqc +
 								"\u00A0"+"\u00A0"+"\u00A0"+"\u00A0"+"\u00A0"+"\u00A0"+"\u00A0"+"\u00A0"+
 								"\u00A0"+
-								obj[i].stdd_yn + 
+								obj.Selected[i].stdd_yn + 
 								"\u00A0"+"\u00A0"+"\u00A0"+"\u00A0"+"\u00A0"+"\u00A0"+"\u00A0"+"\u00A0"+
 								"\u00A0"+"\u00A0"+"\u00A0"+
-								obj[i].ctlg_itm_ctnt;
-			objOption.value = 	obj[i].ctlg_itm_cd;
-			objOption.id 	= 	obj[i].ctlg_itm_cd;
+								obj.Selected[i].ctlg_itm_ctnt;
+			objOption.value = 	obj.Selected[i].ctlg_itm_cd;
+			objOption.id 	= 	obj.Selected[i].ctlg_itm_cd;
 			
 			OptionBox.options.add(objOption);
 		}
+	
+	//Restore All Option Box
+	for(var i = OptionBox_All.length; i>=0;i--)
+	{
+		OptionBox_All.options[i] = null;
+	}
+	//input All Option Box
+	for(var i=0;i<obj.Preset.length;i++)
+		{
+			var checkNew = 0;
 
+			for(var v=0;v<obj.Selected.length;v++)
+				{
+					if(OptionBox.options[v].id == obj.Preset[i].ctlg_itm_cd)
+						{
+							checkNew++;
+						}
+				}
+			if(checkNew == 0)
+				{
+					var objOption 	= document.createElement("option");
+					
+					if(obj.Preset[i].ctlg_itm_ctnt.length > 25)
+						{
+						obj.Preset[i].ctlg_itm_ctnt = obj.Preset[i].ctlg_itm_ctnt.substring(0,25) + "...";
+						}
+					var frqc = obj.Preset[i].prtcuse_frqc;
+					if (frqc.length == 1)
+						{
+							frqc = "\u00A0"+ frqc;
+						}
+					objOption.text 	= 	"\u00A0"+"\u00A0"+ "\u00A0"+
+										frqc +
+										"\u00A0"+"\u00A0"+"\u00A0"+"\u00A0"+"\u00A0"+"\u00A0"+"\u00A0"+"\u00A0"+
+										"\u00A0"+
+										obj.Preset[i].stdd_yn + 
+										"\u00A0"+"\u00A0"+"\u00A0"+"\u00A0"+"\u00A0"+"\u00A0"+"\u00A0"+"\u00A0"+
+										"\u00A0"+"\u00A0"+"\u00A0"+
+										obj.Preset[i].ctlg_itm_ctnt;
+					objOption.value = 	obj.Preset[i].ctlg_itm_cd;
+					objOption.id 	= 	obj.Preset[i].ctlg_itm_cd;
+					
+					OptionBox_All.options.add(objOption);
+				}
+		}
+		
+	
+}
+function whenSuccessrestore()
+{
+	var OptionBox = document.getElementById("category_selected"); //get Selected OptionBox
+	var length = OptionBox.options.length;
+	
+	attribute1 = document.rep.category_selected;
+	attribute2 = document.rep.category_name;
+	//Restore OptionBox
+
+	for(var i=0; i<length; i++)
+		{
+		var objOption = document.createElement("option");
+		objOption.text 	= attribute1[i].text;
+		objOption.value = attribute1[i].value;
+		objOption.id 	= attribute1[i].id;
+		
+//		attribute2.options.add(objOption);
+		$('#category_name').prepend(objOption);
+		}
+	
+	for(var i = OptionBox.length; i>=0;i--)
+	{
+		OptionBox.options[i] = null;
+	}
+	
+	alert("초기화 되었습니다.");
+	}
+
+function whenSuccesssubmit()
+{
+	alert("적용되었습니다.");
 }
 function whenError(res)
 {
 	alert("Error!!");
 }
+
+function Submit_parent(){
+	var Name = document.getElementById("result_nm").value;
+	var Code = document.getElementById("result_cd").value;
+	var obj = new Object();
+	
+	obj.Code = Code;
+	
+	var jsonString = JSON.stringify(obj);
+	
+	$.ajax({
+		url		:"SelectChecklistItem_AJAX_JSON.do",
+		type	:"post",
+		data	:{"jsonString":jsonString},
+		success	:whenSuccessItemSearch,
+		error	:whenError
+		
+	})
+	
+}
+function whenSuccessItemSearch(res)
+{
+	var obj				 	= JSON.parse(res);
+	var OptionBox 			= document.getElementById("Task_name_List");
+	var OptionBox_All 		= document.getElementById("categofy_name");
+	var OptinoBox_Selected 	= document.getElementById("category_selected"); 
+	
+	for (var i = OptionBox_All.length; i>=0;i--)
+		{
+			OptionBox_All.options[i] = null;
+		}
+	for (var i = OptinoBox_Selected.length; i>=0;i--)
+	{
+		OptinoBox_Selected.options[i] = null;
+	}
+	for (var i =OptionBox.length; i>=0; i--)
+		{
+			OptionBox.options[i] = null;
+		}
+	for(var i=0;i<obj.length;i++)
+		{
+			var objOption = document.createElement("option");
+			objOption.text = obj[i].cd_nm;
+			objOption.value = obj[i].cd;
+			objOption.id = obj[i].cd;
+			
+			OptionBox.options.add(objOption);
+		}
+	}
+
+function AssignTask_inputParameter()
+{
+	}
+function AssignTask_inputParameterMiddle()
+{
+	}

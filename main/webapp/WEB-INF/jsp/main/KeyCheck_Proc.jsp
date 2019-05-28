@@ -9,9 +9,9 @@ String system_cd = "regula";  // local test???
 String vfcturl = "http://army.mil.kr/vfct/vfctP.do";
 String receiveurl = "http://10.1.19.103:8080/eGovTest/rglt_ph/jsp/register.jsp";
 
-String temp = request.getSession(false).setAttribute("srvno", srvno);
+//	String temp = request.getSession(false).setAttribute("srvno", srvno);
 
-//String temp = (String) request.getSession(false).getAttribute("srvno");
+String temp = (String) request.getSession(false).getAttribute("srvno");
 
 %>
 

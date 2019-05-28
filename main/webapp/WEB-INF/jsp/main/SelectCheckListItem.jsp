@@ -42,32 +42,11 @@
 		
 		<section class="subContent_section" id="SelectCheckListItem">
 		<br>
-		
-		<table style="text-align:left;margin:auto;margin-top:10px;margin-bottom:15px;width:90%">
-			<tr>
-				<td style="width:9%;">■ 부대활동</td>
-				<td style="width:18%;">
-					<form method="post" name="SelectCode" action="">
-						<input id="searchCondition1" name="searchCondition1" style="height:30px;box-shadow:0px 0px 1px #757575;border:none;text-align:center;font-size:15pt;color :gray;"value="<c:out value="${checklistItemVO.ctlg_cd}"/>"disabled />
-					</form>
-				</td>
-				<td style="width:7%; padding-left:10px;">
-					<button type="Search" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#TaskSearch" >
-					<i class="fas fa-search"></i>&nbsp;검색</button>
-					<jsp:include page="taskSearchModal.jsp"></jsp:include>
-				</td>
-				<td style="text-align:left; padding-left:10px;">
-					<input type="hidden"  id="searchCode" name="searchCode" value=""/>
-					<button type="Search" class="btn btn-sm btn-primary" 	id="search"	onclick="Task_Search()">
-					<i class="fas fa-search"></i>&nbsp;조회</button>
-				</td>
-			</tr>
-		</table>
-		
-		<table class="table table-striped sub_table" style="text-align:center;width:90%; margin:auto;"id=tablesort">
+		<jsp:include page="TaskSearch.jsp"></jsp:include>		
+		<table class="table table-striped sub_table table01" style="text-align:center;width:90%; margin:auto;margin-bottom:10px;margin-top:10px;" id=tablesort">
 			<thead>
 			<tr>
-				<th>항목 선택</th>
+				<th style="font-size: 16px;">과업 종류</th>
 				<th style="width:40%;text-align: left;font-size: 16px;">활용빈도&ensp;&ensp;표준여부&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;체크리스트 항목</th>
 				<th></th>
 				<th style="width:40%;text-align: left;font-size: 16px;">활용빈도&ensp;&ensp;표준여부&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;체크리스트 항목</th>
@@ -77,16 +56,16 @@
 			<tbody>
 				<tr>
 					<td style="padding:0px;">
-					<select class="select_stripped" name="Task_name" id="Task_name"style="width:100%; height:350px;" multiple size="10">
+					<select class="select_stripped" name="Task_name_List" id="Task_name_List"style="width:100%; height:350px;" multiple size="1" onclick="selectPre(this)">
 							<c:forEach var="Task_List" items="${taskDataList}" varStatus="statics">
-								<option value="${Task_List.cd}" onclick="test(this)">
+								<option value="${Task_List.cd}"<c:if test="${Task_seq == Task_List.cd}"> selected</c:if>>
 									<c:out value="${Task_List.cd_nm}"/>
 							</c:forEach>
 					</select>
 					<!--input id="PreSetNew" name="PreSetNew"style="box-shadow:0px 0px 1px;border:none;text-align:center;font-size:15pt;color :gray;"value=""/-->
 					</td>
 					<td style="padding:0px;">
-						<select class="select_stripped" name="category_name" id="categofy_name"style="width:100%; height:350px;" multiple size="10" onDblClick="move('right')" >
+						<select class="select_stripped" name="category_name" id="categofy_name"style="width:100%; height:350px; overflow-x: auto;" multiple size="10" onDblClick="move('right')" >
 						<c:forEach var="list_false" items="${Checklist}" varStatus="statics">
 							<option value="${list_false.ctlg_itm_cd }">
 								<c:choose>
@@ -124,18 +103,21 @@
 						<img src="images/btn_rr.png" onclick="move('right')"style="width:60px; height:70px"> 
 					</td>
 					<td style="padding:0px;">		
-						<select class="select_stripped" name="category_selected" id="category_selected"style="width:100%; height:350px;" multiple size="10" onDblClick="move('left')">
+						<select class="select_stripped" name="category_selected" id="category_selected"style="width:100%; height:350px; overflow-x: auto;" multiple size="10" onDblClick="move('left')">
 						</select>
 					</td>
 				</tr>
 			</tbody>
 			</form>
 		</table>
-		<br>
+		
+		<div style="width: 90%; margin: auto; font-size: 15px;margin-bottom: 10px;">
+			<span class="import_marker">* </span><span>각 부대활동에 대한 과업 종류는 코드관리 메뉴를 통해서 입력해야 합니다.</span>
+		</div>
 		<div class="div_bottom_btn">
- 					<button type="button" class="btn btn-sm btn-primary" 		id="test" onclick="SelectReset()"><i class="fas fa-redo"></i>  초기화</button>
-					&emsp;
-					<button type="button" class="btn btn-sm btn-primary" 		id="test" onclick="MakeSelectPre()"><i class="fas fa-pencil-alt"></i>&nbsp;적용</button>
+			<!--<button type="button" class="btn btn-sm btn-primary" 		id="test" onclick="SelectReset()"><i class="fas fa-redo"></i>&nbsp;초기화</button>
+			&emsp;-->
+			<button type="button" class="btn btn-sm btn-primary" 		id="test" onclick="MakeSelectPre()"><i class="fas fa-pencil-alt"></i>&nbsp;적용</button>
 		</div>
 		<br>
 		</section>

@@ -13,5 +13,6 @@ public interface MemberService {
 	void DeleteMember(MemberVO memberVO) throws Exception;
 	List<MemberVO> getMemberselect(MemberVO memberVO)throws Exception;
 	void ModifyMember(MemberVO memberVO) throws Exception;
+	List<MemberVO> getManagerList(MemberSearchVO membersearchVO) throws Exception;
 	
 }

@@ -6,18 +6,12 @@
 	<typeAlias alias="sptlyCodeVO" type="egovframework.main.service.VO.SptlyCodeVO"/>
 
 	<select id="sptlyCodeDAO.ctlgReset" parameterClass="sptlyCodeVO" resultClass="sptlyCodeVO">
-	select * from 
-	(
-		select ctlg_cd, rownum rnum
-		from t_security_sprtly_ctlg
+		select cd as ctlg_cd
+		from t_security_code
 	where 1=0
 	<isNotEmpty prepend = "OR" property="ctlg_cd">
-	ctlg_cd = (select cd from t_security_code where cd_nm = #ctlg_cd# and cd like 'G%')
-	and incdt_idtf_cd = #incdt_idtf_cd#
+	cd_nm =  #ctlg_cd# and cd like 'G%'
 	</isNotEmpty>
-	)
-	where rnum = '1'
-
 	</select>
 	<select id="ctlgCodeDAO.getCtlgCodeVO"  parameterClass="ctlgcodeVO" resultClass="ctlgcodeVO" >
 	SELECT * FROM t_security_ctlg_cd
@@ -26,7 +20,10 @@
 	select * from t_security_code
 	where 1=0
 	<isNotEmpty prepend = "OR" property="ctlg_cd">
-		grp_cd = 'L13'
+		grp_cd = (SELECT cd
+					FROM t_security_grp_cd
+					WHERE cd_nm = '과업코드')	
+		and cd like '%' || #ctlg_cd# || '%'
 	</isNotEmpty>
 	</select>
 	<select id="sptlyCodeDAO.getActivityCtlgList" parameterClass="sptlyCodeVO" resultClass="sptlyCodeVO">
@@ -78,10 +75,12 @@
 		incdt_idtf_cd = #incdt_idtf_cd#
 		and ctlg_cd = (select cd from t_security_code where cd_nm = #ctlg_cd# and cd like '%G%' or cd = #ctlg_cd#)
 	</select>
+	
 	<update id="sptlyCodeDAO.ChecklistReset" parameterClass="sptlyCodeVO">
-	<isNotEmpty property="seq">
+	
+	<isNotEmpty property="task_cd">
 	Delete from t_security_sprtly_ctlg
-	where seq = #seq#
+	where task_cd = #task_cd#;
 	</isNotEmpty>
 	INSERT INTO
 	t_security_sprtly_ctlg (
@@ -100,7 +99,7 @@
 		ctlg_itm_cd_10,
 		task,
 		task_cd
-		<isNotEmpty prepend = "," property="seq">
+		<isNotEmpty prepend="," property="seq">
 		seq
 		</isNotEmpty>
 	)
@@ -121,7 +120,7 @@
 		'',
 		#task#,
 		#task_cd#
-		<isNotEmpty prepend = "," property="seq">
+		<isNotEmpty prepend="," property="seq">
 		#seq#
 		</isNotEmpty>
 	);
@@ -140,4 +139,54 @@
 	ctlg_itm_cd_10 = #ctlg_itm_cd_10#
 	WHERE seq = #seq#
 	</update>
+	
+	<select id="ctlgCodeDAO.getAllCtlgCodeList" resultClass="ctlgcodeVO">
+	SELECT *
+	FROM t_security_ctlg_cd
+	</select>
+	
+	<select id="ctlgCodeDAO.getCtlgCodeListByLarge" parameterClass="String" resultClass="ctlgcodeVO">
+	SELECT *,
+		(SELECT cd_nm FROM t_security_code WHERE cd=A.lrgcls) AS lrgcls_nm,
+		(SELECT cd_nm FROM t_security_code WHERE cd=A.mdcls) AS mdcls_nm
+	FROM t_security_ctlg_cd A
+	WHERE A.lrgcls = #large#
+	GROUP BY A.mdcls
+	</select>
+	
+	<select id="ctlgCodeDAO.getCtlgCodeListByMiddle" parameterClass="String" resultClass="ctlgcodeVO">
+	SELECT *,
+		(SELECT cd_nm FROM t_security_code WHERE cd=A.lrgcls) AS lrgcls_nm,
+		(SELECT cd_nm FROM t_security_code WHERE cd=A.mdcls) AS mdcls_nm
+	FROM t_security_ctlg_cd A
+	WHERE A.mdcls = #middle#
+	</select>
+	
+	<select id="ctlgCodeDAO.getCtlgCodeByAllCondition" parameterClass="ctlgcodeVO" resultClass="ctlgcodeVO">
+	SELECT *,
+		(SELECT cd_nm FROM t_security_code WHERE cd=A.lrgcls) AS lrgcls_nm,
+		(SELECT cd_nm FROM t_security_code WHERE cd=A.mdcls) AS mdcls_nm
+	FROM t_security_ctlg_cd A
+		<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="lrgcls">
+				A.lrgcls = #lrgcls#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="mdcls">
+				A.mdcls = #mdcls#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="ctlg_cd">
+				ctlg_cd like '%' || #ctlg_cd# || '%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="ctlg_nm">
+				ctlg_nm like '%' || #ctlg_nm# || '%'
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<insert id="ctlgCodeDAO.insertCtlgCodeVO" parameterClass="ctlgcodeVO">
+	INSERT INTO t_security_ctlg_cd
+	( ctlg_cd, ctlg_nm, lrgcls, mdcls )
+	VALUES
+	( #ctlg_cd#, #ctlg_nm#, #lrgcls#, #mdcls# )
+	</insert>
 </sqlMap>

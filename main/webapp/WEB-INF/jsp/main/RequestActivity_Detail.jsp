@@ -14,7 +14,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
-<title>수시 안전관리활동</title>
+<title>수시 활동</title>
 <script src="js/jquery-3.1.1.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/common.js"></script>
@@ -40,12 +40,12 @@
 	<div class="sub_contents_wrap">	
 		
 		<article class="sub_title">
-			<span>수시 안전관리활동</span>
+			<span>수시 활동</span>
 		</article>
 		
 		<article class="cur_page">
 			<div id="title">
-				홈<span>></span>수시 안전관리활동
+				홈<span>></span>수시 활동
 			</div>		
 		</article>
 		
@@ -53,9 +53,6 @@
 		
 		<!-- seungwon 19.02.15 -->
 		<div class="table_margin">
-		<p style="text-align:center;">
-			<img src="images/title_img/RequestActivity_Detail.png" alt="상세 내용"  style="width:330px; height:80px;">
-		</p>
 		<table class="table table-striped sub_table table01">
 		<colgroup>
 			<col width="10%">
@@ -66,16 +63,24 @@
 		</colgroup>
 		<tbody style="text-align: center">
 			<tr>
-				<th style="text-align: center"><c:out value="요청한 활동"/></th>	
+				<th style="text-align: center"><c:out value="부대활동유형"/></th>	
 				<td>${rqstAct.incdt_actvt_type_cd_nm }</td>
 			</tr>
+			<tr>
+				<th>요청 일자</th>
+				<td><c:out value="${rqstAct.rqst_date}"/></td>
+			</tr> 			
+			<tr>
+				<th>활동 일자</th>
+				<td><c:out value="${rqstAct.actvt_date}"/></td>
+			</tr> 
 			<tr>
 				<th>요청 사유</th>
 				<td><c:out value="${rqstAct.rsn}"/></td>
 			</tr> 	
 			
 			<tr>
-				<th>검토 내용</th>
+				<th>검토 의견</th>
 					<c:choose>
 						<c:when test="${rqstAct.opn == null || rqstAct.opn == ''}">
 							<c:choose>
@@ -101,7 +106,7 @@
 		</table>
 		<div class="div_bottom_btn">
 			<button type="submit" class="btn btn-sm btn-primary btn-width" id="back" onclick="javascript:history.back();">
-			<i class="fas fa-undo"></i>&nbsp;취소</button>
+			<i class="fas fa-list"></i>&nbsp;목록</button>
 		</div>	
 		
 		</div>

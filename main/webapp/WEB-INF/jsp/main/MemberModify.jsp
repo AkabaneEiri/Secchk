@@ -10,7 +10,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
-<title>사용자정보 편집</title>
+<title>사용자 관리</title>
 <script src="js/jquery-3.1.1.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/common.js"></script>
@@ -18,6 +18,7 @@
 <script src="js/swiper.min.js"></script>
 <script src="js/swiper.js"></script>
 <script src="js/MemberModify.js"></script>
+<script src="js/engine.js"></script>
 
 <link href="css/bootstrap.css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="css/reset.css">
@@ -30,11 +31,11 @@
 	<jsp:include page="Header.jsp"></jsp:include>
 	<div class="sub_contents_wrap">	
 		<article class="sub_title">
-			<span>사용자정보 편집</span>
+			<span>사용자 관리</span>
 		</article>
 		<article class="cur_page">
 			<div id="title">
-			홈<span>></span>사용자 목록<span>></span>수정
+			홈<span>></span>사용자 관리<span>></span>수정
 			</div>		
 		</article>
 		
@@ -42,31 +43,39 @@
 		<br>
 		<div class="Insert_Table">
 			<form action =""name="Modify_value" id="Modify_value" method="post" onsubmit="">
-		 		<table class="table table-border sub_table table01" style="text-align:center;width:90%;margin:auto;margin-top:10px;margin-bottom:10px;" >
+		 		<table class="table table-border sub_table table01" style="text-align:center;width:90%;margin:auto;margin-top:10px;margin-bottom:10px;border-top:0px" >
+		 		<thead style="border:0px">
+						<tr>
+							<td colspan = "4"style="border:0px; text-align:left;font-size:15px;">
+							</td>
+						</tr>
+					</thead>
 				<tbody>
 					<c:forEach var="memberselect" items="${memberselect}" varStatus="statics">
 					<tr>
 						<th>이름</th>
 						<td>
-							<input class="DiableInputbox" type="text" placeholder="이름" name="stmt" id="stmt" autocomplete="off"value="${memberselect.stmt }"/>
+							<input class="DiableInputbox" type="text" placeholder="이름" name="stmt" id="stmt" autocomplete="off"value="${memberselect.stmt }" style="ime-mode:active"/>
 						</td>
 						<th style="text-align:center;">직책</th>					
-						<td>
+						<td style="width:34%;">
 							<input class="DiableInputbox" type="text" placeholder="직책" name="rspofc_nm" id="rspofc_nm" value="${memberselect.rspofc_nm }"/>
 						</td>
 					</tr>
 					<tr>
 						<th>ID(군번)</th>
 						<td>
-							<input class="DiableInputbox" type="text" placeholder="ID(군번)" name="srvno" id="srvno" autocomplete="off" value="${memberselect.srvno}"/>
+							<input class="DiableInputbox" type="text" placeholder="ID(군번)" name="srvno" id="srvno" autocomplete="off" value="${memberselect.srvno}" disabled/>
 						</td>
-						<th>비밀번호</th>
-						<td>
-							<input class="sub_input" type="text" name="password" id="password" autocomplete="off"/>
-						</td>
+						<th style="text-align:center;">비밀번호</th>
+							<td style="background-color:white;">
+								<input class="sub_input" type="password" placeholder="비밀번호" 	name="password" id="password" autocomplete="off" />
+								<br>
+								<input type="text" id="pwalert" name="pwalert" style="border:0px;background-color:white;font-size:0.8rem;" disabled />
+							</td>
 					</tr>
 					<tr>
-						<th>계급 선택</th>
+						<th> 계급 선택</th>
 						<td>
 						<select style="background-color:white;display:inline" name="rnkcd" id="rnkcd" class="form-control">
 								<option value="">선택</option>
@@ -121,27 +130,29 @@
 								<option value="A49"><script>$("#rnkcd").val("<c:out	 value="${memberselect.rnkcd}"/>").attr("selected","selected");</script>기능10급</option>
 							</select>
 						</td>
-						<th>비밀번호확인</th>
-						<td>
-							<input class="sub_input" type="text" name="password_check" 	id="password_check" autocomplete="off"/>
-						</td>
+						<th style="text-align:center;">비밀번호확인</th>
+							<td style="background-color:white;">
+								<input class="sub_input" type="password" placeholder="비밀번호 확인" name="password_check" 	id="password_check" autocomplete="off"/>
+							</td>
 					</tr>
 					<tr>
 						<th>전화번호</th>
 						<td>
 							<input class="DiableInputbox" type="text" placeholder="전화번호" name="prtbl_telno" id="prtbl_telno" autocomplete="off" value="${memberselect.prtbl_telno }"/>
 						</td>
-						<th>소속부대</th>
+						<th> 소속부대</th>
 						<td>
-						<div class="btn" style="text-align:center; float:left;">
-							<input class="DiableInputbox2" type="text" placeholder="소속부대검색"  name="incdt_idtf_cd" id="incdt_idtf_cd" autocomplete="off" value="${memberselect.incdt_idtf_cd }"disabled/>
+						<div style="text-align:left; ">
+							<input class="DiableInputbox2" type="text" placeholder="소속부대검색"  name="incdt_idtf_cd" id="incdt_idtf_cd" autocomplete="off"
+							style="font-size: 12pt;box-shadow : 0px 0px 1px #757575;color: #757575;width:73%;background-color:#eaeaea;" 
+							value="${memberselect.incdt_idtf_cd }"disabled/>
 							<button type="button" class="btn btn-sm btn-primary btn-width" data-toggle="modal" data-target="#TaskSearch" ><i class="fas fa-search"></i>&nbsp;검색</button>
 							</div>
-						  	<jsp:include page="taskSearchModal.jsp"></jsp:include>
+						  	<jsp:include page="TroopsSearchModal.jsp"></jsp:include>
 						</td>
 					</tr>
 					<tr>
-						<th>사용자 권한</th>
+						<th> 사용자 권한</th>
 						<td>
 							<select style="display:inline" name="athrt" id="athrt" class="form-control">
 								<option value="">선택</option>
@@ -151,7 +162,7 @@
 							</option>
 							</select>
 						</td>
-						<th>모니터링 권한</th>
+						<th> 모니터링 권한</th>
 						<td>
 						<select style="display:inline" name="montr" id="montr" class="form-control">
 								<option value="">선택</option>
@@ -160,8 +171,24 @@
 							</option>
 							</select>
 						</td>
-					</c:forEach>
 					</tr>
+					<tr>
+						<th>계정 상태</th>
+						<td id="td_acc" colspan="3">
+							<select style="width:38%;" name="athrt" id="acc_state_info" class="form-control">
+								<option value="">선택</option>
+								<option value="K1"><script>$("#acc_state_info").val("<c:out	 value="${fn:trim(memberselect.acc_state_info)}"/>").attr("selected","selected");</script>사용 가능</option>
+								<option value="K2"><script>$("#acc_state_info").val("<c:out	 value="${fn:trim(memberselect.acc_state_info)}"/>").attr("selected","selected");</script>계정 잠김</option>
+							</option>
+							</select>
+						</td>
+						<c:if test="${fn:trim(memberselect.athrt) == 'B2' || fn:trim(memberselect.athrt) == 'B3' }">
+							<script>$("#td_acc").attr("colspan", 1); $("#acc_state_info").css("width", "100%");</script>
+							<th style="text-align:center;">사용자 IP</th>
+							<td><input class="sub_input" type="text" placeholder="IP" maxlength="16" name="ip" id="ip" autocomplete="off" value="${memberselect.ip }" onkeydown=""/></td>
+						</c:if>
+					</tr>
+					</c:forEach>
 				</tbody>
 		 		</table>
 			</form>
@@ -170,7 +197,7 @@
 				<i class="fas fa-pen-square"></i>&nbsp;수정</button>
 				&nbsp;
 				<button type="cancle" class="btn btn-sm btn-primary btn-width" id="cancle" onclick="Modify_Cancle()">
-				<i class="fas fa-undo"></i>&nbsp;취소</button>
+				<i class="fas fa-list"></i>&nbsp;목록</button>
 			</div>
 		</div>
 		</section>

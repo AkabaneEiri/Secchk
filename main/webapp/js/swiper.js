@@ -29,7 +29,7 @@ $(document).ready(function(){
 			// direction: 'vertical',
 			 /* 상하로 움직이기 */			 
 			 autoplay: {
-				delay: 2200,
+				delay: 10000, /* autoplay 딜레이 시간*/
 				disableOnInteraction: false,
 				/* 사용자 조작 시 자동플레이를 멈추는기능 */
 			},			 			 

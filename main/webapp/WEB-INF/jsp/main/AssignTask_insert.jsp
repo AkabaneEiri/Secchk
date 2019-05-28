@@ -17,10 +17,14 @@
 <script src="js/swiper.js"></script>
 <script src="js/Modal.js"></script>
 <script src="js/AssignTask_Insert.js"></script>
+<script src="js/jquery-ui.min.js"></script>
+<script src="js/TaskSearch.js"></script>
+
 <link href="css/bootstrap.css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="css/reset.css">
 <link rel="stylesheet" href="css/swiper.css">
 <link rel="stylesheet" type="text/css" href="css/main.css">
+<link rel="stylesheet" href="css/jquery-ui.css">
 
 <link rel="stylesheet" type="text/css" href="css/main_detail.css">
 </head>
@@ -31,43 +35,84 @@
 	<div class="sub_contents_wrap">	
 		
 		<article class="sub_title">
-			<span>과업 등록</span>
+			<span>과업 부여</span>
 		</article>
 		
 		<article class="cur_page">
 			<div id="title">
-			홈<span>></span>과업 부여<span>></span>과업 등록
+			홈<span>></span>과업 부여<span>></span>등록
 			</div>		
 		</article>
 		
 		<section class="subContent_section" id="AssignTask_insert">
 		<br>
-		<div>
-			<input name="Text" style="background-color:white;border:0px;text-align:center;font-size:18pt;"  value="${Date}&emsp;&emsp;${Name}" disabled>
-		</div>
-		<br>
-		<!--<form name = "InsertForm" action="AssignInsert.do" method="post">-->
-			<table class="table table-condensed sub_table table01"  style="text-align:center;width:40%; margin:auto;margin-top:10px;margin-bottom:10px;">
-				<tr>
-					<th>과업</th>
-					<td style="border-right:none;">
-					<form name="TaskName">
-						<input class="DiableInputbox2" name="TaskInsert_Task" id="TaskInsert_Task"  disabled>
-						<input type="hidden" id="TaskInsert_Seq">
+		<table class="table table-condensed sub_table table01"  style="text-align:center;width:60%; margin:auto;margin-top:10px;margin-bottom:10px;">
+			<colgroup>
+				<col width="20%">
+				<col width="20%">
+				<col width="40%">
+				<col width="20%">
+			</colgroup>		
+			<tr>
+				<th colspan="2">일시</th>
+				<td colspan="2" style="text-align: left;">
+					<input type="text" style="box-shadow : 0px 0px 1px #757575; text-align:center;border:none; height:30px; width:93%;" id="TaskDatepicker"  name="searchCondition2" value="<c:out value="${membersearchVO.searchCondition2}"/>">
+				</td>
+			</tr>
+			<tr>
+				<th rowspan="3">활동 유형</th>
+				<th>대분류</th>
+				<td colspan="2" style="text-align: left;">
+					<select id="searchConditionLage" name="searchConditionLage" onchange="LargeChange(this)" style="width:93%;height:30px;" align="center">
+						<option value="">대 분 류</option>
+						<c:forEach var="taskLarge" items="${taskLarge}" varStatus="statics">
+							<option value="${taskLarge.cd}" name="${taskLarge.cd_nm}"><c:out value="${taskLarge.cd_nm}"/></option>
+						</c:forEach>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<th>중분류</th>
+				<td colspan="2" style="text-align: left;">
+					<select id="searchConditionMiddle" name="searchConditionMiddle" onchange="MiddleChange(this)" style="width:93%;height:30px;" align="center">
+						<option value="">중 분 류</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<th>세부 활동</th>
+				<td colspan="2" style="text-align: left;">
+					<select class="select_stripped" name="Task_name" id="Task_name" onchange="SelectEvent()" style="width:93%;height:30px;" align="center">
+						<option value="">세부 활동</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<th colspan="2">과업</th>
+				<td style="border-right:none;text-align: left;">
+				<form name="TaskName">
+					<input class="DiableInputbox2" name="TaskInsert_Task" id="TaskInsert_Task"  style="background-color:#eaeae; font-size: 12pt;color: #757575;" disabled>
+					<input type="hidden" id="TaskInsert_Seq">
+					<input type="hidden" id="result_lrgcls">
+					<input type="hidden" id="result_mccls">
+					<input type="hidden" id="result_nm">
+					<input type="hidden" id="result_cd">
+					
+				</form>
+				</td>
+				<td>
+					<button type="button" class="btn btn-sm btn-primary" id="btn_tasksmall" onclick="Submit()"><i class="fas fa-search"></i>&nbsp;검색</button>
+					 
+					<jsp:include page="taskSearchModal2.jsp"></jsp:include>
+				</td>
+			</tr>
+			<tr>
+				<th colspan="2">담당자</th>
+				<td style="border-right:none;text-align: left;">
+					<form name="TaskCharge">
+					<input class="DiableInputbox2" name="AssignCharge"  id="AssignCharge" value="" style="background-color:#eaeae; font-size: 12pt;color: #757575;" disabled>
+					<input type="hidden" id="Chargesrvno" name="Chargesrvno" value="">
 					</form>
-					</td>
-					<td>
-						<button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#TaskSearch" ><i class="fas fa-search"></i>검색</button> 
-						<jsp:include page="taskSearchModal2.jsp"></jsp:include>
-					</td>
-				</tr>
-				<tr>
-					<th>담당자</th>
-					<td style="border-right:none;">
-						<form name="TaskCharge">
-						<input class="DiableInputbox2" name="AssignCharge"  id="AssignCharge" value="" disabled>
-						<input type="hidden" id="Chargesrvno" name="Chargesrvno" value="">
-						</form>
 					</td>
 					<td>
 						<button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#UserSearch" ><i class="fas fa-search"></i>&nbsp;검색</button> 
@@ -75,15 +120,14 @@
 					</td>
 				</tr>
 			</table>
-		<!--</form>-->
 			
-			<div class="SubmitButton" style="margin-left:44%">
-				<button type="button" class="btn btn-sm btn-primary" id="submit" onclick="Insert_Submit()">
-					<i class="fas fa-check"></i>&nbsp;확인</button>
-				&nbsp;
-				<button type="button" class="btn btn-sm btn-primary" id="Cancle" onclick="Insert_Cancle()">
-					<i class="fas fa-undo"></i>&nbsp;취소</button>
-			</div>
+		<div class="SubmitButton" style="margin-left:44%">
+			<button type="button" class="btn btn-sm btn-primary" id="submit" onclick="Insert_Submit()">
+				<i class="fas fa-check"></i>&nbsp;저장</button>
+			&nbsp;
+			<button type="button" class="btn btn-sm btn-primary" id="Cancle" onclick="Insert_Cancle()">
+				<i class="fas fa-undo"></i>&nbsp;취소</button>
+		</div>
 		<br>
 		</section>	
 	<jsp:include page="Footer.jsp"></jsp:include>

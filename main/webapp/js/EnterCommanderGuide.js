@@ -40,8 +40,7 @@ function Task_Search(){
 			alert("일시를 선택해 주십시오");
 		}
 	else{
-	document.write("");
-	location.href ="EnterCommanderGuide.do?Name="+Name+"&Date="+Date;
+	location.href ="EnterCommanderGuide.do?Name="+encodeURI(Name)+"&Date="+encodeURI(Date);
 	}
 }
 function Task_Input_cui1(){
@@ -59,8 +58,8 @@ function Task_Input_cui1(){
 			}
 		}
 	
-	document.write("");
-	location.href="EnterCommanderGuide_Modify1.do?Name="+Name+"&Date="+Date + "&guidnc_1=" + CUI1 + "&id=" + id;
+	
+	location.href="EnterCommanderGuide_Modify1.do?Name="+encodeURI(Name)+"&Date="+encodeURI(Date) + "&guidnc_1=" + encodeURI(CUI1) + "&id=" + id;
 }
 function Task_Input_cui2(){
 	var CUI2 = document.guidnc_name.CUI2.value;
@@ -76,8 +75,8 @@ function Task_Input_cui2(){
 			alert("일시를 선택해 주십시오");
 		}
 	}
-	document.write("");
-	location.href="EnterCommanderGuide_Modify2.do?Name="+Name+"&Date="+Date + "&guidnc_2=" + CUI2 + "&id=" + id;
+	
+	location.href="EnterCommanderGuide_Modify2.do?Name="+encodeURI(Name)+"&Date="+encodeURI(Date) + "&guidnc_2=" + encodeURI(CUI2) + "&id=" + id;
 }
 function Task_Input_cui3(){
 	var CUI3 = document.guidnc_name.CUI3.value;
@@ -93,80 +92,8 @@ function Task_Input_cui3(){
 			alert("일시를 선택해 주십시오");
 		}
 	}
-	document.write("");
-	location.href="EnterCommanderGuide_Modify3.do?Name="+Name+"&Date="+Date + "&guidnc_3=" + CUI3 + "&id=" + id;
-}
-function Guide_Delete1(){
-	var Name = getParameterByName("Name");
-	var Date = getParameterByName("Date");
-	var id = document.guidnc_name.taskDataID.value;
 	
-	if(Date == "")
-	{
-	 Date = document.taskdate.searchCondition2.value;
-		if(Date == "")
-		{
-			alert("일시를 선택해 주십시오");
-		}
-	}
-var DeleteConfirm = confirm('정말 삭제하시겠습니까?')
-	
-	if(DeleteConfirm)
-		{
-			document.write("");
-			location.href="EnderCommanderGuide_Delete1.do?Name="+Name+"&Date="+Date + "&guidnc_1=CUI1" + "&id=" + id;
-		}
-	else{
-		alert("취소하셨습니다.");
-	}
-}
-function Guide_Delete2(){
-	var Name = getParameterByName("Name");
-	var Date = getParameterByName("Date");
-	var id = document.guidnc_name.taskDataID.value;
-	
-	if(Date == "")
-	{
-	 Date = document.taskdate.searchCondition2.value;
-		if(Date == "")
-		{
-			alert("일시를 선택해 주십시오");
-		}
-	}
-var DeleteConfirm = confirm('정말 삭제하시겠습니까?')
-	
-	if(DeleteConfirm)
-		{
-	document.write("");
-	location.href="EnderCommanderGuide_Delete2.do?Name="+Name+"&Date="+Date + "&guidnc_2=CUI2" + "&id=" + id;
-		}
-	else{
-		alert("취소하셨습니다.");
-	}
-}
-function Guide_Delete3(){
-	var Name = getParameterByName("Name");
-	var Date = getParameterByName("Date");
-	var id = document.guidnc_name.taskDataID.value;
-	
-	if(Date == "")
-	{
-	 Date = document.taskdate.searchCondition2.value;
-		if(Date == "")
-		{
-			alert("일시를 선택해 주십시오");
-		}
-	}
-var DeleteConfirm = confirm('정말 삭제하시겠습니까?')
-	
-	if(DeleteConfirm)
-		{
-	document.write("");
-	location.href="EnderCommanderGuide_Delete3.do?Name="+Name+"&Date="+Date + "&guidnc_3=CUI3" + "&id=" + id;
-}
-else{
-	alert("취소하셨습니다.");
-}
+	location.href="EnterCommanderGuide_Modify3.do?Name="+encodeURI(Name)+"&Date="+encodeURI(Date) + "&guidnc_3=" + encodeURI(CUI3) + "&id=" + id;
 }
 
 function Task_Modify_cui1(){
@@ -181,23 +108,11 @@ function clickTdEvent(tdObj){
 	var Code = tdObj.id;
 
 	document.SelectCode.searchCondition1.value=Name;
-	document.TaskSearch.searchCode.value=Code;	
+	document.SelectCode.searchCode.value=Code;	
 }
 
 function access(){
 	var iframe = document.getElementById("iframe");
 	var innerDoc = iframe.contentDocument || iframe.contentWindow.document;
 	console.log(innerDoc.body)
-}
-
-
-function Guide_Insert() {
-	var CUI1 = document.guidnc_name.CUI1.value;
-	var CUI2 = document.guidnc_name.CUI2.value;
-	var CUI3 = document.guidnc_name.CUI3.value;
-	var Name = getParameterByName("Name");
-	var Date = getParameterByName("Date");
-	var id = document.guidnc_name.taskDataID.value;
-	
-	location.href = "EnderCommanderGuide_InsertAll.do?Name=" + Name + "&Date="+Date + "&guidnc_1=" + CUI1 + "&guidnc_2=" + CUI2 + "&guidnc_3=" + CUI3 + "&id=" + id;
 }

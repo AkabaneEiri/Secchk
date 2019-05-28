@@ -24,4 +24,23 @@ public class CtglCodeServiceImpl extends EgovAbstractServiceImpl implements Ctlg
 		return  ctlgcodeDAO.getCtlgCode(ctlgCodeVO);
 	}
 	
+	public List<CtlgCodeVO> getAllCtlgCodeList() throws Exception {
+		return ctlgcodeDAO.getAllCtlgCodeList();
+	}
+	
+	public List<CtlgCodeVO> getCtlgCodeListByLarge(String large) throws Exception {
+		return ctlgcodeDAO.getCtlgCodeListByLarge(large);
+	}
+	
+	public List<CtlgCodeVO> getCtlgCodeListByMiddle(String middle) throws Exception {
+		return ctlgcodeDAO.getCtlgCodeListByMiddle(middle);
+	}
+	
+	public List<CtlgCodeVO> getCtlgCodeByAllCondition(CtlgCodeVO ctlgCodeVO) throws Exception {
+		return ctlgcodeDAO.getCtlgCodeByAllCondition(ctlgCodeVO);
+	}
+	
+	public void insertCtlgCodeVO(CtlgCodeVO ctlgCodeVO) throws Exception {
+		ctlgcodeDAO.insertCtlgCodeVO(ctlgCodeVO);
+	}
 }

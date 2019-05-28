@@ -15,7 +15,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
-<title>예정된 안전관리활동</title>
+<title>예정 활동</title>
 <script src="js/jquery-3.1.1.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/common.js"></script>
@@ -38,12 +38,12 @@
 	<div class="sub_contents_wrap">	
 		
 		<article class="sub_title">
-			<span>예정된 안전관리활동</span>
+			<span>예정 활동</span>
 		</article>
 		
 		<article class="cur_page">
 			<div id="title">
-			홈<span>></span>예정된 안전관리활동
+			홈<span>></span>예정 활동<span>></span>조치 요청
 			</div>		
 		</article>
 		
@@ -53,39 +53,37 @@
 
 		<!--  <div class="div_title">예정된 안전관리활동</div>-->
 		
-		<table class="table table-striped sub_table table01" style="width: 90%; margin: auto; margin-bottom: 10px; margin-top: 10px;">
-		<thead>
+		<table class="table table-striped sub_table table01" style="/*width: 90%; margin: auto; margin-bottom: 10px; margin-top: 10px;*/">		
+		<colgroup>
+			<col width="25%">
+			<col width="75%">
+		</colgroup>
+		<tbody>
 			<tr>
 				<th style="text-align: center;">상세 내용</th>
-			</tr>
-		</thead>
-		<tbody>
-		<c:choose>
-			<c:when test="${checklistItem == null }">
-				<tr>
-					<td>체크리스트 항목을 가져오지 못했습니다. 다시시도해주시기 바랍니다.</td>
-				</tr>
-			</c:when>
-			<c:otherwise>
-				<tr>
-					<td style="padding: 30px;">${checklistItem.ctlg_itm_ctnt}</td>
-				</tr>
-			</c:otherwise>
-		</c:choose>
-		
-			
+				<c:choose>
+					<c:when test="${checklistItem == null }">				
+						<td>체크리스트 항목을 가져오지 못했습니다. 다시시도해주시기 바랍니다.</td>
+					</c:when>
+					<c:otherwise>			
+						<td  class="word_break" style="padding: 30px;">${checklistItem.ctlg_itm_ctnt}</td>
+					</c:otherwise>
+				</c:choose>
+			</tr>	
+			<tr>
+				<th style="text-align: center;"><span class="import_marker">* </span>사유</th>
+				<td>
+					<textarea id="rsn_area" name="rsn_area" rows="3" cols="10" placeholder="사유를 입력해주십시오"
+					style="width: 90%; box-shadow: 0px 0px 1px #757575;border: none;"></textarea>
+				</td>
+			</tr>		
 		</tbody>
 		</table>
-		
-		<div style="text-align: center; vertical-align: top; width: 100%; margin: auto; margin-bottom: 10px; margin-top: 10px;">
-			<textarea id="rsn_area" name="rsn_area" rows="3" cols="10" placeholder="사유를 입력해주십시오"
-			style="width: 90%; box-shadow: 0px 0px 1px #757575;border: none;"></textarea>
-		</div>
 
 		<div style="text-align: center; margin-top: 10px;">
 			<c:if test="${fn:trim(listsearchVO.state_cd) != 'E3'}">
 				<c:if test="${(checkState != null || checkState != '') && checkState != 'C'}">
-					<button type="submit" class="btn btn-sm btn-primary btn-width" id= "ok" onclick="javascript:fn_onClick_submitApproval('${checklistItem.ctlg_cd}', '${checklistItem.ctlg_itm_cd}')">
+					<button type="button" class="btn btn-sm btn-primary btn-width" id= "ok" onclick="javascript:fn_onClick_submitApproval('${checklistItem.ctlg_cd}', '${checklistItem.ctlg_itm_cd}')">
 				<i class="fas fa-check"></i>&nbsp;확인</button>
 				</c:if>				
 			</c:if>			

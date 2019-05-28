@@ -7,7 +7,7 @@
 	<select id="checkApprovalDAO.getCheckApprovalList" parameterClass="MembersearchVO" resultClass="CheckApprovalVO">
 	SELECT
 		rqst_date,
-		(SELECT stmt FROM t_security_user WHERE srvno = t_security_rqst_ugcy.rqstr_srvno) AS rqstr_srvno,
+		(SELECT rspofc_nm FROM t_security_user WHERE srvno = t_security_rqst_ugcy.rqstr_srvno) AS rqstr_srvno,
 		(SELECT cd_nm FROM t_security_code WHERE cd = t_security_rqst_ugcy.incdt_actvt_type_cd) AS incdt_actvt_type_cd,
 		actvt_date,
 		ctlg_cd,
@@ -20,11 +20,12 @@
 		t_security_rqst_ugcy
 	WHERE 1=1
 	and rqstr_srvno IN (SELECT srvno FROM t_security_user WHERE Incdt_idtf_cd = #searchCode#)
+	order by rqst_date desc
 	</select>
 	<select id="checkApprovalDAO.getCheckApprovalSelect" parameterClass="CheckApprovalVO" resultClass="CheckApprovalVO">
 	SELECT
 		rqst_date,
-		(SELECT stmt FROM t_security_user WHERE srvno = t_security_rqst_ugcy.rqstr_srvno) AS rqstr_srvno,
+		(SELECT rspofc_nm FROM t_security_user WHERE srvno = t_security_rqst_ugcy.rqstr_srvno) AS rqstr_srvno,
 		(SELECT cd_nm FROM t_security_code WHERE cd = t_security_rqst_ugcy.incdt_actvt_type_cd) AS incdt_actvt_type_cd,
 		actvt_date,
 		(SELECT ctlg_nm FROM t_security_ctlg_cd WHERE ctlg_cd = t_security_rqst_ugcy.ctlg_cd) AS ctlg_cd,
@@ -36,12 +37,13 @@
 	FROM
 		t_security_rqst_ugcy
 	WHERE seq = #seq#
+	order by rqst_date desc
 	</select>
 	
 	<select id="checkApprovalDAO.selectApprovalByKey" parameterClass="CheckApprovalVO" resultClass="CheckApprovalVO">
 	SELECT
 		rqst_date,
-		(SELECT stmt FROM t_security_user WHERE srvno = t_security_rqst_ugcy.rqstr_srvno) AS rqstr_srvno,
+		(SELECT rspofc_nm FROM t_security_user WHERE srvno = t_security_rqst_ugcy.rqstr_srvno) AS rqstr_srvno,
 		(SELECT cd_nm FROM t_security_code WHERE cd = t_security_rqst_ugcy.incdt_actvt_type_cd) AS incdt_actvt_type_cd,
 		actvt_date,
 		ctlg_cd,
@@ -87,12 +89,12 @@ INSERT INTO t_security_rqst_ugcy
 	<select id="checkApprovalDAO.selectLimitCheckApprovalList" parameterClass="String" resultClass="CheckApprovalVO">
 	SELECT *, (SELECT cd_nm FROM t_security_code WHERE cd=incdt_actvt_type_cd) AS incdt_actvt_type_cd_nm,
 			(SELECT ctlg_itm_ctnt FROM t_security_ctlg WHERE ctlg_itm_cd=A.ctlg_itm_cd) AS ctlg_itm_nm,
-			(SELECT stmt FROM t_security_user WHERE srvno=rqstr_srvno) AS rqstr_nm,
+			(SELECT rspofc_nm FROM t_security_user WHERE srvno=rqstr_srvno) AS rqstr_nm,
 			(SELECT cd_nm FROM t_security_code A, t_security_user B WHERE B.srvno=rqstr_srvno AND A.cd=B.rnkcd) AS rqstr_rnk
 	FROM t_security_rqst_ugcy A
-	WHERE incdt_idtf_cd = #incdt_idtf_cd#
+	WHERE incdt_idtf_cd = #incdt_idtf_cd# AND state_cd = 'D1'
 	ORDER BY rqst_date DESC
-	LIMIT 4
+	LIMIT 5
 	</select>
 	
 	<select id="checkApprovalDAO.selectApprovalByVO" parameterClass="CheckApprovalVO" resultClass="CheckApprovalVO">
@@ -101,5 +103,41 @@ INSERT INTO t_security_rqst_ugcy
 	WHERE id = #id# 
 		AND rqstr_srvno = #rqstr_srvno#
 		AND ctlg_itm_cd = #ctlg_itm_cd#
+	</select>
+	
+	<select id="checkApprovalDAO.searchApproval" parameterClass="CheckApprovalVO" resultClass="CheckApprovalVO">
+	select 
+		(SELECT cd_nm FROM t_security_code WHERE cd = incdt_idtf_cd) AS incdt_idtf_cd,
+		rqst_date,
+		(SELECT rspofc_nm FROM t_security_user WHERE srvno = rqstr_srvno) AS rqstr_srvno,
+		(SELECT cd_nm FROM t_security_code WHERE cd = incdt_actvt_type_cd) AS incdt_actvt_type_cd,
+		actvt_date,
+		(SELECT cd_nm FROM t_security_code WHERE cd = ctlg_cd) AS ctlg_cd,
+		(SELECT ctlg_itm_ctnt FROM t_security_ctlg a WHERE a.ctlg_itm_cd = b.ctlg_itm_cd) AS ctlg_itm_cd,
+		rsn,
+		(SELECT cd_nm FROM t_security_code WHERE cd = state_cd) AS state_cd,
+		opn,
+		seq,
+		task_cd,
+		id
+	from t_security_rqst_ugcy b
+	where 1 = 1
+	and incdt_idtf_cd =  #incdt_idtf_cd#
+	<isNotEmpty prepend="and" property="actvt_date">
+		actvt_date = #actvt_date#
+	</isNotEmpty>
+	<isNotEmpty prepend="and" property="rqst_date">
+		rqst_date = #rqst_date#
+	</isNotEmpty>
+	<isNotEmpty prepend="and" property="rqstr_nm">
+		rqstr_srvno in (select srvno from t_security_user where rspofc_nm like '%' || #rqstr_nm# || '%')
+	</isNotEmpty>
+	<isNotEmpty prepend="and" property="incdt_actvt_type_cd">
+		incdt_actvt_type_cd in (select cd from t_security_code where cd_nm  like '%' || #incdt_actvt_type_cd# || '%' and cd like 'F%')
+	</isNotEmpty>
+	<isNotEmpty prepend="and" property="state_cd">
+		state_cd = #state_cd#
+	</isNotEmpty>
+	order by rqst_date desc
 	</select>
 </sqlMap>
