@@ -222,5 +222,5 @@
 	ctlg_itm_cd_10_nm
 	FROM t_security_sprtly_ctlg
 	WHERE incdt_idtf_cd=#incdt_idtf_cd#
-	</select>	
+	</select>
 </sqlMap>

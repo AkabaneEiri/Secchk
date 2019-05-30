@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>수시활동 검토</title>
+<title>수시 안전관리활동 검토</title>
 <script src="js/jquery-3.1.1.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/common.js"></script>
@@ -33,17 +33,19 @@
     <jsp:include page="Header.jsp"></jsp:include>
     <div class="sub_contents_wrap">    
         <article class="sub_title">
-            <span>수시활동 검토</span>
+            <span>수시 안전관리활동 검토</span>
         </article>
         
         <article class="cur_page">
             <div id="title">
-            	홈<span>></span>지휘 및 통제<span>></span>수시활동 검토
+            	홈<span>></span>지휘 및 통제<span>></span>수시 안전관리활동 검토
             </div>        
         </article>
             
         <section class="subContent_section" id="AssignTask">
-        <br>
+        	<p style="text-align:center;">
+			<img src="images/title_img/CheckOccasionalSafeManagement_Select.png" alt="요청한 수시안전관리활동"  style="width:330px; height:80px;">
+			</p> 
         	<table class="table table-stripped sub_table table01"  style="text-align:center;width:90%; margin:auto;">
             <thead class="thead_title">
             </thead>
@@ -68,8 +70,8 @@
                 </tr>
                 <tr>
                     <th>사유</th>
-                    <td colspan="3" style="font-size:17px;text-align:center;color:#757575;">
-                       ${Check.rsn}
+                    <td colspan="3">
+                        <input class="DiableInputbox" name="Value_rsn" value="${Check.rsn}" disabled>
                     </td>
                 </tr>
                 <tr>
@@ -77,12 +79,10 @@
                     <td colspan="3" >
                     	<c:choose>
                     		<c:when test="${Check.state_cd eq '미승인'}">
-                    			<input class="sub_input" name="Value_opn" id="opn" style="width:100%;border:0.5px solid #4e6361;ime-mode:active" value="${Check.opn}">
-                    			<br>
-                    	<input class="sub_input" name="opn_res" id="opn_res" style="color:red;background-color: white;font-size: 12px;margin-top:10px;" value= "0/80"disabled>
+                    			<input class="sub_input" name="Value_opn" id="opn" value="${Check.opn}">
                     		</c:when>
                     		<c:otherwise>
-                    			<input class="DiableInputbox" name="Value_opn" value="${Check.opn}" disabled>
+                    			<input class="sub_input" name="Value_opn" id="opn" value="${Check.opn}" disabled="disabled">
                     		</c:otherwise>
                     	</c:choose>
                     </td>
@@ -106,7 +106,7 @@
                 &nbsp;
               </c:if>
                 <button type="button" class="btn btn-sm btn-primary"  onclick="Approval_Cancle()">
-                <i class="fas fa-list"></i>&nbsp;목록</button>
+                <i class="fas fa-undo"></i>&nbsp;취소</button>
             </div> 
             <br>
         

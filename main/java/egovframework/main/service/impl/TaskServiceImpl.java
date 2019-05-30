@@ -105,44 +105,7 @@ public class TaskServiceImpl  extends EgovAbstractServiceImpl implements TaskSer
 	////////////////////////////////////////////
 	@Override
 	public List<TaskVO> getTaskSelected(TaskVO taskVO) throws Exception {
+		// TODO 자동 생성된 메소드 스텁
 		return taskDAO.getTaskSelected(taskVO);
-	}
-	@Override
-	public List<TaskVO> getActivityRequire(TaskVO taskVO) throws Exception {
-		return taskDAO.getActivityRequire(taskVO);
-	}
-	@Override
-	public void InsertActivity(TaskVO taskVO) throws Exception {
-		taskDAO.InsertActivity(taskVO);
-	}
-	@Override
-	public List<TaskVO> getTaskSearchNameWithOption(TaskVO taskVO)
-			throws Exception {
-		return taskDAO.getTaskSearchNameWithOption(taskVO);
-	}
-	@Override
-	public List<TaskVO> getClsList(TaskVO taskVO) throws Exception {
-		return taskDAO.getClsList(taskVO) ;
-	}
-	@Override
-	public List<TaskVO> getTaskSearchOption(TaskVO taskVO) throws Exception {
-		return taskDAO.getTaskSearchOption(taskVO);
-	}
-	@Override
-	public List<TaskVO> getctlgCode(MemberSearchVO membersearchVO)
-			throws Exception {
-		return taskDAO.getctlgCode(membersearchVO);
-	}
-	
-	public List<TaskVO> getTaskListByCondition(TaskVO taskVO) throws Exception {
-		return taskDAO.getTaskListByCondition(taskVO);
-	}
-	@Override
-	public void deleteTask(TaskVO taskVO) throws Exception {
-		taskDAO.deleteTask(taskVO);
-	}
-	@Override
-	public List<TaskVO> selectId(TaskVO taskVO) throws Exception {
-		return taskDAO.selectId(taskVO);
 	}
 }

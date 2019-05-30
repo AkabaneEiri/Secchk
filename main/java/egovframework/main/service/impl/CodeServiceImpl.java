@@ -56,9 +56,4 @@ public class CodeServiceImpl extends EgovAbstractServiceImpl implements CodeServ
 	public List<CodeVO> getCodeListByDvs(String grp_cd) throws Exception {
 		return codeDAO.getCodeListByDvs(grp_cd);
 	}
-	
-	// search duplicate code
-	public CodeVO searchDuplicateCode(CodeVO codeVO) throws Exception {
-		return codeDAO.searchDuplicateCode(codeVO);
-	}
 }

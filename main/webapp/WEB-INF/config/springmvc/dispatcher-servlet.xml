@@ -56,8 +56,6 @@
 			<mvc:exclude-mapping path="/KeyCheck_Proc.do" />	
 			<mvc:exclude-mapping path="/GroupNameSearch.do" />	
 			<mvc:exclude-mapping path="/GroupNameSearchResult.do" />
-			<mvc:exclude-mapping path="/Code_Insert_Excel.do"/>
-			<mvc:exclude-mapping path="/TemplateExcelDownload.do"/>			
 			
 			<!-- <mvc:exclude-mapping path="/ManageCode.do" />
 			<mvc:exclude-mapping path="/Code_Modify.do"/>

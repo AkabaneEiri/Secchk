@@ -51,7 +51,5 @@ public interface ActivityService {
 	int updateActStartById(String id) throws Exception;
 
 	int updateActFinishById(String id) throws Exception;
-	
-	List<ActivityVO> getActBySearchVO(ListsearchVO listsearchVO) throws Exception;
 	// /////////////////////////////////////////
 }

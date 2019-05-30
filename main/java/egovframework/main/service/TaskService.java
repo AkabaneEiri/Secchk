@@ -53,15 +53,4 @@ public interface TaskService {
 	List<TaskVO> getTaskListForMain(String srvno) throws Exception;
 	////////////////////////////////////////////
 	List<TaskVO> getTaskSelected(TaskVO taskVO) throws Exception;
-	List<TaskVO> getActivityRequire(TaskVO taskVO) throws Exception;
-	void InsertActivity(TaskVO taskVO) throws Exception;
-	List<TaskVO> getTaskSearchNameWithOption(TaskVO taskVO) throws Exception;
-	List<TaskVO> getClsList(TaskVO taskVO) throws Exception;
-	List<TaskVO> getTaskSearchOption(TaskVO taskVO) throws Exception;
-	List<TaskVO> getctlgCode(MemberSearchVO membersearchVO) throws Exception;
-	
-	
-	List<TaskVO> getTaskListByCondition(TaskVO taskVO) throws Exception;
-	void deleteTask(TaskVO taskVO) throws Exception;
-	List<TaskVO> selectId(TaskVO taskVO) throws Exception;
 }

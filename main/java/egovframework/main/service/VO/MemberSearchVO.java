@@ -16,13 +16,6 @@ public class MemberSearchVO {
     private String searchCondition = "";
     private String searchConditionLarge = "";
     private String searchConditionMiddle = "";
-    
-    // 190520 add by seungwon ////////////
-    private String searchAthrt = "";
-    
-    public String getSearchAthrt() { return searchAthrt; }
-    public void setSearchAthrt(String searchAthrt) { this.searchAthrt = searchAthrt; }
-    //////////////////////////////////////
 	
   
 	/** 검색사용여부 */

@@ -3,7 +3,6 @@
 <sqlMap namespace="dao_rqstAct">
 	<typeAlias alias="requestActivityVO" type="egovframework.main.service.VO.RequestActivityVO"/>
 	<typeAlias alias="listsearchVO" type="egovframework.main.service.VO.ListsearchVO"/>
-	<typeAlias alias="userVO" type="egovframework.main.service.VO.UserVO"/>
 
 	<insert id="requestActivityDAO.insertRequestVO" parameterClass="requestActivityVO">
 		INSERT INTO t_security_rqst_incdt_actvt
@@ -17,21 +16,20 @@
 	
 	<select id="requestActivityDAO.getRequestListBySrvno" parameterClass="String" resultClass="requestActivityVO">
 		SELECT *, to_char(actvt_date, 'yyyy-mm-dd') AS actvt_date,
-			(SELECT cd_nm FROM t_security_code WHERE cd=A.incdt_actvt_type_cd) AS incdt_actvt_type_cd_nm					
+			(SELECT cd_nm FROM t_security_code WHERE cd=A.incdt_actvt_type_cd) AS incdt_actvt_type_cd_nm
+					
 		FROM t_security_rqst_incdt_actvt A
 		WHERE rqstr_srvno=#srvno#
-		ORDER BY rqst_date DESC
 	</select>
 	
 	<select id="requestActivityDAO.getLimitReqActList" parameterClass="String" resultClass="requestActivityVO">
 	SELECT *, (SELECT cd_nm FROM t_security_code WHERE cd=incdt_actvt_type_cd) AS incdt_actvt_type_cd_nm,
-			(SELECT rspofc_nm FROM t_security_user WHERE srvno=rqstr_srvno) AS rqstr_nm,
+			(SELECT stmt FROM t_security_user WHERE srvno=rqstr_srvno) AS rqstr_nm,
 			(SELECT cd_nm FROM t_security_code A, t_security_user B WHERE B.srvno=rqstr_srvno AND A.cd=B.rnkcd) AS rqstr_rnk
 	FROM t_security_rqst_incdt_actvt
 	WHERE incdt_idtf_cd = #incdt_idtf_cd#
-	and state_cd = 'D1'
 	ORDER BY rqst_date DESC
-	LIMIT 5
+	LIMIT 4
 	</select>
 	
 	<select id="requestActivityDAO.getRqstActBySeq" parameterClass="String" resultClass="requestActivityVO">
@@ -42,70 +40,4 @@
 		FROM t_security_rqst_incdt_actvt A
 		WHERE seq = #seq#
 	</select>
-	
-	<select id="requestActivityDAO.getNewCount" parameterClass="userVO" resultClass="Integer">
-	SELECT COUNT(*)
-	FROM t_security_rqst_incdt_actvt
-	WHERE incdt_idtf_cd = #incdt_idtf_cd# AND state_cd = 'D1'
-	</select>
-	
-	<select id="requestActivityDAO.getRequestedListForMain" parameterClass="String" resultClass="requestActivityVO">
-		SELECT *, to_char(actvt_date, 'yyyy-mm-dd') AS actvt_date,
-			(SELECT cd_nm FROM t_security_code WHERE cd=A.incdt_actvt_type_cd) AS incdt_actvt_type_cd_nm					
-		FROM t_security_rqst_incdt_actvt A
-		WHERE rqstr_srvno=#srvno# AND state_cd != 'D2'
-		ORDER BY rqst_date DESC
-		LIMIT 5
-	</select>
-	
-	<select id="requestActivityDAO.searchApproval" parameterClass="requestActivityVO" resultClass="requestActivityVO">
-		SELECT 	
-			incdt_idtf_cd,
-			(SELECT cd_nm FROM t_security_code WHERE cd = incdt_actvt_type_cd) AS incdt_actvt_type_cd,
-			(SELECT cd_nm FROM t_security_code WHERE cd = state_cd) AS state_cd,
-			actvt_date,
-			seq,
-			(select rspofc_nm from t_security_user where srvno = rqstr_srvno) as rqstr_srvno,
-			rqst_date
-		FROM t_security_rqst_incdt_actvt
-		WHERE 1=1
-		and incdt_idtf_cd = #incdt_idtf_cd#
-		<isNotEmpty prepend = "AND" property="actvt_date" >
-		actvt_date = #actvt_date#
-		</isNotEmpty>
-		<isNotEmpty prepend = "AND" property="rqst_date" >
-		rqst_date = #rqst_date#
-		</isNotEmpty>
-		<isNotEmpty prepend = "AND" property="rqstr_srvno" >
-		rqstr_srvno in(select srvno from t_security_user where rspofc_nm like '%' || #rqstr_srvno# || '%') 
-		</isNotEmpty>
-		<isNotEmpty prepend = "AND" property="state_cd" >
-		state_cd = #state_cd#
-		</isNotEmpty>
-		<isNotEmpty prepend = "AND" property="incdt_actvt_type_cd" >
-		incdt_actvt_type_cd in (select cd from t_security_code where cd_nm like '%' || #incdt_actvt_type_cd# || '%' and cd like 'F%')
-		</isNotEmpty>
-		order by rqst_date desc
-	</select>
-	
-	<select id="requestActivityDAO.getListByCondition" parameterClass="requestActivityVO" resultClass="requestActivityVO">
-	SELECT *,
-		(SELECT cd_nm FROM t_security_code WHERE cd=A.incdt_actvt_type_cd) AS incdt_actvt_type_cd_nm
-	FROM t_security_rqst_incdt_actvt A
-		<dynamic prepend="WHERE"> 		
-			<isNotEmpty prepend="AND" property="rqstr_srvno">
-				A.rqstr_srvno = #rqstr_srvno#
-			</isNotEmpty>
-			<isNotEmpty prepend="AND" property="actvt_date">
-				A.actvt_date = #actvt_date#
-			</isNotEmpty>
-			<isNotEmpty prepend="AND" property="state_cd">
-				A.state_cd = #state_cd#
-			</isNotEmpty>
-			<isNotEmpty prepend="AND" property="incdt_actvt_type_cd_nm">
-				(SELECT cd_nm FROM t_security_code WHERE cd=A.incdt_actvt_type_cd) like '%' || #incdt_actvt_type_cd_nm# || '%'
-			</isNotEmpty>
-		</dynamic>
-	ORDER BY rqst_date DESC
-	</select>	
 </sqlMap>

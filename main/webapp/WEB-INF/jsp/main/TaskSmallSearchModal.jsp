@@ -14,6 +14,7 @@
 <script src="js/fontawesome-all.js"></script>
 <script src="js/swiper.min.js"></script>
 <script src="js/swiper.js"></script>
+<script src="js/AssignTask.js"></script>
 <script src="js/jquery-ui.min.js"></script>
 <script src="js/TaskSmallSearchModal.js"></script>
 
@@ -27,24 +28,27 @@
 
 <body> 
 
-		<div class="btn" style="text-align:center;margin:auto; width:50%;padding-left:28px;">
-		    <span>■ 과업명&nbsp</span>
-			<input id="searchKeyword" name="searchKeyword" type="text"  style="border:1px solid gray; height:27px;font-size:15px;width:80%;padding-left:3px;"value="<c:out value="${membersearchVO.searchKeyword}"/>"/>
-			<button type="button" class="btn btn-sm btn-info" 	id="search"	onclick="Member_Search()"><i class="fas fa-search"></i>&nbsp;검색</button>
+<form:form commandName="membersearchVO" name="listForm" method="post">
+		<div class="btn" style="text-align:center;margin:auto; width:90%;margin-left:3%">
+			<select id="searchCondition" name="searchCondition" style="height:30px;font-size:15px">
+			<script>$("#searchCondition").val("<c:out	 value="${membersearchVO.searchCondition}"/>").attr("selected","selected");</script>
+				<option value="00" >성명	</option>
+			</select>
+			<input id="searchKeyword" name="searchKeyword" type="text"  style="border:1px solid gray; height:30px;font-size:15px;width:80%;padding-left:3px;"value="<c:out value="${membersearchVO.searchKeyword}"/>"/>
+			<button type="Search" class="btn btn-sm btn-info" 	id="search"	onclick="Member_Search()"><i class="fas fa-search"></i>&nbsp;검색</button>
 		</div>
-	
-	<div style="width:90%; height:40px; padding:10px; background-color:#F2F2F2; margin:auto;border:1px solid gray;border-bottom:none">
-	<table class="table table-hover" id="table_title"> 
-		<thead style="text-align: center;	color: black;">
+	</form:form>
+	<div style="overflow:scroll; width:90%; height:350px; padding:10px; background-color:#F2F2F2; margin:auto;border:1px solid gray">
+	<table class="table table-hover" id="table_hover"> 
+		<thead>
 			<tr>
-				<td>과업명</td>
+				<td>과업</td>
 			</tr>
 		</thead>
-	</table>
-	</div>
-	<div style="overflow:scroll; width:90%; height:300px; padding:10px; background-color:#F2F2F2; margin:auto;border:1px solid gray">
-	<table class="table table-hover" id="table_hover"> 
 		<tbody>
+		<form  name="NameForm" method="post" action="">
+			
+		</form>
 		</tbody>
 	</table>
 				

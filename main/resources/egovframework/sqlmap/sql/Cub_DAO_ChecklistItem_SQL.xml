@@ -7,11 +7,10 @@
 	<select id="checklistItemDAO.ChecklistSelect" parameterClass="checklistItemVO" resultClass="checklistItemVO">
 	SELECT *
 	FROM T_SECURITY_CTLG
-	WHERE 1=1
-	<isNotEmpty prepend ="AND"  property= "ctlg_cd">
+	WHERE 1=0
+	<isNotEmpty prepend ="OR"  property= "ctlg_cd">
 		ctlg_cd = (select cd from t_security_code where cd_nm = #ctlg_cd# and cd like '%G%' or cd = #ctlg_cd#)
 	</isNotEmpty>
-	
 	order by prtcuse_frqc desc;
 	</select>
 	<select id="checklistItemDAO.ChecklistPreSelect" parameterClass="checklistItemVO" resultClass="checklistItemVO">
@@ -73,27 +72,4 @@
     and rownum = 1
     </select>
     
-    <select id="checklistItemDAO.getAllCtlg" resultClass="checklistItemVO">
-    SELECT *
-    FROM t_security_ctlg
-	</select>
-	
-	<select id="checklistItemDAO.getMaxItemCode" parameterClass="String" resultClass="checklistItemVO">
-	SELECT MAX(ctlg_itm_cd) AS ctlg_itm_cd
-	FROM t_security_ctlg
-	WHERE ctlg_cd = #ctlg_cd# AND NOT SUBSTR(ctlg_itm_cd, 6, 5) REGEXP '[a-zA-Z]'
-	</select>
-	
-	<select id="checklistItemDAO.getEmptyItemCodeList" parameterClass="String" resultClass="checklistItemVO">
-	SELECT TO_NUMBER(SUBSTR(ctlg_itm_cd, 6, 3)) + 1
-	FROM t_security_ctlg
-	WHERE ctlg_cd=#ctlg_cd# 
-		AND TO_NUMBER(SUBSTR(ctlg_itm_cd, 6, 3)) + 1 NOT IN (SELECT TO_NUMBER(SUBSTR(ctlg_itm_cd, 6, 3)) FROM t_security_ctlg WHERE ctlg_cd=#ctlg_cd#)
-	</select>
-	
-	<select id="checklistItemDAO.getCtlgCodeByItemCode" parameterClass="String" resultClass="checklistItemVO">
-	SELECT *
-	FROM t_security_ctlg
-	WHERE ctlg_itm_cd = #ctlg_itm_cd#
-	</select>
 </sqlMap>

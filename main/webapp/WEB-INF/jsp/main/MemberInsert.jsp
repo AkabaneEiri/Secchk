@@ -10,7 +10,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
-<title>사용자 관리</title>
+<title>사용자정보 편집</title>
 <script src="js/jquery-3.1.1.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/common.js"></script>
@@ -25,63 +25,51 @@
 <link rel="stylesheet" type="text/css" href="css/main_detail.css">
 
 <script src="js/MemberInsert.js"></script>
-<script src="js/engine.js"></script>
 </head>
 
 <body>
 	<jsp:include page="Header.jsp"></jsp:include>
 	<div class="sub_contents_wrap">	
 		<article class="sub_title">
-			<span>사용자 관리</span>
+			<span>사용자 등록</span>
 		</article>
 		
 		<article class="cur_page">
 			<div id="title">
-			홈<span>></span>사용자 관리<span>></span>등록
+			홈<span>></span>사용자 등록
 			</div>		
 		</article>
 		
 		<section class="subContent_section" id="sub2">
 		<br>
-		
 		<div class="Insert_Table">
-			<form name="InsertForm" id="InsertForm" method="post" onsubmit="">
-	 			 <table class="table table-border sub_table table01" style="text-align:center;width:80%;margin:auto;margin-top:10px;margin-bottom:10px; border-top:0px;" >
-					<thead style="border:0px">
-						<tr>
-							<td colspan = "4"style="border:0px; text-align:left;font-size:14px;">
-								<r>*</r>&nbsp;는 필수입력 항목입니다.
-							</td>
-						</tr>
-					</thead>
+			<form action ="Member_Insert_Result.do"name="InsertForm" id="InsertForm" method="post" onsubmit="">
+	 			 <table class="table table-border sub_table table01" style="text-align:center;width:80%;margin:auto;margin-top:10px;margin-bottom:10px;" >
 					<tbody>
 						<tr>
-							<th style="text-align:center; width:20%" ><r>*</r> 이름</th>
+							<th style="text-align:center; width:20%" >이름</th>
 							
 							<td style="background-color:white;width:30%">
-								<input class="sub_input" type="text" placeholder="이름" name="stmt" id="stmt" autocomplete="off" style="ime-mode:active"value="${memberselect.stmt }"/>
+								<input class="sub_input" type="text" placeholder="이름" name="stmt" id="stmt" autocomplete="off"value="${memberselect.stmt }"/>
 							</td>
-							<th style="text-align:center;width:20%"><r>*</r> 직책</th>
+							<th style="text-align:center;width:20%">직책</th>
 							
 							<td style="background-color:white;width:30%">
 								<input class="sub_input" type="text" placeholder="직책" maxlength="50" name="rspofc_nm" id="rspofc_nm" value="${memberselect.rspofc_nm }"/>
 							</td>
 						</tr>
 						<tr>
-							<th style="text-align:center;"><r>*</r> ID(군번)</th>
-							<td style="background-color:white;text-align:left;">
-								<input class="sub_input" type="text" placeholder="ID(군번)" maxlength="25" name="srvno" id="srvno" autocomplete="off" style="width:68%;text-align:left;" value="${memberselect.srvno}" onkeydown="javascript:fn_maxLength(this, 15);"/>
-								<button type="button" class="btn btn-sm btn-primary" onclick="checksrvno()"><i class="fas fa-search"></i>&nbsp;중복검사</button>
+							<th style="text-align:center;">ID(군번)</th>
+							<td style="background-color:white;">
+								<input class="sub_input" type="text" placeholder="ID(군번)" maxlength="25" name="srvno" id="srvno" autocomplete="off" value="${memberselect.srvno}"/>
 							</td>
-							<th style="text-align:center;"><r>*</r> 비밀번호</th>
-							<td style="background-color:white; text-align:left;">
-									<input class="sub_input" type="password" placeholder="비밀번호" maxlength="20" style="margin-bottom:10px;" name="password" id="password" autocomplete="off" onkeydown="javascript:fn_maxLength(this, 20);"/>
-									<br>
-									<input type="text" id="pwalert" name="pwalert" style="border:0px;background-color:white;font-size:0.8rem;" disabled />
+							<th style="text-align:center;">비밀번호</th>
+							<td style="background-color:white;">
+								<input class="sub_input" type="text" placeholder="비밀번호" 	name="password" id="password" autocomplete="off"/>
 							</td>
 						</tr>
 						<tr>
-							<th style="text-align:center;"><r>*</r> 계급</th>
+							<th style="text-align:center;">계급</th>
 							<td style="background-color:white;">
 							<select style="background-color:white;display:inline" name="rnkcd" id="rnkcd" class="form-control">
 									<option value="" style="text-align:center;">선&emsp;택</option>
@@ -136,33 +124,36 @@
 									<option value="A49"><script>$("#rnkcd").val("<c:out	 value="${memberselect.rnkcd}"/>").attr("selected","selected");</script>기능10급</option>
 								</select>
 							</td>
-							<th style="text-align:center;"><r>*</r> 비밀번호확인</th>
+							<th style="text-align:center; font-size:15px">비밀번호확인</th>
 							<td style="background-color:white;">
-								<input class="sub_input" type="password" placeholder="비밀번호 확인" maxlength="20" name="password_check" 	id="password_check" autocomplete="off" onkeydown="javascript:fn_maxLength(this, 20);"/>
+								<input class="sub_input" type="text" placeholder="비밀번호 확인" name="password_check" 	id="password_check" autocomplete="off"/>
 							</td>
 						</tr>
 						<tr>
 							<th style="text-align:center;">전화번호</th>
 							<td style="background-color:white;">
-								<input class="sub_input" type="text" placeholder="전화번호" maxlength="25" name="prtbl_telno" id="prtbl_telno" autocomplete="off" value="${memberselect.prtbl_telno }" onkeydown="javascript:fn_maxLength(this, 25);"/>
+								<input class="sub_input" type="text" placeholder="전화번호" maxlength="25" name="prtbl_telno" id="prtbl_telno" autocomplete="off" value="${memberselect.prtbl_telno }"/>
 							</td>
-							<th style="text-align:center;"><r>*</r> 소속부대</th>
-							<td style="background-color:white;text-align:left;">
-								<input class="sub_input DisableInputbox" style="height:30px;box-shadow : 0px 0px 1px #757575;color: #757575;width:79%;background-color:#eaeaea;text-align: center;" type="text" placeholder="소속부대"  name="incdt_idtf_cd" id="incdt_idtf_cd" autocomplete="off" value="${memberselect.incdt_idtf_cd }" disabled/>
+							<th style="text-align:center;">소속부대</th>
+							<td style="background-color:white;">
+							<div style="text-align:center;">
+								<input class="sub_input DiableInputbox" style="width:74%; height:27px;" type="text" placeholder="소속부대검색"  name="incdt_idtf_cd" id="incdt_idtf_cd" autocomplete="off" value="${memberselect.incdt_idtf_cd }"disabled/>
 								<button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#TaskSearch" ><i class="fas fa-search"></i>&nbsp;검색</button>
-							  	<jsp:include page="TroopsSearchModal.jsp"></jsp:include>
+								</div>
+							  	<jsp:include page="taskSearchModal.jsp"></jsp:include>
 						</tr>
 						<tr>
-							<th style="text-align:center;"><r>*</r> 사용자 정보</th>
+							<th style="text-align:center;">사용자 정보</th>
 							<td style="background-color:white;">
-								<select style="display:inline" name="athrt" id="athrt" class="form-control" onchange="onChange_Athrt()">
+								<select style="display:inline" name="athrt" id="athrt" class="form-control">
 									<option value="">선&emsp;택</option>
 									<option value="B1"><script>$("#athrt").val("<c:out	 value="${memberselect.athrt}"/>").attr("selected","selected");</script>일반 사용자</option>
 									<option value="B2"><script>$("#athrt").val("<c:out	 value="${memberselect.athrt}"/>").attr("selected","selected");</script>중간 관리자</option>
 									<option value="B3"><script>$("#athrt").val("<c:out	 value="${memberselect.athrt}"/>").attr("selected","selected");</script>최고 관리자</option>
+								</option>
 								</select>
 							</td>
-							<th style="text-align:center;"><r>*</r> 모니터링 권한</th>
+							<th style="text-align:center;">모니터링 권한</th>
 							<td style="background-color:white;">
 							<select style="display:inline" name="montr" id="montr" class="form-control">
 									<option value="">선&emsp;택</option>
@@ -172,24 +163,19 @@
 								</select>
 							</td>
 						</tr>
-						<!-- tr id="tr_ip" class="display_none"-->
-						<tr>
-							<th style="text-align:center;"><r>*</r> 사용자 IP</th>
-							<td><input class="sub_input" type="text" placeholder="IP" maxlength="16" name="ip" id="ip" autocomplete="off" value="" onkeydown=""/></td>
-						</tr>
 					</tbody>
 				</table>
-				</form>
+			<form:form name="btnForm" method="post">
 				<div class="row" style="height:60px;text-align:center;">
-							<button type="submit" 	class="btn btn-sm btn-primary" id="Submit"	onclick="Insert_Submit()">
-							<i class="fas fa-check"></i>&nbsp;저장</button>
+							<button type="Submit" 	class="btn btn-sm btn-primary" id="Submit"	onclick="Insert_Submit()">
+							<i class="fas fa-pen-square"></i>&nbsp;수정</button>
 							&nbsp;
-							
 							<button type="Cancle"	 class="btn btn-sm btn-primary" id="Cancle"	onclick="Insert_Cancle()">
 							<i class="fas fa-undo"></i>&nbsp;취소</button>
 				</div>
+			</form:form>
 				
-	   		
+	   		</form>
 		</div>			
 		</section>
 	<jsp:include page="Footer.jsp"></jsp:include>	

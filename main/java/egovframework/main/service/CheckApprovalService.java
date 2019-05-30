@@ -3,9 +3,7 @@ package egovframework.main.service;
 import java.util.List;
 
 import egovframework.main.service.VO.CheckApprovalVO;
-import egovframework.main.service.VO.ListsearchVO;
 import egovframework.main.service.VO.MemberSearchVO;
-import egovframework.main.service.VO.UserVO;
 
 public interface CheckApprovalService {
 	List<CheckApprovalVO> getCheckApprovalList(MemberSearchVO membersearchVO) throws Exception;
@@ -26,12 +24,4 @@ public interface CheckApprovalService {
 	
 	// add 190415
 	CheckApprovalVO getApprovalByVO(CheckApprovalVO checkApprovalVO) throws Exception;
-	
-	// get count
-	int getNewCount(UserVO userVO) throws Exception;
-
-	List<CheckApprovalVO> searchApproval(CheckApprovalVO checkApprovalVO) throws Exception;
-	
-	// get rqst ugcy in task date page
-	CheckApprovalVO getApprovalByTaskData(ListsearchVO listsearchVO) throws Exception;
 }

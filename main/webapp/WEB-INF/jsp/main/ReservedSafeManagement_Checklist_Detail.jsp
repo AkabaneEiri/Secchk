@@ -14,7 +14,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
-<title>예정 활동</title>
+<title>예정된 안전관리활동</title>
 <script src="js/jquery-3.1.1.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/common.js"></script>
@@ -40,12 +40,12 @@
 	<div class="sub_contents_wrap">	
 		
 		<article class="sub_title">
-			<span>예정 활동</span>
+			<span>예정된 안전관리활동</span>
 		</article>
 		
 		<article class="cur_page">
 			<div id="title">
-				홈<span>></span>예정 활동
+				홈<span>></span>예정된 안전관리활동
 			</div>		
 		</article>
 		

@@ -171,17 +171,17 @@
 	
 	<update id="taskDataDAO.updateCommanderGuide1_ById" parameterClass="taskDataVO">
 	UPDATE t_security_task_data
-	SET guidnc_1 = ''
+	SET guidnc_1 = #guidnc_1#
 	WHERE id = #id#
 	</update>
 	<update id="taskDataDAO.updateCommanderGuide2_ById" parameterClass="taskDataVO">
 	UPDATE t_security_task_data
-	SET guidnc_2 = ''
+	SET guidnc_2 = #guidnc_2#
 	WHERE id = #id#
 	</update>
 	<update id="taskDataDAO.updateCommanderGuide3_ById" parameterClass="taskDataVO">
 	UPDATE t_security_task_data
-	SET guidnc_3 = ''
+	SET guidnc_3 = #guidnc_3#
 	WHERE id = #id#
 	</update>
 	

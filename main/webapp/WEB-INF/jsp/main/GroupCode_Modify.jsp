@@ -42,17 +42,22 @@
 	<div class="sub_contents_wrap">	
 		
 		<article class="sub_title">
-			<span>그룹코드 관리</span>
+			<span>코드관리</span>
 		</article>
 		
 		<article class="cur_page">
 			<div id="title">
-			홈<span>></span>코드관리<span>></span>그룹코드 관리<span>></span>수정
+			홈<span>></span>코드관리<span>></span>그룹코드 관리
 			</div>		
 		</article>
 		
 		<section class="subContent_section" id="auto" style="height: auto">
 		<div class="table_margin">
+		
+		<p style="text-align:center;">
+			<img src="images/title_img/GroupCode_Modify.png" alt="그룹코드 수정"  style="width:330px; height:80px;">
+		</p>
+		
 		<table class="table table-striped page_table sub_table table01" style="width:50%; text-align:center;margin:auto; margin-top:10px;margin-bottom:10px;">
 		<colgroup>
 			<col width="20%"/>
@@ -68,7 +73,7 @@
 			<tr>
 				<th class="thead_text">코드</th>
 				<td>${modCode.cd}</td>
-				<td>${modCode.cd}</td>				
+				<td></td>				
 			</tr>
 			<tr>
 				<th class="thead_text">코드명</th>
@@ -85,7 +90,7 @@
 		</table>
 		<div class="div_bottom_btn">
 			<button type="submit" id="submitModify" class="btn btn-sm btn-primary btn-width" onclick="javascript:do_modifyGroupCode('${modCode.cd}');" >
-			<i class="fas fa-check"></i>&nbsp;저장</button>
+			<i class="fas fa-check"></i>&nbsp;확인</button>
 			
 			<button type="button" id="back" class="btn btn-sm btn-primary btn-width" onclick="javascript:history.back();" >
 			<i class="fas fa-undo"></i>&nbsp;취소</button>

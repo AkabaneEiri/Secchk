@@ -69,25 +69,4 @@ public class RequestChecklistDAO  extends EgovAbstractDAO {
 		return (List<ChecklistItemVO>) list("requestChecklistDAO.getChecklist", checklistItemVO);
 	}
 
-	// get count
-	public int getNewCount(UserVO userVO) throws Exception {
-		return (Integer) select("requestChecklistDAO.getNewCount", userVO);
-	}
-	
-	// get limit list for main
-	@SuppressWarnings("unchecked")
-	public List<RequestChecklistVO> getRequestedListForMain(String srvno) throws Exception {
-		return (List<RequestChecklistVO>) list("requestChecklistDAO.getRequestedListForMain", srvno);
-	}
-
-	@SuppressWarnings("unchecked")
-	public List<RequestChecklistVO> searchRequest(
-			RequestChecklistVO requestChecklistVO)throws Exception {
-		// TODO 자동 생성된 메소드 스텁
-		return (List<RequestChecklistVO>) list("requestChecklistDAO.searchRequest", requestChecklistVO);
-	}
-	
-	public List<RequestChecklistVO> getListByCondition(RequestChecklistVO requestChecklistVO) throws Exception {
-		return (List<RequestChecklistVO>) list("requestChecklistDAO.getListByCondition", requestChecklistVO);
-	}
 }

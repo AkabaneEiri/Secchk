@@ -42,10 +42,14 @@
 			홈<span>></span>지휘 및 통제<span>></span>조치 요청
 			</div>		
 		</article>
-		<br>
 			
-		<section class="subContent_section" id="AssignTask">		
+		<section class="subContent_section" id="AssignTask">
+		<p style="text-align:center;">
+		<img src="images/title_img/CheckApprovalResult.png" alt="승인 요청"  style="width:330px; height:80px;">
+		</p> 
+		
 		<table class="table table-border sub_table table01"  style="text-align:center;width:90%; margin:auto;">
+		
 			<tbody>
 			<form name="Approve_Value">
 			<c:forEach var="Check" items="${Selected}" varStatus="statics">
@@ -72,26 +76,24 @@
 				<tr>
 					<th>체크리스트 항목</th>
 					<td colspan="3" >
-						<input class="DiableInputbox" name="Value_ctlg_itm_cd"  value="${Check.ctlg_itm_cd}" style="ime-mode:active"disabled>
+						<input class="DiableInputbox" name="Value_ctlg_itm_cd"  value="${Check.ctlg_itm_cd}" disabled>
 					</td>
 				</tr>
 				<tr>
 					<th>사유</th>
 					<td colspan="3" >
-						<input class="DiableInputbox" name="Value_rsn" value="${Check.rsn}" style="ime-mode:active"disabled>
+						<input class="DiableInputbox" name="Value_rsn" value="${Check.rsn}" disabled>
 					</td>
 				</tr>
 				<tr>
 					<th>검토 의견</th>
-					<td colspan="3" style="color:#757575">
+					<td colspan="3">
 						<c:choose>
                     		<c:when test="${Check.state_cd eq '미승인'}">
-                    			<input class="sub_input" name="Value_opn" id="opn" style="width:100%;border:0.5px solid #4e6361;ime-mode:active;" value="${Check.opn}">
-                    			<br>
-                    			<input class="sub_input" name="opn_res" id="opn_res" style="color:red;background-color: white;font-size: 12px;margin-top:10px;" value= "0/80"disabled>
+                    			<input class="sub_input" name="Value_opn" id="opn" style="width:100%;border:0.5px solid #4e6361;" value="${Check.opn}">
                     		</c:when>
                     		<c:otherwise>
-                    			<input class="DiableInputbox" name="Value_opn" value="${Check.opn}" disabled>
+                    			<input class="sub_input" name="Value_opn" id="opn" style="width:100%;border:0.5px solid #4e6361;" value="${Check.opn}" disabled="disabled">
                     		</c:otherwise>
                     	</c:choose>				
 					</td>
@@ -108,15 +110,13 @@
 			<c:if test="${checkApprovalVO.state_cd eq '미승인'}">
 				<button type="button" class="btn btn-sm btn-primary"  onclick="Approval_Approve()">
 				<i class="fas fa-check"></i>&nbsp;승인</button>
-				&nbsp;
-				<!--  By mina 소요부서 요청으로 반려 기능 제거
+				&nbsp; 
 				<button type="button" class="btn btn-sm btn-primary"  onclick="Approval_Deny()">
 				<i class="fas fa-minus-circle"></i>&nbsp;반려</button>
 				&nbsp;
-				 -->
 			</c:if>
 				<button type="button" class="btn btn-sm btn-primary"  onclick="Approval_Cancle()">
-				<i class="fas fa-list"></i>&nbsp;목록</button>
+				<i class="fas fa-undo"></i>&nbsp;취소</button>
 				
 			</div> 
 			<br>

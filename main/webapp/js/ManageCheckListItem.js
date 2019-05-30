@@ -19,70 +19,26 @@ function checkFileType(filePath) {
 
 }
 
-
-function Submit_parent()
+function Task_Insert()
 {
-	var Name = document.getElementById("result_nm").value;
-	var Code = document.getElementById("result_cd").value;
-	var lrgcls = document.getElementById("result_lrgcls").value;
-	var mdcls = document.getElementById("result_mccls").value;
-	var code = new Object();
+	var Name = document.SelectCode.searchCondition1.value
 	
-	if(lrgcls == "")
+	if (Name=="")
 		{
-			alert("검색어를 입력하여 주십시오");
-			return false;
+		 Name =  document.TaskSearch.searchKeyword.value;
 		}
 	
-	code.name = Code;
-	code.lrgcls = lrgcls;
-	code.mdcls = mdcls;
-	
-	var jsonString = JSON.stringify(code);
-	
-	$.ajax({
-		url:"ManageCheckListItem_AJAX_JSON.do",
-		type:"post",
-		data:{"jsonString":jsonString},
-		success:whenSuccess,
-		error:whenError
-	})
-
-	
+	document.write("");
+	location.href ="AssignTask_insert.do?Name="+Name+"&Date="+Date;
 }
-function whenSuccess(res)
+
+function Task_Search()
 {
-	console.log(res);
-	$("#table_hover>tbody:last > tr").remove();
-	$("#table_hover>td:last").remove();
-	var obj = JSON.parse(res);
-	var str = '';
-	if(obj[0].ctlg_cd=="E001")
-		{
-			$.each(obj, function(i){
-				str+= '<tr>';
-				str += '<td colspan =3 >데이터가 없습니다.</td>';
-				str += '</tr>';
-			});
-		}
-	else
-		{
-			$.each(obj, function(i){
-				str+= '<tr>';
-				str += '<td style="text-align:center;">'+obj[i].ctlg_itm_cd+'</td>';
-				str += '<td  class="word_break" style="text-align:left;">'+obj[i].ctlg_itm_ctnt+'</td>';
-				str += '<td style="text-align:center;">'+obj[i].prtcuse_frqc+'</td>';
-				str += '</tr>';
-			});
-		}
-	console.log(str);
-	$('#table_hover > tbody').append(str);
-	page();
-}
-function whenError(res)
-{
-	alert("Error!!");
-	console.log("Error by : "+ res);
+	var Name = document.SelectCode.searchCondition1.value;
+
+	document.write("");
+	location.href ="ManageCheckListItem.do?ctlg_cd="+Name;
+	
 }
 	
 function access(){
@@ -92,13 +48,23 @@ function access(){
 }
 
 function ChecklistInsert(){
-	var Name = document.getElementById("result_nm").value;
-	var loc = "ManageCheckListItem_Insert.do";
+	var Name = document.SelectCode.searchCondition1.value;
+	var loc = "ManageCheckListItem_Insert.do?ctlg_cd="+Name;
+	document.write("");
 	location.href=loc;
 }
 function ChecklistExcel() {
-	//var Check	= document.SelectCode.searchCondition1.value;
-	location.href="Checklist_Insert_Excel.do";
+	var Check	= document.SelectCode.searchCondition1.value;
+	location.href="Checklist_Insert_Excel.do?Check="+Check;
+}
+
+function clickTdEvent(tdObj){
+	
+	var Name = tdObj.innerText;
+	var Code = tdObj.id;
+
+	document.SelectCode.searchCondition1.value=Name;
+	document.TaskSearch.searchCode.value=Code;	
 }
 
 function check() {
@@ -111,36 +77,4 @@ function check() {
 		return false;
 	}
 	document.excelUploadForm.submit();
-}
-function fn_checkApp_page(pageNo){
-	alert(pageNo);
-
-//	var Name = document.getElementById("result_cd").value;
-//	var code = new Object();
-//	
-//	if(Name == "")
-//		{
-//			alert("검색어를 입력하여 주십시오");
-//			return false;
-//		}
-//	
-//	code.name = Name;
-//	code.currentPageNo = pageNo;
-//	
-//	var jsonString = JSON.stringify(code);
-//	
-//	$.ajax({
-//		url:"ManageCheckListItem_AJAX_JSON.do",
-//		type:"post",
-//		data:{"jsonString":jsonString},
-//		success:whenSuccess,
-//		error:whenError
-//	})
-
-//	document.checkAppForm.currentPageNo.value = pageNo;
-//	document.checkAppForm.action = "CheckApproval.do";
-//	document.checkAppForm.submit();
-}
-function AssignTask_inputParameter(){
-	
 }

@@ -12,14 +12,6 @@ import egovframework.main.service.VO.CodeVO;
 import egovframework.main.util.PaginationDAO;
 import egovframework.rte.psl.dataaccess.EgovAbstractDAO;
 
-/**
- * @기능명 : 코드정보 처리
- * @기능설명 : 코드 정보에 대한 입력, 검색 및 삭제
- * @작성자 : 박승원
- * @작성일 : 2019. 2. 27.
- * @변경이력 : 2019. 3. 13. / 박승원
- * @변경내용 : 코드 정보에 대한 분류코드 기능 추가
- */
 @SuppressWarnings("unused")
 @Repository("codeDAO")
 public class CodeDAO extends EgovAbstractDAO {	
@@ -28,7 +20,7 @@ public class CodeDAO extends EgovAbstractDAO {
 	}
 	
 	public void insertCodeListInExcel(List<CodeVO> codeList) throws Exception {
-		for(int i = 0; i < codeList.size(); ++i) {			
+		for(int i = 0; i < codeList.size(); ++i) {
 			insert("codeDAO.insertCodeVO", codeList.get(i));
 		}
 	}
@@ -66,10 +58,5 @@ public class CodeDAO extends EgovAbstractDAO {
 	@SuppressWarnings("unchecked")
 	public List<CodeVO> getCodeListByDvs(String grp_cd) throws Exception {
 		return (List<CodeVO>) list("codeDAO.selectCodeListByDvs", grp_cd);
-	}
-	
-	// search duplicate code
-	public CodeVO searchDuplicateCode(CodeVO codeVO) throws Exception {
-		return (CodeVO) select("codeDAO.searchDuplicateCode", codeVO);
 	}
 }

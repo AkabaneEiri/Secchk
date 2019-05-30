@@ -58,8 +58,10 @@ public class UserDAO extends EgovAbstractDAO {
 		
 		if( errCount >= 5 ) {
 			// 잠금상태로 변경
-			userVO.setacc_state_info("K2");	
-			updateUserStatus(userVO);										
+			if( userVO.getacc_state_info().equals("K1") ) {
+				userVO.setacc_state_info("K2");	
+				updateUserStatus(userVO);
+			}							
 		}		
 	}
 	
@@ -77,8 +79,8 @@ public class UserDAO extends EgovAbstractDAO {
 		int result = (int) select("userDAO.selectUserChangePwDate", srvno);
 		
 		if( result >= 30 ) {
-			//userVO.setacc_state_info("K2");
-			//updateUserStatus(userVO);
+			userVO.setacc_state_info("K2");
+			updateUserStatus(userVO);
 		}
 			
 		return result;

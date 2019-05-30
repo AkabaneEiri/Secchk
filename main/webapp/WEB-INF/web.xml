@@ -36,10 +36,7 @@
        </param-value>
   </context-param>
   <listener>
-    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>    
-  </listener>
-  <listener>
-  	<listener-class>egovframework.main.sessionManager.HttpSessionStateListener</listener-class>
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>
   <servlet>
     <servlet-name>action</servlet-name>
@@ -67,7 +64,7 @@
     <auth-method>BASIC</auth-method>
   </login-config>
   <session-config>
-    <session-timeout>30</session-timeout>
+    <session-timeout>5</session-timeout>
   </session-config>
   <error-page>
     <exception-type>java.lang.Throwable</exception-type>

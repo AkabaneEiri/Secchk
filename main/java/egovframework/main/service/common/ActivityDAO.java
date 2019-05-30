@@ -11,16 +11,6 @@ import egovframework.main.service.VO.UserVO;
 import egovframework.main.service.VO.MemberSearchVO;
 import egovframework.rte.psl.dataaccess.EgovAbstractDAO;
 
-/**
- * @기능명 : 안전관리활동 정보 처리
- * @기능설명 : 안전관리활동에 대한 정보 입력, 검색 및 삭제
- * @작성자 : 박승원
- * @작성일 : 2019. 2. 25.
- * @변경이력 : 2019. 3. 10. / 박승원
- * @변경내용 : 사용자정보에 맞는 리스트 정보 검색기능 추가
- * @변경이력 : 2019. 4. 12. / 박승원
- * @변경내용 : id를 이용한 검색기능 추가
- */
 @Repository("activityDAO")
 public class ActivityDAO extends EgovAbstractDAO {
 	public int insertActivity(ActivityVO activityVO) throws Exception {
@@ -159,10 +149,6 @@ public class ActivityDAO extends EgovAbstractDAO {
 	
 	public int updateActFinishById(String id) throws Exception {
 		return (int) update("activityDAO.updateActFinishById", id);
-	}
-	
-	public List<ActivityVO> getActBySearchVO(ListsearchVO listsearchVO) throws Exception {
-		return (List<ActivityVO>) list("activityDAO.getActBySearchVO", listsearchVO);
 	}
 	///////////////////////////////////////////
 }

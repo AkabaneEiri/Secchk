@@ -13,13 +13,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
 
-<link href="<%=request.getContextPath()%>/css/detail.css" rel="stylesheet" type="text/css">
-<link href="<%=request.getContextPath()%>/css/dropdown.css" rel="stylesheet" type="text/css">
+<link href="<%=request.getContextPath()%>/css/detail.css" rel="stylesheet">
+<link href="<%=request.getContextPath()%>/css/dropdown.css" rel="stylesheet">
 
-<script src="js/dropdown.js" type="text/javascript"></script>
-<!-- <script src="js/unload.js" type="text/javascript"></script> -->
-<jsp:include page="Timer_Proc.jsp"></jsp:include>
-
+<script src="js/dropdown.js"></script>
 <title>안전관리 체크리스트체계</title>
 </head>
 <body>
@@ -33,9 +30,6 @@
 	
 	if(session.getAttribute("SS_ATHRT") != null) {
 		athrt = ( (String) session.getAttribute("SS_ATHRT") ).trim();
-	}	
-	if(session.getAttribute("SS_MNT") != null) {
-		monitor = ( (String) session.getAttribute("SS_MNT") ).trim();
 	}	
 	%>
 	<header class="header">
@@ -54,14 +48,14 @@
 				if(obj == null) {
 				%>
 					<a href="login.do">
-						<img src="<%=request.getContextPath()%>/images/login.png" alt="로그인">
+						<img src="<%=request.getContextPath()%>/images/login.png">
 					</a>
 				<%
 				}
 				else {
 				%>
 					<a href="logout.do">
-						<img src="<%=request.getContextPath()%>/images/logout.png" alt="로그아웃">
+						<img src="<%=request.getContextPath()%>/images/logout.png">
 					</a>
 				<%
 				}
@@ -72,78 +66,62 @@
 				<tr>
 					<td style="max-width:270px; height:53px; padding-top:5px;">
 						<h1 class="logo"><a href="index.do">
-						<img src="images/m_logo.png" alt="안전관리 체크리스트 체계"></a></h1>
+						<img src="images/m_logo_3.png"></a></h1>
 					</td>
 					<td style="width:100%;">
-						<nav id="top_nav" class="" style="display: none;">
+						<nav id="top_nav" class="">
 	                		<ul class="" style="margin-top:0px;">
 			                	<%
 			                	if (obj == null || athrt.equals("B1")) {
 			                	%>
-			                		<%
-			                    	if (obj != null && monitor.equals("C2")) {
-			                    	%>
-			                    	<li>
-			                    		<a href="TroopsMonitoring.do">부대활동 모니터링</a>
-			                    	</li>
-			                    	<%
-			                    	}
-			                    	%>
 			                		<li>
-			                    		<a href="ReservedSafeManagement.do">예정 활동</a>
+			                    		<a href="ReservedSafeManagement.do">예정된 안전관리활동</a>
 			                   		</li>
 			                    	<li>
-			                    		<a href="OccasionalSafeManagement.do">수시 활동</a>
+			                    		<a href="OccasionalSafeManagement.do">수시 안전관리활동</a>
 			                    	</li>
 			                    	<li>
 			                    		<a href="CheckListManagement.do">체크리스트</a>
 			                    	</li>
+			                    	<%
+			                    	if (obj != null && monitor.equals("C1")) {
+			                    	%>
+			                    	<li class="item-has-children">
+			                    		<a href="#0">지휘 및 통제</a>
+			                    		<ul class="sub-menu" style="display: none;">
+											<li><a href="TroopsMonitoring.do"><img src="images/cd_bullet.png">&nbsp;부대활동 모니터링</a></li>
+										</ul>
+			                    	</li>
+			                    	<%
+			                    	}
+			                    	%>
 			                	<%	
 			                	}
 			                	
 			                	if (obj == null || (athrt.equals("B2") || athrt.equals("B3"))) {
-			                		if(athrt.equals("B3")) {
-			                	%>			                   	
+			                	%>
+			                   	
 			                    <li class="item-has-children">
 			                    	<a href="#0">지휘 및 통제</a>
 			                    	<ul class="sub-menu" style="display: none;">
-										<li><a href="TroopsMonitoring.do"><img src="images/cd_bullet.png" alt=""><span>&nbsp;부대활동 모니터링</span></a></li>
+										<li><a href="TroopsMonitoring.do"><img src="images/cd_bullet.png"><span>&nbsp;부대활동 모니터링</span></a></li>
+										<li><a href="AssignTask.do"><img src="images/cd_bullet.png">&nbsp;과업부여</a></li>
+										<li><a href="EnterCommanderGuide.do"><img src="images/cd_bullet.png">&nbsp;지휘관지침 입력</a></li>
+										<li><a href="CheckApproval.do"><img src="images/cd_bullet.png">&nbsp;조치 요청</a></li>
+										<li><a href="CheckOccasionalSafeManagement.do"><img src="images/cd_bullet.png">&nbsp;수시안전관리활동 검토</a></li>
 									</ul>
 			                    </li>
 			                    <li class="item-has-children">
 			                    	<a href="#0">시스템관리</a>
 			                    	<ul class="sub-menu" style="display: none;">
-										<li><a href="Userlist.do"><img src="images/cd_bullet.png" alt="">&nbsp;사용자 관리</a></li>
-										<li><a href="ManageCheckListItem.do"><img src="images/cd_bullet.png" alt="">&nbsp;체크리스트항목 관리</a></li>
-										<li><a href="ManageCode.do"><img src="images/cd_bullet.png" alt="">&nbsp;코드관리</a></li>
+										<li><a href="Userlist.do"><img src="images/cd_bullet.png">&nbsp;사용자 관리</a></li>
+										<li><a href="SelectCheckListItem.do"><img src="images/cd_bullet.png">&nbsp;체크리스트항목 선별</a></li>
+										<li><a href="ManageCheckListItem.do"><img src="images/cd_bullet.png">&nbsp;체크리스트항목 관리</a></li>
+										<li><a href="CheckRequestedCheckList.do"><img src="images/cd_bullet.png">&nbsp;요청한 체크리스트 검토</a></li>
+										<li><a href="ManageCode.do"><img src="images/cd_bullet.png">&nbsp;코드관리</a></li>
 									</ul>
 			                    </li>
 			                    <%
-			                		}
-			                		else {
-			                			%>
-			                			<li class="item-has-children">
-			                    			<a href="#0">지휘 및 통제</a>
-			                    			<ul class="sub-menu" style="display: none;">
-												<li><a href="AssignTask.do"><img src="images/cd_bullet.png" alt="">&nbsp;과업부여</a></li>
-												<li><a href="TroopsMonitoring.do"><img src="images/cd_bullet.png" alt=""><span>&nbsp;부대활동 모니터링</span></a></li>
-												<!-- <li><a href="EnterComGuide.do"><img src="images/cd_bullet.png">&nbsp;지휘관지침 입력</a></li>  -->
-												<li><a href="CheckApproval.do"><img src="images/cd_bullet.png" alt="">&nbsp;조치요청 검토</a></li>
-												<li><a href="CheckOccasionalSafeManagement.do"><img src="images/cd_bullet.png" alt="">&nbsp;수시 활동 검토</a></li>
-												<li><a href="CheckRequestedCheckList.do"><img src="images/cd_bullet.png" alt="">&nbsp;체크리스트 검토</a></li>
-											</ul>
-			                    		</li>
-			                    		<li class="item-has-children">
-			                    			<a href="#0">시스템관리</a>
-			                    			<ul class="sub-menu" style="display: none;">
-												<li><a href="SelectCheckListItem.do"><img src="images/cd_bullet.png" alt="">&nbsp;체크리스트항목 선별</a></li>
-												<li><a href="ManageCheckListItem.do"><img src="images/cd_bullet.png" alt="">&nbsp;체크리스트항목 관리</a></li>
-												<li><a href="Userlist.do"><img src="images/cd_bullet.png" alt="">&nbsp;사용자 관리</a></li>
-												<li><a href="ManageCode.do"><img src="images/cd_bullet.png" alt="">&nbsp;코드관리</a></li>
-											</ul>
-			                    		</li>
-			                			<%
-			                		}
 			                	}
 			                    %>
 			                    
@@ -151,9 +129,13 @@
 			                    <%
 			                    if (obj != null && athrt.equals("B4")) {
 			                	%>
-			                  	    <li>
-			                    		<a href="TroopsMonitoring.do">부대활동 모니터링</a>
-			                    	</li>
+			                   	
+			                    <li class="item-has-children">
+			                    	<a href="#0">지휘 및 통제</a>
+			                    	<ul class="sub-menu" style="display: none;">
+										<li><a href="TroopsMonitoring.do"><img src="images/cd_bullet.png">&nbsp;부대활동 모니터링</a></li>
+									</ul>
+			                    </li>
 			                    <%
 			                	}
 			                    %>

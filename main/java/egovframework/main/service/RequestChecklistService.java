@@ -35,13 +35,4 @@ public interface RequestChecklistService {
 
 	List<ChecklistItemVO> getChecklist(ChecklistItemVO checklistItemVO)throws Exception;
 
-	// get count
-	int getNewCount(UserVO userVO) throws Exception;
-	
-	// get limit list for main
-	List<RequestChecklistVO> getRequestedListForMain(String srvno) throws Exception;
-
-	List<RequestChecklistVO> searchRequest(RequestChecklistVO requestChecklistVO) throws Exception;
-	
-	List<RequestChecklistVO> getListByCondition(RequestChecklistVO requestChecklistVO) throws Exception;
 }

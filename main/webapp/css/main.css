@@ -478,8 +478,7 @@ img#pre_btn{
 .sub_title span{
 	position:relative;
 	color:white;	
-	/*font-size:20px;*/
-	font-size: 1.4rem;   /*by mina 상대폰트크기로 변경*/ 
+	font-size:20px;
 	top:17px;
 	letter-spacing:2px;}
 .subContent_section{
@@ -578,7 +577,7 @@ img#pre_btn{
 	border:1px solid #d5d5d5;
 }
 #tabmenu1>li.on{
-	background-color:/*#5a8dca*/ #455d71;}
+	background-color:#5a8dca;}
 #tabmenu1>li>a {
 	color:black;}
 #tabmenu1>li>a.on {
@@ -705,7 +704,7 @@ img#pre_btn{
     font-weight: 600;
     padding-top: 16px;
     height: 43px;
-    font-size: 0.9rem;/*15px;*/  /*by mina 상대폰트크기로 변경*/ 
+    font-size: 15px;
     text-align: center;
     margin-top: 10px;
     background-color: #cecece;
@@ -723,7 +722,7 @@ img#pre_btn{
 }
 @media only screen and (min-width: 768px) {
 	body{
-		font-size:20px;}  /* 수정 필요 */  /*by mina 상대폰트크기로 변경*/ 
+		font-size:20px;}
 	.container{
 	width:98%}
 	 .contents_wrap, .sub_contents_wrap {
@@ -828,8 +827,7 @@ img#pre_btn{
 	}
 	.cur_page div{
 		margin-top:12px;
-		/*font-size:20px;*/
-		font-size:1.2rem;  /*by mina 상대폰트크기로 변경*/ 
+		font-size:20px;
 	}
 	.login_section{
 		height:652px;
@@ -869,7 +867,7 @@ img#pre_btn{
 	body{
 	font-size:18px;}
 	.container{
-	width:1020px;}
+	width:1010px;}
 	.header .menu-toggle-btn {
 	display: none !important;}
 	.header .gnb {
@@ -902,7 +900,7 @@ img#pre_btn{
 	top: 10px;right: 4%;}
 	.mainBoard {
 	margin:10px auto;
-	width: 1010px;height:280px;
+	width: 1000px;height:280px;
 	}
 	.icon .txt{
 	font-size:18px;
@@ -967,6 +965,5 @@ img#pre_btn{
 	    width: 90px;height: 90px;
 	    border-radius: 50%;}
 }
-r{color : red;}
 @media all and (min-width:1200px){
 }

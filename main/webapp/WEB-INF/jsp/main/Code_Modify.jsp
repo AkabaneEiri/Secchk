@@ -46,13 +46,18 @@
 		
 		<article class="cur_page">
 			<div id="title">
-			홈<span>></span>시스템관리<span>></span>코드관리<span>></span>수정
+			홈<span>></span>코드관리
 			</div>		
 		</article>
 		
 		<section class="subContent_section" id="auto">
 
-		<div class="table_margin">		
+		<div class="table_margin">
+		
+		<p style="text-align:center;">
+			<img src="images/title_img/Code_Modify.png" alt="그룹코드 수정"  style="width:330px; height:80px;">
+		</p> 
+		
 		<table class="table table-striped page_table sub_table table01" style="width:50%; margin:auto; margin-top:10px;margin-bottom:10px;">
 		<colgroup>
 			<col width="20%"/>
@@ -70,18 +75,18 @@
 			<tr>
 				<th>코드</th>
 				<td style="color: #757575;" >${modCode.cd}</td>
-				<td style="color: #757575;" >${modCode.cd}</td>				
+				<td></td>				
 			</tr>
 			<tr>
 				<th>코드명</th>
 				<td style="color: #757575;">${modCode.cd_nm}</td>
-				<td><input class="sub_input" type="text" id="changeName" class="form-control" placeholder="변경할 코드명"/></td>
+				<td><input class="sub_input" type="text" id="changeName" class="form-control" /></td>
 				
 			</tr>	
 			<tr>
 				<th>비고</th>
 				<td style="color: #757575;">${modCode.rmrk}</td>
-				<td><input class="sub_input" type="text" id="changeRmrk" class="form-control" placeholder="변경할 비고"/></td>
+				<td><input class="sub_input" type="text" id="changeRmrk" class="form-control" /></td>
 			</tr>		
 		</tbody>
 		</table>

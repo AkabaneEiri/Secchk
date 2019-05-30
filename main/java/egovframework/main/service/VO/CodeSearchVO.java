@@ -130,15 +130,4 @@ public class CodeSearchVO {
 	public void setFindKey(int findKey) {
 		this.findKey = findKey;
 	}
-	
-	private String search_condition = "";
-
-
-	public String getSearch_condition() {
-		return search_condition;
-	}
-
-	public void setSearch_condition(String search_condition) {
-		this.search_condition = search_condition;
-	}
 }

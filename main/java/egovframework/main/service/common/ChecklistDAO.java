@@ -10,16 +10,6 @@ import egovframework.main.service.VO.ListsearchVO;
 import egovframework.main.service.VO.UserVO;
 import egovframework.rte.psl.dataaccess.EgovAbstractDAO;
 
-/**
- * @기능명 : 체크리스트 정보 처리
- * @기능설명 : 체크리스트에 대한 정보 입력, 검색 및 삭제
- * @작성자 : 박승원
- * @작성일 : 2019. 2. 18.
- * @변경이력 : 2019. 3. 11. / 박승원
- * @변경내용 : 부대활동 코드에 따른 체크리스트 항목 검색 함수 추가
- * @변경이력 : 2019. 3. 22. / 김준성
- * @변경내용 : 체크리스트 항목 선별에 따른 정보 업데이트 함수 추가
- */
 @Repository("checklistDAO")
 public class ChecklistDAO extends EgovAbstractDAO {
 	public int insertChecklist(ChecklistVO checklistVO) throws Exception

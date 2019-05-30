@@ -386,12 +386,4 @@
         state_cd = 'E3'
     WHERE id = #id#
     </update>
-    
-    <select id="activityDAO.getActBySearchVO" parameterClass="listsearchVO" resultClass="activityVO">
-    SELECT *
-    FROM t_security_incdt_actvt
-    WHERE incdt_idtf_cd = #incdt_idtf_cd#
-    	AND incdt_actvt_type_cd = (SELECT incdt_actvt_type_cd FROM t_security_incdt_actvt_type WHERE ctlg_cd = #findCode#)
-    	AND actvt_date = #date#
-    </select>
 </sqlMap>

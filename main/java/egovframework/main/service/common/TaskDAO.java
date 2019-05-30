@@ -97,64 +97,17 @@ public class TaskDAO extends EgovAbstractDAO{
 		update("taskDAO.updateTaskFinishByData", taskDataVO);
 	}
 	
-	@SuppressWarnings("unchecked")
 	public List<TaskVO> getTaskListById(String id) throws Exception {
 		return (List<TaskVO>) list("taskDAO.selectTaskListById", id);
 	}
 	
 	// for main
-	@SuppressWarnings("unchecked")
 	public List<TaskVO> getTaskListForMain(String srvno) throws Exception {
 		return (List<TaskVO>) list("taskDAO.selectTaskListForMain", srvno);
 	}
 	////////////////////////////////////////////
 
-	@SuppressWarnings("unchecked")
 	public List<TaskVO> getTaskSelected(TaskVO taskVO) {
 		return (List<TaskVO>) list("taskDAO.getTaskSelected", taskVO);
-	}
-
-	@SuppressWarnings("unchecked")
-	public List<TaskVO> getActivityRequire(TaskVO taskVO) throws Exception{
-		return (List<TaskVO>) list("taskDAO.getActivityRequire", taskVO);
-	}
-
-	public void InsertActivity(TaskVO taskVO) throws Exception{
-		insert("taskDAO.InsertActivity", taskVO);
-	}
-
-	@SuppressWarnings("unchecked")
-	public List<TaskVO> getTaskSearchNameWithOption(TaskVO taskVO) throws Exception{
-		return (List<TaskVO>) list("taskDAO.getTaskSearchNameWithOption", taskVO);
-	}
-
-	@SuppressWarnings("unchecked")
-	public List<TaskVO> getClsList(TaskVO taskVO) throws Exception{
-		return (List<TaskVO>) list("taskDAO.getClsList", taskVO);
-	}
-
-	@SuppressWarnings("unchecked")
-	public List<TaskVO> getTaskSearchOption(TaskVO taskVO) throws Exception{
-		return (List<TaskVO>) list("taskDAO.getTaskSearchOption", taskVO);
-	}
-
-	@SuppressWarnings("unchecked")
-	public List<TaskVO> getctlgCode(MemberSearchVO membersearchVO) throws Exception{
-		return (List<TaskVO>) list("taskDAO.getctlgCode", membersearchVO);
-	}
-	
-	///////////
-	@SuppressWarnings("unchecked")
-	public List<TaskVO> getTaskListByCondition(TaskVO taskVO) throws Exception {
-		return (List<TaskVO>) list("taskDAO.getTaskListByCondition", taskVO);
-	}
-
-	public void deleteTask(TaskVO taskVO) throws Exception{
-		delete("taskDAO.deleteTask", taskVO);
-	}
-
-	@SuppressWarnings("unchecked")
-	public List<TaskVO> selectId(TaskVO taskVO) {
-		return (List<TaskVO>) list("taskDAO.selectId", taskVO);
 	}
 }

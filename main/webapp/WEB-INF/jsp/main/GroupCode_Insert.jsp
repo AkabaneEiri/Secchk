@@ -24,7 +24,7 @@
 <!-- seungwon 19.02.21 -->
 <script src="<%=request.getContextPath()%>/js/submit.js"></script>
 <script src="<%=request.getContextPath()%>/js/ManageCode.js"></script>
-<script src="<%=request.getContextPath()%>/js/engine.js"></script>
+
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/detail.css">
 
 <link href="<%=request.getContextPath()%>/css/bootstrap.css" rel="stylesheet">
@@ -42,29 +42,30 @@
 	<div class="sub_contents_wrap">	
 		
 		<article class="sub_title">
-			<span>그룹코드 관리</span>
+			<span>코드관리</span>
 		</article>
 		
 		<article class="cur_page">
 			<div id="title">
-			홈<span>></span>코드관리<span>></span>그룹코드 관리<span>></span>입력
+			홈<span>></span>코드관리<span>></span>그룹코드 관리
 			</div>		
 		</article>
 		
 		<section class="subContent_section" id="auto" style="height: auto">
 		<div class="table_margin">
-		<div style="text-align: left;margin: auto;font-size: 14px; width:40%;"><span class="import_marker">* </span><span>는 필수입력 항목입니다.</span></div>
-		
+		<p style="text-align:center;">
+			<img src="images/title_img/GroupCode_Insert.png" alt="그룹코드 등록"  style="width:330px; height:80px;">
+		</p>
 		<table class="table table-striped page_table sub_table table01" style="width:40%; text-align:center;margin:auto;margin-top:10px;margin-bottom:10px;">
 		<thead class="thead_text" style="text-align: center;">
 		</thead>
 		<tbody style="text-align: center;">
 			<tr>
-				<th class="thead_text"><span class="import_marker">* </span>그룹코드</th>
-				<td><input class="sub_input" type="text" id="cd" class="form-control" placeholder="코드" style="width:90%; ime-mode:disabled;"  onkeyup="javascript:fn_notKor(this);"/></td>
+				<th class="thead_text">코드</th>
+				<td><input class="sub_input" type="text" id="cd" class="form-control" placeholder="코드" style="width:90%"/></td>
 			</tr>
 			<tr>
-				<th class="thead_text"><span class="import_marker">* </span>그룹코드명</th>
+				<th class="thead_text">코드명</th>
 				<td><input class="sub_input" type="text" id="cd_nm" class="form-control" placeholder="코드명" style="width:90%"/></td>
 			</tr>
 			<tr>
@@ -76,7 +77,7 @@
 	
 		<div class="div_bottom_btn">
 			<button type="submit" id="submitModify" class="btn btn-sm btn-primary btn-width" onclick="javascript:do_insertGroupCode('${modCode.cd}');" >
-			<i class="fas fa-check"></i>&nbsp;저장</button>
+			<i class="fas fa-check"></i>&nbsp;확인</button>
 			
 			<button type="button" id="back" class="btn btn-sm btn-primary btn-width" onclick="javascript:history.back();" >
 			<i class="fas fa-undo"></i>&nbsp;취소</button>

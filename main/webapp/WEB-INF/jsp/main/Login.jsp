@@ -3,6 +3,22 @@
 <%@ taglib prefix="form"   uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="ui"     uri="http://egovframework.gov/ctl/ui"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%
+  /**
+  * @Class Name : egovSampleList.jsp
+  * @Description : Sample List 화면
+  * @Modification Information
+  *
+  *   수정일         수정자                   수정내용
+  *  -------    --------    ---------------------------
+  *  2009.02.01            최초 생성
+  *
+  * author 실행환경 개발팀
+  * since 2009.02.01
+  *
+  * Copyright (C) 2009 by MOPAS  All right reserved.
+  */
+%>
 <!DOCTYPE HTML>
 <html lang="ko">
 <head>
@@ -21,9 +37,6 @@
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/main.css">
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/detail.css">
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/main_detail.css">
-
-<script src="<%=request.getContextPath()%>/js/engine.js"></script>
-
 <script>
 function maxLengthCheck(object){
    if (object.value.length > object.maxLength){
@@ -53,7 +66,7 @@ function maxLengthCheck(object){
 				<img src="images/logIcon.png">
 			</div>
 			<div class="login_table">
-				<form class="form-inline loginform" name="login" method="POST" action="loginAction.do">	<!-- for service : KeyCheck.do / for debug : loginAction.do-->
+				<form class="form-inline loginform" name="login" method="POST" action="loginAction.do">			
 				<div class="login_table_div">				
 				<table>
 					<tbody>
@@ -61,7 +74,7 @@ function maxLengthCheck(object){
 							<td style="width: 85px;">군번</td>
 							<td id="" style="width: 75%;">
 								<!-- input type="text" MaxLength="15" class="loginInputbox" OnInput="maxLengthCheck(this)"-->
-								<input style="width: 88%;" type="text" class="form-control input id loginInputbox" ime-mode="disabled" placeholder="아이디(군번)" name="srvno" id="srvno" autocomplete="off" maxlength="12" onkeyup="javascript:fn_notKorEng(this);"/>
+								<input style="width: 88%;" type="text" class="form-control input id loginInputbox" ime-mode="disabled" placeholder="아이디(군번)" name="srvno" id="srvno" autocomplete="off" maxlength="12"/>
 							</td>
 						
 						</tr>
@@ -77,7 +90,7 @@ function maxLengthCheck(object){
 				</table>	
 				</div>
 				<div class="login_button_div">				
-					<button type="submit" class="btn button" id="login" style="width: 64px; height: inherit;">로그인</button>
+					<button type="submit" class="btn button" id="login" style="height: inherit;">로그인</button>
 				</div>		
 				</form>
 			</div>			

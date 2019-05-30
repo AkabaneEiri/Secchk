@@ -52,6 +52,11 @@
 	</article>
 	
 	<section class="subContent_section" id="auto">
+
+	<p style="text-align:center;">
+		<img src="images/title_img/Code_Insert_Excel.png" alt="일괄 등록"  style="width:330px; height:80px;">
+	</p>
+	
 	<table class="table table-striped sub_table table01" style="width:50%; margin:auto;margin-top:10px;margin-bottom:10px;">
 		<tr>
 			<form id="excelUploadForm" name="excelUploadForm"
@@ -64,12 +69,7 @@
 				<input id="excelFile" type="file" name="excelFile" style="width:90%; height:30px;" />
 				<br>
 				<div style="font-size:14px; text-align:left">&nbsp;
-				■ 첨부파일은 한개만 등록 가능합니다.
-				<br>&emsp;&nbsp;
-				<font color="red">*</font> 허용 확장자 : xls, xlsx
-				<br>&nbsp;
-				■ <a href="CodeTemplateExcelDownload.do">코드파일양식 다운로드</a>
-				</div>
+				첨부파일은 한개만 등록 가능합니다.&nbsp;&nbsp;* 허용 확장자 : xls, xlsx</div>
 				</div>
 			</td>
 			</form>
@@ -79,9 +79,6 @@
 	<div id="bottom_btn" style="margin:auto; text-align:center;">
 		<button type="button" class="btn btn-sm btn-primary" id="insert_excel" onclick="javascript:check();">
 			<i class="fas fa-pencil-alt"></i>&nbsp;등록
-		</button>
-		<button type="button" id="back" class="btn btn-sm btn-primary btn-width" onclick="javascript:history.back();" >
-			<i class="fas fa-undo"></i>&nbsp;취소
 		</button>
 	</div>
 

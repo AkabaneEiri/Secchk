@@ -19,7 +19,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>수시 활동</title>
+<title>수시 안전관리 활동</title>
 <script src="js/jquery-3.1.1.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/common.js"></script>
@@ -35,9 +35,9 @@
 <link rel="stylesheet" type="text/css" href="css/main.css">
 <link rel="stylesheet" href="css/jquery-ui.css">
 <link rel="stylesheet" type="text/css" href="css/main_detail.css">
+
 <script src="js/submit.js"></script>
-<script src="js/engine.js"></script> 
-<script src="js/OccasionalSafeManagement_Request.js"></script> 
+ 
 </head>
 
 <body>
@@ -45,126 +45,140 @@
 	<div class="sub_contents_wrap">	
 		
 		<article class="sub_title">
-			<span>수시 활동</span>
+			<span>수시 안전관리 활동</span>
 		</article>
 		
 		<article class="cur_page">
 			<div id="title">
-			홈<span>></span>수시 활동<span>></span>등록
+			홈<span>></span>수시 안전관리 활동
 			</div>		
 		</article>
 		
 		<section class="subContent_section" id="auto">
-		<div class="table_margin">	
-		<!-- 
-		<div style="text-align: left;font-size: 14px;"><span class="import_marker">&nbsp;*</span><span>&nbsp;는 필수입력 항목입니다.</span></div>
-		 -->
-		<table class="table table-striped sub_table table01" style="text-align:center;margin:auto;margin-top:10px;margin-bottom:10px;">
+
+		<p style="text-align:center;">
+			<img src="images/title_img/OccasionalSafeManagement_Request.png" alt="수시 안전관리활동 요청"  style="width:330px; height:80px;">
+		</p>
+		
+		<table class="table table-striped sub_table table01" style="text-align:center;margin:auto;">
 		<colgroup>
-			<col width="23%"/>
-			<col width="80%"/>
+			<col width="30%"/>
+			<col width="70%"/>
 		</colgroup>
+		
 		<tr>
-			<th style="text-align:center;"><!-- <span class="import_marker">* </span> -->일시</th>
-			<td style="text-align: left">					
-				<select id="activityYear" style="height:30px;">
-				<c:set var="year" value="2019"/>
-				<c:forEach begin="2019" end="2030">
-					<c:choose>
-						<c:when test="${year == curYear }">
-							<option value="${year}" selected="selected">${year}</option>
-						</c:when>
-						<c:otherwise>
-							<option value="${year}">${year}</option>
-						</c:otherwise>
-					</c:choose>								
-					<c:set var="year" value="${year+1}"/>
-				</c:forEach>
-				</select>
-				<select id="activityMonth" style="height:30px;">
-				<c:set var="month" value="1"/>
-				<c:forEach begin="1" end="12">
-					<c:choose>
-						<c:when test="${month == curMon }">
-							<option value="${month}" selected="selected">${month}</option>
-						</c:when>
-						<c:otherwise>
-							<option value="${month}">${month}</option>
-						</c:otherwise>
-					</c:choose>	
-					<c:set var="month" value="${month+1}"/>
-				</c:forEach>
-				</select>
-				<select id="activityDay" style="height:30px;">
-				<c:set var="day" value="1"/>
-				<c:forEach begin="1" end="31">
-					<c:choose>
-						<c:when test="${day == curDay }">
-							<option value="${day}" selected="selected">${day}</option>
-						</c:when>
-						<c:otherwise>
-							<option value="${day}">${day}</option>
-						</c:otherwise>
-					</c:choose>	
-					<c:set var="day" value="${day+1}"/>
-				</c:forEach>
-				</select>												
-			</td>
-		</tr>
-		<tr>
-			<!-- <th rowspan="4">활<br>동<br>유<br>형</th> -->
-			<th style="text-align:center;">대분류</td>
-			<td style="text-align: left">
-				<select id="largeCondition" name="largeCondition" onchange="LargeChange(this)" style="width:78%;height:30px;">
-					<option value="">선택</option>
-						<c:forEach var="largeList" items="${largeList}" varStatus="statics">
-							<option id="${fn:trim(largeList.cd)}" value="${fn:trim(largeList.cd)}"><c:out value="${largeList.cd_nm}"/></option>
-						</c:forEach>
-				</select>
+			<th scope="30%" style="text-align:center;">대분류</td>
+			<td scope="70%">
+				<form method="post" name="selectedLarge" id="selectedLarge" action="">
+					<input type="hidden" id="largeCode" value=""/>
+					<input id="selected_large" name="selected_large" 
+					class="input-text-disabled"
+					style="font-size: 14pt;color: #757575;"
+					value="" disabled="disabled"/>
+				</form>
 			</th>
 		</tr>			
 		<tr>
-			<th style="text-align:center;">중분류</th>
-			<td style="text-align: left">
-				<select id="middleCondition" name="middleCondition" onchange="MiddleChange(this)" style="width:78%;height:30px;">
-					<option value="">선택</option>
-				</select>
+			<th scope="30%" style="text-align:center;">중분류</th>
+			<td scope="70%">
+				<form method="post" name="selectedMiddle" id="selectedMiddle" action="">
+					<input type="hidden" id="middleCode" value=""/>
+					<input id="selected_middle" name="selected_middle"
+					style="font-size: 14pt;color: #757575;" 
+					class="input-text-disabled" 
+					value="<c:out value='${membersearchVO.searchKeyword}'/>" disabled="disabled"/>
+				</form>
 			</td>
 		</tr>
 		<tr>
-			<th rowspan="2" style="text-align:center;"><!-- <span class="import_marker">* </span> -->세부활동</th>
-			<td style="text-align: left">
-				<select id="select_condition" name="select_condition" style="height: 31px;">
-					<option value="ctlg_nm">세부활동</option>
-					<option value="ctlg_cd">세부활동 코드</option>
-				</select>
-				<input type="text" id="input_text_condition" class="sub_input" style="width:40%;height:30px;box-shadow : 0px 0px 1px #757575;border:none;"/>
-				<button type="button" class="btn btn-sm btn-primary"onclick="onClick_Search()" style="vertical-align: top;"><i class="fas fa-search"></i>&nbsp;검색</button>
-			</td>
+			<th scope="30%" style="text-align:center;">부대활동코드</th>
+			<td scope="70%">
+				<form method="post" name="selectedCode" action="">
+					<input id="selected_code" name="selected_code" 
+					class="input-text-disabled"
+					style="font-size: 14pt;color: #757575;"
+					value="" disabled="disabled"/>
+				</form>
+			</th>
 		</tr>
 		<tr>
-			<td style="text-align: left">
-				<select id="activity" name="activity" onchange="ActivityChange(this)" style="width:78%;height:30px;">
-					<option value="">선택</option>
-				</select>
-			</td>
+			<th scope="30%" style="text-align:center;">부대활동명</th>
+			<td scope="70%">
+				<form method="post" name="selectedName" action="" style="float: left; margin: 0;">
+					<input id="selected_name" name="selected_name" 
+					class="input-text-disabled"
+					style="font-size: 14pt;color: #757575; width:140px;"
+					value="" disabled="disabled"/>
+				</form>
+					
+				<button type="Search" class="btn btn-sm btn-primary btn-width" data-toggle="modal" data-target="#TaskSearch" style="margin-left: 10px;"><i class="fas fa-search"></i>&nbsp;검색</button>
+				<jsp:include page="taskSearchModal.jsp"></jsp:include>
+			</th>
 		</tr>
-		
 		<tr>
-			<th style="text-align:center;"><!-- <span class="import_marker">* </span> -->사유</th>
-			<td>
+			<th scope="30%" style="text-align:center;">일시</th>
+			<td scope="70%" style="text-align: left">					
+				
+			<select id="activityYear" style="height:30px;">
+			<c:set var="year" value="2019"/>
+			<c:forEach begin="2019" end="2030">
+				<c:choose>
+					<c:when test="${year == curYear }">
+						<option value="${year}" selected="selected">${year}</option>
+					</c:when>
+					<c:otherwise>
+						<option value="${year}">${year}</option>
+					</c:otherwise>
+				</c:choose>								
+				<c:set var="year" value="${year+1}"/>
+			</c:forEach>
+			</select>
+			<select id="activityMonth" style="height:30px;">
+			<c:set var="month" value="1"/>
+			<c:forEach begin="1" end="12">
+				<c:choose>
+					<c:when test="${month == curMon }">
+						<option value="${month}" selected="selected">${month}</option>
+					</c:when>
+					<c:otherwise>
+						<option value="${month}">${month}</option>
+					</c:otherwise>
+				</c:choose>	
+				<c:set var="month" value="${month+1}"/>
+			</c:forEach>
+			</select>
+			<select id="activityDay" style="height:30px;">
+			<c:set var="day" value="1"/>
+			<c:forEach begin="1" end="31">
+				<c:choose>
+					<c:when test="${day == curDay }">
+						<option value="${day}" selected="selected">${day}</option>
+					</c:when>
+					<c:otherwise>
+						<option value="${day}">${day}</option>
+					</c:otherwise>
+				</c:choose>	
+				<c:set var="day" value="${day+1}"/>
+			</c:forEach>
+			</select>									
+										
+			</th>
+		</tr>
+		<tr>
+			<th scope="30%" style="text-align:center;">사유</th>
+			<td scope="70%">
 				<div style="text-align: center; vertical-align: top;">
 					<textarea id="rsn_area" name="rsn_area" rows="3" cols="10" placeholder="사유를 입력해주십시오"
-					style="width: 90%; padding: 10px; box-shadow : 0px 0px 1px #757575;border:none;" onkeydown="javascript:fn_maxLength(this, 100)"></textarea>
+					style="width: 90%; font-size: 16px; padding: 10px; box-shadow : 0px 0px 1px #757575;border:none;"></textarea>
 				</div>
-			</td>
+			</th>
 		</tr>				
 		</table>
 		
 		<div style="text-align: center; margin-top: 10px;">
 			<button type="button" class="btn btn-sm btn-primary btn-width" id= "ok" onclick="javascript:fn_submit_safeRequest()">
-				<i class="fas fa-check"></i>&nbsp;저장</button>
-			<button type="button" class="btn btn-sm btn-primary btn-width" id= "back" onclick="javascript:location.href = 'OccasionalSafeManagement.do';">
+				<i class="fas fa-check"></i>&nbsp;확인</button>
+			<button type="button" class="btn btn-sm btn-primary btn-width" id= "back" onclick="javascript:history.back();">
 				<i class="fas fa-undo"></i>&nbsp;취소</button>
 		</div>
 
@@ -174,7 +188,7 @@
 						<form:hidden path="rsn"/>
 						<form:hidden path="ctlg_cd"/>
 		</form:form>
-		</div>
+		
 		</section>	
 	<jsp:include page="Footer.jsp"></jsp:include>	
 	</div>

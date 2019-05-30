@@ -5,16 +5,9 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import egovframework.main.service.VO.CodeSearchVO;
-import egovframework.main.service.VO.CodeVO;
 import egovframework.main.service.VO.GroupCodeVO;
 import egovframework.rte.psl.dataaccess.EgovAbstractDAO;
 
-/**
- * @기능명 : 분류코드 관리
- * @기능설명 : 분류코드 입력, 검색 및 삭제
- * @작성자 : 박승원
- * @작성일 : 2019. 4. 02.
- */
 @Repository("groupCodeDAO")
 public class GroupCodeDAO extends EgovAbstractDAO{
 	// get all list
@@ -52,10 +45,5 @@ public class GroupCodeDAO extends EgovAbstractDAO{
 	// delete group code
 	public void deleteGroupCode(GroupCodeVO groupCodeVO) throws Exception {
 		delete("groupCodeDAO.deleteGroupCode", groupCodeVO);
-	}
-	
-	// get list by sort
-	public List<GroupCodeVO> getAllGroupCodeListBySort() throws Exception {		
-		return (List<GroupCodeVO>) list("groupCodeDAO.getAllGroupCodeListBySort");
 	}
 }
